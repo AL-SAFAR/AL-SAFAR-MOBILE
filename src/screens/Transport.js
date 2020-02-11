@@ -1,10 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Platform,
   Alert,
+  ScrollView,
   View,
-  Text,
+  Dimensions,
+  TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   StatusBar,
   TextInput
 } from "react-native";
@@ -17,15 +20,23 @@ import {
   FontAwesome as F,
   AntDesign as AD
 } from "@expo/vector-icons";
+import { GoogleAutoComplete } from "react-native-google-autocomplete";
+import LocationItem from "./components/Transport/LocationItem";
+import { API_KEY } from "../../key.json";
+
 import { DestinationBtn } from "./components/Transport/DestinationBtn";
 import { CurrentLocationBtn } from "./components/Transport/CurrentLocationBtn";
+
 import Driver from "./components/Transport/Driver";
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 class Transport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      region: null
+      region: null,
+      selectedValue: ""
     };
   }
   componentDidMount() {
@@ -54,8 +65,8 @@ class Transport extends Component {
     let region = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      latitudeDelta: 0.045,
-      longitudeDelta: 0.045
+      latitudeDelta: 0.015,
+      longitudeDelta: 0.0121
     };
     this.setState({ region });
   };
@@ -74,10 +85,63 @@ class Transport extends Component {
       longitudeDelta
     });
   }
+
+  updateValue = details => {
+    console.log(details);
+    this.setState({ selectedValue: details });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <DestinationBtn />
+        <GoogleAutoComplete
+          apiKey={API_KEY}
+          debounce={500}
+          minLength={3}
+          queryTypes={"geocode"}
+          components="country:pk"
+        >
+          {({
+            handleTextChange,
+            locationResults,
+            fetchDetails,
+            isSearching,
+            inputValue,
+            clearSearchs
+          }) => (
+            <View>
+              <DestinationBtn
+                handleTextChange={handleTextChange}
+                locationResults={locationResults}
+                fetchDetails={fetchDetails}
+                isSearching={isSearching}
+                inputValue={inputValue}
+                // selectedValue={this.state.selectedValue}
+              />
+              <View
+                style={{
+                  ...styles.suggestion,
+                  height: locationResults.length * 40
+                }}
+              >
+                {isSearching && (
+                  <ActivityIndicator size="large" color="#0099ff" />
+                )}
+                <ScrollView>
+                  {locationResults.map(el => (
+                    <LocationItem
+                      {...el}
+                      key={el.id}
+                      fetchDetails={fetchDetails}
+                      updateValue={this.updateValue}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          )}
+        </GoogleAutoComplete>
+
         <CurrentLocationBtn
           cb={() => {
             this.centerMap();
@@ -111,8 +175,24 @@ class Transport extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
     // marginTop: StatusBar.currentHeight
+    height: height - 70
+  },
+  suggestion: {
+    zIndex: 9,
+    position: "absolute",
+    flexDirection: "column",
+    width: width - 40,
+    top: 150,
+    left: 20,
+    borderRadius: 2,
+    backgroundColor: "white",
+    alignItems: "center",
+    shadowColor: "#000000",
+    elevation: 7,
+    shadowRadius: 5,
+    shadowOpacity: 1.0
   }
 });
 

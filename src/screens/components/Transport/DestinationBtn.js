@@ -1,18 +1,38 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   Dimensions,
-  TouchableOpacity,
-  TextInput
+  TextInput,
+  ScrollView,
+  ActivityIndicator,
+  Button
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 const width = Dimensions.get("window").width;
-export const DestinationBtn = () => {
+export const DestinationBtn = ({
+  handleTextChange,
+  fetchDetails,
+  isSearching,
+  inputValue,
+  clearSearchs
+}) => {
+  // const cb =
+  //   props.cb != undefined
+  //     ? props.cb
+  //     : () => {
+  //         console.log("Callback function not passed to DestinationButton()");
+  //       };
+
   return (
-    <TouchableOpacity onPress={() => {}} style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        // cb();
+      }}
+      style={styles.container}
+    >
       <View style={styles.leftCol}>
         <Text style={{ color: "#0099FF", fontSize: 10 }}>{"\u25A0"}</Text>
       </View>
@@ -24,7 +44,9 @@ export const DestinationBtn = () => {
             fontSize: 21,
             color: "#545454"
           }}
-        ></TextInput>
+          onChangeText={handleTextChange}
+          value={inputValue}
+        />
       </View>
       <View style={styles.rightCol}>
         <Ionicons

@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, Text, Image, StatusBar } from "react-native";
 import TravelGuide from "./components/Guide/TravelGuide";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Guide = () => {
   return (
@@ -13,41 +13,68 @@ const Guide = () => {
       }}
     >
       <Text style={{ paddingHorizontal: 20, fontSize: 24, fontWeight: "700" }}>
-        Tour Guides
+        Meet our Guides!
       </Text>
-      <TravelGuide
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80"
-        }}
-        placeName={"Lahore"}
-        duration={"8 hours"}
-        placeDes={
-          "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid."
-        }
-      />
-      <TravelGuide
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1470756544705-1848092fbe5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1488&q=80"
-        }}
-        placeName={"Islamabad"}
-        duration={"4 hours"}
-        placeDes={
-          "Daman-i-Koh, Margalla Zoo, Pakistan Monument, Faisal Mosque, Shakarparian, Lok Virsa Museum and Rawal lake view point are among the top tourist attractions in Islamabad. There are many spots for rock climbing in Margalla Hills"
-        }
-      />
-      <TravelGuide
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1533548036275-b79603f53145?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-        }}
-        placeName={"Multan"}
-        duration={"2 hours"}
-        placeDes={
-          "Mausoleum of Baha-ud-Din Zakariya, Mausoleum of Shah Rukn-e-Alam, Mausoleum of Shah Shams Sabzwari are among the top tourist attractions in Multan."
-        }
-      />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TravelGuide
+          placeUri={{
+            uri:
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=753&q=80"
+          }}
+          placePrice={139}
+          agentPic={{ uri: "https://uinames.com/api/photos/female/7.jpg" }}
+          placeName={"Walk to the Beach / Lay at the beach"}
+          placeDescription={"Entire Home • 27 reviews • Karachi"}
+        />
+        <TravelGuide
+          placeUri={{
+            uri:
+              "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+          }}
+          placePrice={102}
+          agentPic={{ uri: "https://uinames.com/api/photos/male/19.jpg" }}
+          placeName={"Infinity Pool"}
+          placeDescription={"40 reviews • Islamabad"}
+        />
+        <TravelGuide
+          placeUri={{
+            uri:
+              "https://images.unsplash.com/photo-1502252430442-aac78f397426?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+          }}
+          placePrice={102}
+          agentPic={{ uri: "https://uinames.com/api/photos/female/19.jpg" }}
+          placeName={"Walk at Fairy Meadows "}
+          placeDescription={"40 reviews • Gilgit"}
+        />
+      </ScrollView>
+
+      <View style={{ marginTop: 20 }}>
+        <Text
+          style={{ paddingHorizontal: 20, fontSize: 22, fontWeight: "700" }}
+        >
+          Just for the Weekend
+        </Text>
+        <TravelGuide
+          placeUri={{
+            uri:
+              "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+          }}
+          placePrice={80}
+          agentPic={{ uri: "https://uinames.com/api/photos/female/19.jpg" }}
+          placeName={"Umaid Bhawan Palace"}
+          placeDescription={"Entire Palace • 27 reviews • Karachi"}
+        />
+        <TravelGuide
+          placeUri={{
+            uri:
+              "https://images.unsplash.com/photo-1561486008-1011a284acfb?ixlib=rb-1.2.1&auto=format&fit=crop&w=747&q=80"
+          }}
+          placePrice={90}
+          agentPic={{ uri: "https://uinames.com/api/photos/female/14.jpg" }}
+          placeName={"Buckingham Palace"}
+          placeDescription={"Entire Palace • 27 reviews • London"}
+        />
+      </View>
     </ScrollView>
   );
 };

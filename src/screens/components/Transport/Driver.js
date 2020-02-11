@@ -14,8 +14,8 @@ export default class Driver extends Component {
     const coordinate = new MapView.AnimatedRegion({
       latitude: driver.location.latitude,
       longitude: driver.location.longitude,
-      longitudeDelta: 0.045,
-      latitudeDelta: 0.045
+      longitudeDelta: 0.015,
+      latitudeDelta: 0.0121
     });
     this.state = {
       driver: driver,
