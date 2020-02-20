@@ -14,10 +14,10 @@ import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 export const DestinationBtn = ({
   handleTextChange,
-  fetchDetails,
-  isSearching,
-  inputValue,
-  clearSearchs
+  // fetchDetails,
+  // isSearching,
+  inputValue
+  // clearSearchs
 }) => {
   // const cb =
   //   props.cb != undefined

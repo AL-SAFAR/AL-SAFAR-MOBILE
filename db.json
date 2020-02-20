@@ -1,0 +1,86 @@
+{
+  "hotels": 
+  [
+    {
+      "id": 1,
+      "hotelName": "Marriot",
+      "city":"islamabad","address": "Agha Khan Rd, F-5/1 Shalimar 5، Islamabad, Islamabad Capital Territory",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
+      "hotelImages":[
+        "https://source.unsplash.com/1024x768/?hotel/5",
+        "https://source.unsplash.com/1024x768/?hotel/6",
+        "https://source.unsplash.com/1024x768/?hotelroom/5",
+        "https://source.unsplash.com/1024x768/?hotelroom/6"
+      ],
+      "starRating":4,
+      "extras":{
+        "facilities":{
+          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+        },
+        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
+        "wifi":true,
+        "parking":true
+      },
+      "houseRules":{
+        "checkIn": "02:30",
+        "checkOut": "12:30",
+        "Smoking":true
+      },"rate":"15,000"
+    },
+    {
+      "id": 2,
+      "hotelName": "Pearl Continental",
+      "address": "Mall Road, Rawalpindi",
+      "city":"lahore",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
+      "hotelImages":[
+        "https://source.unsplash.com/1024x768/?hotel/2",
+        "https://source.unsplash.com/1024x768/?hotel/3",
+        "https://source.unsplash.com/1024x768/?hotelroom/2",
+        "https://source.unsplash.com/1024x768/?hotelroom/3"
+      ],
+      "starRating":5,
+      "extras":{
+        "facilities":{
+          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+        },
+        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
+        "wifi":true,
+        "parking":false
+      },
+      "houseRules":{
+        "checkIn": "01:30",
+        "checkOut": "12:00",
+        "Smoking":false
+      },"rate":"12,000"
+    },   
+    {
+      "id": 3,
+      "hotelName": "Serena",
+      "address": "Karachi",
+      "city":"karachi",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
+      "hotelImages":[
+        "https://source.unsplash.com/1024x768/?hotel/9",
+        "https://source.unsplash.com/1024x768/?hotel/8",
+        "https://source.unsplash.com/1024x768/?hotelroom/9",
+        "https://source.unsplash.com/1024x768/?hotelroom/8"
+      ],
+      "starRating":5,
+      "extras":{
+        "facilities":{
+          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+        },
+        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
+        "wifi":true,
+        "parking":false
+      },
+      "houseRules":{
+        "checkIn": "01:30",
+        "checkOut": "12:00",
+        "Smoking":false
+      },
+      "rate":"12,000"
+    } 
+  ]
+}

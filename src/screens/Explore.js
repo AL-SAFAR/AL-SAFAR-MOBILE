@@ -7,6 +7,7 @@ import {
   Dimensions,
   Animated
 } from "react-native";
+import { globalStyles } from "../../styles/global";
 import {
   Ionicons as Icons,
   FontAwesome as FIcons,
@@ -53,7 +54,7 @@ export default class Explore extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, marginTop: StatusBar.currentHeight + 4 }}>
+      <View style={globalStyles.container}>
         <Animated.View
           style={{
             height: this.animatedHeaderHeight,

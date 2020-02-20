@@ -7,12 +7,13 @@ import {
   Image as Img,
   KeyboardAvoidingView,
   StyleSheet,
+  Alert,
   ActivityIndicator,
   Dimensions
 } from "react-native";
-import * as Font from "expo-font";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import RegisterScreen from "./RegisterScreen";
+import { Asset } from "expo-asset";
+import { AppLoading } from "expo";
+import { Formik } from "formik";
 import Animated, { Easing } from "react-native-reanimated";
 import {
   TapGestureHandler,
@@ -20,7 +21,15 @@ import {
   TouchableOpacity
 } from "react-native-gesture-handler";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
-import HomeNavigation from "../../HomeNavigation";
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === "string") {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
 
 const {
   Value,
@@ -72,12 +81,14 @@ function runTiming(clock, value, dest) {
 class Login extends Component {
   constructor(props) {
     super(props);
+
     this.buttonOpacity = new Value(1);
     this.state = {
       password: "",
       email: "",
-      fontLoaded: false
+      isReady: false
     };
+
     this.onStateChange = event([
       {
         nativeEvent: ({ state }) =>
@@ -133,20 +144,35 @@ class Login extends Component {
     });
   }
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      "ZhiMangXing-Regular": require("../../../../assets/font/ZhiMangXing-Regular.ttf")
-    });
-
-    this.setState({ fontLoaded: true });
+  async _loadAssetsAsync() {
+    const imageAssets = cacheImages([]);
+    require("../../../../assets/patterns/background.jpg");
+    require("../../../../assets/logo.png");
+    await Promise.all([...imageAssets]);
   }
 
   SignIn = () => {
     const { email, password } = this.state;
     if (email === "") {
-      alert("Please Fill the Email field");
+      Alert.alert("OOPS!", "Please Fill the Email field", [
+        { text: "Understood", onPress: () => console.log("alert closed") }
+      ]);
     } else if (password === "") {
-      alert("please fill the Password field");
+      Alert.alert("OOPS!", "please fill the Password field", [
+        { text: "Understood", onPress: () => console.log("alert closed") }
+      ]);
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      Alert.alert("OOPS!", "Invalid Email address", [
+        { text: "Understood", onPress: () => console.log("alert closed") }
+      ]);
+    } else if (
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(password)
+    ) {
+      Alert.alert(
+        "OOPS!",
+        "Password should contain at least 8 characters which include uppercase,lowercase and a number",
+        [{ text: "Understood", onPress: () => console.log("alert closed") }]
+      );
     } else {
       this.props.navigation.navigate("Home");
     }
@@ -158,6 +184,16 @@ class Login extends Component {
     this.setState({ email: "", password: "" });
   };
   render() {
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this._loadAssetsAsync}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={console.warn}
+        />
+      );
+    }
+
     return (
       <KeyboardAvoidingView
         style={{
@@ -369,11 +405,4 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0,0,0,0.2)"
   }
 });
-
-const AppSwitchNavigator = createSwitchNavigator({
-  Login: { screen: Login },
-  Home: { screen: HomeNavigation },
-  Register: { screen: RegisterScreen }
-});
-
-export default createAppContainer(AppSwitchNavigator);
+export default Login;

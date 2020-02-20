@@ -8,13 +8,21 @@ import {
   StyleSheet
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { globalStyles } from "../../../../styles/global";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.titleBar}>
-          <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
+        <View style={globalStyles.titleBar}>
+          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+            <Ionicons
+              name="ios-arrow-back"
+              size={24}
+              color="#52575D"
+            ></Ionicons>
+          </TouchableOpacity>
           <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
         </View>
 
@@ -55,8 +63,8 @@ const Profile = () => {
 
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>483</Text>
-            <Text style={[styles.text, styles.subText]}>Posts</Text>
+            <Text style={[styles.text, { fontSize: 24 }]}>4</Text>
+            <Text style={[styles.text, styles.subText]}>Trips Made</Text>
           </View>
           <View
             style={[
@@ -68,8 +76,8 @@ const Profile = () => {
               }
             ]}
           >
-            <Text style={[styles.text, { fontSize: 24 }]}>45,844</Text>
-            <Text style={[styles.text, styles.subText]}>Followers</Text>
+            <Text style={[styles.text, { fontSize: 24 }]}>15</Text>
+            <Text style={[styles.text, styles.subText]}>Bookings</Text>
           </View>
           <View style={styles.statsBox}>
             <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
@@ -138,7 +146,6 @@ const Profile = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#FFF"
   },
   text: {
@@ -150,12 +157,7 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined
   },
-  titleBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 24,
-    marginHorizontal: 16
-  },
+
   subText: {
     fontSize: 12,
     color: "#AEB5BC",

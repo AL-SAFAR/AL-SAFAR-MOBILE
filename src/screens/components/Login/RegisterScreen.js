@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -10,6 +10,9 @@ import {
   Text,
   View
 } from "react-native";
+import { globalStyles } from "../../../../styles/global";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
 import {
   Ionicons as Icons,
   FontAwesome as FIcons,
@@ -28,141 +31,156 @@ function cacheImages(images) {
   });
 }
 const { height, width } = Dimensions.get("window");
-export class RegisterScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      isReady: false
-    };
-  }
-
-  SignIn = () => {
-    const { email, password } = this.state;
+const RegisterScreen = ({ navigation }) => {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     email: "",
+  //     password: "",
+  //     isReady: false
+  //   };
+  // }
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [isReady, setisReady] = useState("");
+  SignUp = () => {
     if (email === "") {
       alert("Please Fill the Email field");
     } else if (password === "") {
       alert("please fill the Password field");
     } else {
-      this.props.navigation.navigate("Home");
+      navigation.navigate("Home");
     }
     Keyboard.dismiss();
   };
 
-  async _loadAssetsAsync() {
+  _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([]);
     require("../../../../assets/patterns/background.jpg");
 
     await Promise.all([...imageAssets]);
-  }
-  render() {
-    if (!this.state.isReady) {
-      return (
-        <AppLoading
-          startAsync={this._loadAssetsAsync}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={console.warn}
-        />
-      );
-    }
+  };
+  if (!isReady) {
     return (
-      <KeyboardAvoidingView
-        style={{
-          flex: 1,
-          backgroundColor: "white",
-          justifyContent: "flex-end"
-        }}
-        behavior="padding"
-        enabled
-      >
-        <View style={styles.container}>
-          <View style={{ ...StyleSheet.absoluteFill }}>
-            <Image
-              source={require("../../../../assets/patterns/background.jpg")}
-              style={{ flex: 1, height: null, width: null }}
-            ></Image>
-          </View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Login")}
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              // justifyContent: "flex-start",
-              alignSelf: "flex-start",
-              borderRadius: 30,
-              backgroundColor: "white",
-              width: 50,
-              marginTop: 50
-            }}
-          >
-            <View>
-              <Icons
-                name="ios-arrow-back"
-                size={30}
-                style={{ color: "black" }}
-              />
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{ flex: 12, justifyContent: "center", alignItems: "center" }}
-          >
-            <TextInput
-              placeholder="FULL NAME"
-              style={styles.textInput}
-              value={this.state.name}
-              placeholderTextColor="black"
-              onChangeText={text => this.setState({ name: text })}
-            />
-            <TextInput
-              placeholder="EMAIL"
-              style={styles.textInput}
-              value={this.state.email}
-              placeholderTextColor="black"
-              onChangeText={text => this.setState({ email: text })}
-            />
-            <TextInput
-              placeholder="PASSWORD"
-              style={styles.textInput}
-              secureTextEntry={true}
-              value={this.state.password}
-              placeholderTextColor="black"
-              onChangeText={text => this.setState({ password: text })}
-            />
-
-            <TextInput
-              placeholder="MOBILE NUMBER"
-              style={styles.textInput}
-              keyboardType="phone-pad"
-              value={this.state.mobile}
-              placeholderTextColor="black"
-              onChangeText={text => this.setState({ mobile: text })}
-            />
-            <TouchableOpacity onPress={this.SignIn}>
-              <View style={{ ...styles.innerButton, marginTop: 10 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#0099ff"
-                  }}
-                >
-                  SIGN IN
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+      <AppLoading
+        startAsync={this._loadAssetsAsync}
+        onFinish={() => setisReady(true)}
+        onError={console.warn}
+      />
     );
   }
-}
+  return (
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "flex-end"
+      }}
+      behavior="padding"
+      enabled
+    >
+      <View style={styles.container}>
+        <View style={{ ...StyleSheet.absoluteFill }}>
+          <Image
+            source={require("../../../../assets/patterns/background.jpg")}
+            style={{ flex: 1, height: null, width: null }}
+          ></Image>
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            // justifyContent: "flex-start",
+            alignSelf: "flex-start",
+            borderRadius: 30,
+            backgroundColor: "white",
+            width: 50,
+            marginTop: 50
+          }}
+        >
+          <View
+            style={{
+              alignSelf: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Icons name="ios-arrow-back" size={30} style={{ color: "black" }} />
+          </View>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            // backgroundColor: "#fff",
+            borderRadius: 15,
+            flex: 12,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <TextInput
+            placeholder="FULL NAME"
+            style={styles.textInput}
+            value={name}
+            placeholderTextColor="black"
+            onChangeText={text => setName(text)}
+          />
+          <TextInput
+            placeholder="EMAIL"
+            style={styles.textInput}
+            value={email}
+            placeholderTextColor="black"
+            onChangeText={text => setEmail(text)}
+          />
+          <TextInput
+            placeholder="PASSWORD"
+            style={styles.textInput}
+            secureTextEntry={true}
+            value={password}
+            placeholderTextColor="black"
+            onChangeText={text => setPassword(text)}
+          />
+
+          <TextInput
+            placeholder="MOBILE NUMBER"
+            style={styles.textInput}
+            keyboardType="phone-pad"
+            value={mobile}
+            placeholderTextColor="black"
+            onChangeText={text => setMobile(text)}
+          />
+          <TouchableOpacity onPress={this.SignUp}>
+            <View style={{ ...styles.innerButton, marginTop: 10 }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "#0099ff"
+                }}
+              >
+                SIGN IN
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+    // backgroundColor: "#fff",
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
+    // height: height / 3,
+    // ...StyleSheet.absoluteFill,
+    // top: null
   },
   button: {
     backgroundColor: "white",

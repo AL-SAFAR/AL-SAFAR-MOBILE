@@ -6,12 +6,17 @@ const width = Dimensions.get("window").width;
 const TravelGuide = ({
   placeUri,
   placePrice,
-  agentPic,
+  guidePic,
   placeName,
-  placeDescription
+  placeDescription,
+  navigation
 }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("GuideProfile");
+      }}
+    >
       <View
         style={{
           height: 300,
@@ -55,28 +60,28 @@ const TravelGuide = ({
                   textTransform: "uppercase"
                 }}
               >
-                {"  "}Per Night
+                {"  "}Per Day
               </Text>
             </Text>
           </View>
         </View>
         <Image
-          source={agentPic}
+          source={guidePic}
           style={{
             flex: 1,
             position: "absolute",
-            right: 30,
+            right: 20,
             bottom: 30,
             width: 80,
             height: 80,
-            borderWidth: 2,
             borderColor: "#fff",
+            borderWidth: 2,
             borderRadius: 50,
             resizeMode: "cover"
           }}
         />
         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 18 }}>{placeName}</Text>
+          <Text style={{ fontSize: 18, flexWrap: "wrap" }}>{placeName}</Text>
           <Text style={{ fontSize: 14, opacity: 0.4 }}>{placeDescription}</Text>
         </View>
       </View>

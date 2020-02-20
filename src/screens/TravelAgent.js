@@ -2,15 +2,14 @@ import React from "react";
 import { View, Text, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Agent from "./components/Travel/Agent";
+import { globalStyles } from "../../styles/global";
 
 const TravelAgent = () => {
   return (
     <ScrollView
       vertical
       showsVerticalScrollIndicator={false}
-      style={{
-        marginTop: StatusBar.currentHeight
-      }}
+      style={globalStyles.container}
     >
       <Text style={{ paddingHorizontal: 20, fontSize: 24, fontWeight: "700" }}>
         Travel Agent
