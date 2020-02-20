@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
+import { Input, Form, Item, Picker } from "native-base";
 import { SliderBox } from "react-native-image-slider-box";
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -40,6 +41,18 @@ const HotelProfile = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
+          <View>
+            <Form>
+              <Item floatingLabel>
+                <Label>Username</Label>
+                <Input />
+              </Item>
+              <Item floatingLabel last>
+                <Label>Password</Label>
+                <Input />
+              </Item>
+            </Form>
+          </View>
         </View>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
