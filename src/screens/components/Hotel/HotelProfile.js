@@ -9,10 +9,19 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
-import { Input, Form, Item, Picker } from "native-base";
+// import {
+//   Container,
+//   Header,
+//   Content,
+//   Form,
+//   Item,
+//   Input,
+//   Label
+// } from "native-base";
 import { SliderBox } from "react-native-image-slider-box";
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import BookingForm from "./BookingForm";
 const { width, height } = Dimensions.get("window");
 const HotelProfile = ({ navigation }) => {
   // console.log(hotel);
@@ -34,25 +43,14 @@ const HotelProfile = ({ navigation }) => {
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <Modal visible={modalOpen} animationType="slide">
-        <View style={globalStyles.modalContent}>
+        <View style={styles.modalContent}>
           <MaterialIcons
             name="close"
             size={24}
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
-          <View>
-            <Form>
-              <Item floatingLabel>
-                <Label>Username</Label>
-                <Input />
-              </Item>
-              <Item floatingLabel last>
-                <Label>Password</Label>
-                <Input />
-              </Item>
-            </Form>
-          </View>
+          <BookingForm />
         </View>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -338,13 +336,17 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#0099ff",
+    // borderColor: "",
+    backgroundColor: "#0099ff",
+    color: "white",
     padding: 10,
     borderRadius: 50,
     alignSelf: "center"
   },
   modalContent: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white",
+    color: "#0099ff"
   },
   text: {
     color: "#52575D"
