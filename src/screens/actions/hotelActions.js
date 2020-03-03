@@ -5,7 +5,7 @@ export const getHotels = () => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch("http://localhost:5000/hotels", {
+    const res = await fetch("http://6c158600.ngrok.io/hotels", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -15,12 +15,14 @@ export const getHotels = () => async dispatch => {
       console.log(err)
     });
     const data = await res.json();
+    // console.log(data)
 
     dispatch({
       type: GET_HOTELS,
       payload: data
     });
   } catch (err) {
+    // console.log(err)
     dispatch({
       type: HOTELS_ERROR,
       payload: err.response.data
@@ -33,7 +35,7 @@ export const searchHotels = text => async dispatch => {
     setLoading();
     // console.log(text);
     text = text.toLowerCase();
-    const res = await fetch(`http://localhost:5000/hotels?city_like=${text}`);
+    const res = await fetch(`http://6c158600.ngrok.io/hotels?city_like=${text}`);
     const data = await res.json();
 
     dispatch({
