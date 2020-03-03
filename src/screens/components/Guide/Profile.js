@@ -4,14 +4,30 @@ import {
   ScrollView,
   View,
   Image,
-  Text,
+  Text, Dimensions,
   StyleSheet
 } from "react-native";
+import Comment from "../layout/Comment"
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { globalStyles } from "../../../../styles/global";
-
+import { Container, DeckSwiper, Card, CardItem, Thumbnail, Left, Body, Icon } from 'native-base';
+const cards = [
+  {
+    text: 'Faisal Mosque',
+    name: 'One',
+    image: { uri: "https://source.unsplash.com/1024x768/?hotel/5" },
+  }, {
+    text: 'Centaurus',
+    name: 'Two',
+    image: { uri: "https://source.unsplash.com/1024x768/?hotel/9" },
+  }
+];
+const width = Dimensions.get('window').width;
 const Profile = ({ navigation }) => {
+  const guide = {
+    profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
+  }
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -29,7 +45,7 @@ const Profile = ({ navigation }) => {
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
-              source={{ uri: "https://uinames.com/api/photos/female/7.jpg" }}
+              source={guide.profileImage}
               style={styles.image}
               resizeMode="cover"
             ></Image>
@@ -41,14 +57,8 @@ const Profile = ({ navigation }) => {
               color="#DFD8C8"
             ></MaterialIcons>
           </View>
-          {/* <View style={styles.active}></View> */}
           <View style={styles.add}>
-            <Ionicons
-              name="ios-add"
-              size={48}
-              color="#DFD8C8"
-              style={{ marginTop: 6, marginLeft: 2 }}
-            ></Ionicons>
+            <Text style={{ color: "#DFD8C8", fontSize: 14 }}>Hire</Text>
           </View>
         </View>
 
@@ -72,20 +82,16 @@ const Profile = ({ navigation }) => {
               {
                 borderColor: "#DFD8C8",
                 borderLeftWidth: 1,
-                borderRightWidth: 1
+                // borderRightWidth: 1
               }
             ]}
           >
             <Text style={[styles.text, { fontSize: 24 }]}>15</Text>
             <Text style={[styles.text, styles.subText]}>Bookings</Text>
           </View>
-          <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
-            <Text style={[styles.text, styles.subText]}>Following</Text>
-          </View>
         </View>
 
-        <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
+        <Text style={[styles.recent, { fontSize: 24 }]}>Introduction</Text>
         <View style={{ alignItems: "center" }}>
           <View style={styles.recentItem}>
             <View style={styles.activityIndicator}></View>
@@ -140,6 +146,31 @@ const Profile = ({ navigation }) => {
             </View>
           </View>
         </View>
+
+        <Container style={{ height: 400, marginHorizontal: 10 }}>
+          <DeckSwiper
+            dataSource={cards}
+            renderItem={item =>
+              <Card >
+                <CardItem>
+                  <Left>
+                    <Thumbnail source={guide.profileImage} />
+                    <Body>
+                      <Text style={{ fontSize: 16 }}>{item.text}</Text>
+                    </Body>
+                  </Left>
+                </CardItem>
+                <CardItem cardBody>
+                  <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                </CardItem>
+              </Card>
+            }
+          />
+
+        </Container>
+        <Comment />
+
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -192,11 +223,11 @@ const styles = StyleSheet.create({
   add: {
     backgroundColor: "#41444B",
     position: "absolute",
-    bottom: 0,
+    bottom: 5,
     right: 0,
     width: 60,
-    height: 60,
-    borderRadius: 30,
+    height: 30,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -238,10 +269,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1
   },
   recent: {
-    marginLeft: 78,
+    marginLeft: 50,
     marginTop: 32,
-    marginBottom: 6,
-    fontSize: 10
+    marginBottom: 6
+
   },
   recentItem: {
     flexDirection: "row",

@@ -11,6 +11,8 @@ export const getHotels = () => async dispatch => {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
+    }).catch(err => {
+      console.log(err)
     });
     const data = await res.json();
 

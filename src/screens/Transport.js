@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, Fragment } from "react";
 import {
   Platform,
   Alert,
@@ -11,7 +11,8 @@ import {
   StatusBar,
   TextInput
 } from "react-native";
-import MapView from "react-native-maps";
+import { connect } from "react-redux";
+import MapView, { Marker } from "react-native-maps";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
@@ -21,27 +22,28 @@ import {
   AntDesign as AD
 } from "@expo/vector-icons";
 import { GoogleAutoComplete } from "react-native-google-autocomplete";
-import LocationItem from "./components/Transport/LocationItem";
+// import LocationItem from "./components/Transport/LocationItem";
 import { API_KEY } from "../../key.json";
+import PropTypes from "prop-types";
+import { getCurrentLocation, getInputData, toggleSearchResultmodal, getAddressPredictions } from "./actions/transportActions";
 
-import { DestinationBtn } from "./components/Transport/DestinationBtn";
+// import { DestinationBtn } from "./components/Transport/DestinationBtn";
 import { CurrentLocationBtn } from "./components/Transport/CurrentLocationBtn";
-
+import SearchBox from './components/Transport/newcomp/SearchBox'
+import SearchResults from './components/Transport/newcomp/SearchResults'
 import Driver from "./components/Transport/Driver";
-import CarOptions from "./components/Transport/CarOptions";
+import FooterComponent from "./components/Transport/newcomp/components/FooterComponent";
+// import CarOptions from "./components/Transport/CarOptions";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const Transport = ({ navigation }) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     region: null,
-  //     selectedValue: ""
-  //   };
-  // }
-
-  const [region, setRegion] = useState(null);
+const Transport = ({ navigation,
+  transport: { region, resultType, inputData, loading, predictions },
+  getCurrentLocation,
+  getInputData,
+  toggleSearchResultmodal,
+  getAddressPredictions
+}) => {
   const [destination, setDestination] = useState(null);
   const [destinationRegion, setDestinationRegion] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
@@ -51,29 +53,10 @@ const Transport = ({ navigation }) => {
         "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
       );
     } else {
-      this._getLocationAsync();
+      getCurrentLocation();
     }
   }, []);
 
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      seterrorMessage("Permission to access location was denied");
-    } else {
-      console.log("granted");
-    }
-
-    let location = await Location.getCurrentPositionAsync({
-      enableHighAccuracy: true
-    });
-    let region = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.015,
-      longitudeDelta: 0.0121
-    };
-    setRegion(region);
-  };
 
   centerMap = () => {
     const { latitude, longitude, latitudeDelta, longitudeDelta } = region;
@@ -92,10 +75,9 @@ const Transport = ({ navigation }) => {
     // console.log(destination);
     // console.log("hello" + destination);
   };
-
   return (
     <View style={styles.container}>
-      <GoogleAutoComplete
+      {/* <GoogleAutoComplete
         apiKey={API_KEY}
         debounce={500}
         minLength={3}
@@ -110,31 +92,31 @@ const Transport = ({ navigation }) => {
           clearSearch,
           isSearching
         }) => (
-          <View>
-            <DestinationBtn
-              handleTextChange={handleTextChange}
-              // locationResults={locationResults}
-              // fetchDetails={fetchDetails}
-              // isSearching={isSearching}
-              inputValue={inputValue}
-            />
-            <View
-              style={{
-                ...styles.suggestion,
-                height: locationResults.length * 40
-              }}
-            >
-              {isSearching && (
-                <ActivityIndicator size="large" color="#0099ff" />
-              )}
-              <ScrollView>
-                {locationResults.map(el => (
-                  <LocationItem
-                    {...el}
-                    key={el.id}
-                    fetchDetails={fetchDetails}
-                    inputValue={destination}
-                    isSearching
+            <View>
+              <DestinationBtn
+                handleTextChange={handleTextChange}
+                // locationResults={locationResults}
+                // fetchDetails={fetchDetails}
+                // isSearching={isSearching}
+                inputValue={inputValue}
+              />
+              <View
+                style={{
+                  ...styles.suggestion,
+                  height: locationResults.length * 40
+                }}
+              >
+                {isSearching && (
+                  <ActivityIndicator size="large" color="#0099ff" />
+                )}
+                <ScrollView>
+                  {locationResults.map(el => (
+                    <LocationItem
+                      {...el}
+                      key={el.id}
+                      fetchDetails={fetchDetails}
+                      inputValue={destination}
+                      isSearching
                     // onPress={async () => {
                     //   const res = await fetchDetails(el.place_id);
                     //   const { lat, lng } = res.geometry.location;
@@ -149,21 +131,20 @@ const Transport = ({ navigation }) => {
                     //   inputValue = destination;
                     //   clearSearch();
                     // }}
-                  />
-                ))}
-              </ScrollView>
+                    />
+                  ))}
+                </ScrollView>
+              </View>
             </View>
-          </View>
-        )}
-      </GoogleAutoComplete>
+          )}
 
+      </GoogleAutoComplete> */}
       <CurrentLocationBtn
         cb={() => {
           this.centerMap();
         }}
       />
-      {/* <CarOptions /> */}
-      <MapView
+      {region.latitude && <MapView
         initialRegion={region}
         showsUserLocation={true}
         rotateEnabled={false}
@@ -173,6 +154,8 @@ const Transport = ({ navigation }) => {
         }}
         style={{ flex: 1 }}
       >
+        <Marker coordinate={region} pinColor="#0099ff" />
+
         <Driver
           driver={{
             uid: "null",
@@ -182,8 +165,48 @@ const Transport = ({ navigation }) => {
             }
           }}
         />
-        {/* <CarOptions /> */}
       </MapView>
+      }
+      <FooterComponent />
+
+      <GoogleAutoComplete
+        apiKey={API_KEY}
+        debounce={300}
+        minLength={3}
+        queryTypes={"geocode"}
+        components="country:pk"
+      >
+        {({ isSearching, inputValue, handleTextChange, locationResults, fetchDetails }) => (
+
+          <Fragment>
+            <SearchBox
+              locationResults={locationResults}
+              inputValue={inputValue}
+              toggleSearchResultmodal={toggleSearchResultmodal}
+              handleTextChange={handleTextChange}
+              getAddressPredictions={getAddressPredictions}
+              getInputData={getInputData}
+            // fetchDetails={fetchDetails}
+            />
+            {/* {isSearching && (
+              <ActivityIndicator size="large" color="#0099ff" />
+            )} */}
+            {/* && (resultType.pickUp || resultType.dropOff) */}
+
+            {((!isSearching) && (predictions.length) !== 0)
+              &&
+              <SearchResults
+                locationResults={locationResults}
+                fetchDetails={fetchDetails}
+                predictions={predictions}
+              />
+
+            }
+
+
+          </Fragment>
+        )}
+      </GoogleAutoComplete>
     </View>
   );
 };
@@ -192,7 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // marginTop: StatusBar.currentHeight
+    // marginTop: StatusBar.currentHeight,
     height: height - 70
   },
   suggestion: {
@@ -212,4 +235,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Transport;
+Transport.propTypes = {
+  transport: PropTypes.object.isRequired,
+  getCurrentLocation: PropTypes.func.isRequired,
+  getInputData: PropTypes.func.isRequired,
+  toggleSearchResultmodal: PropTypes.func.isRequired,
+  getAddressPredictions: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  transport: state.transport
+});
+
+export default connect(mapStateToProps, { getAddressPredictions, getCurrentLocation, getInputData, toggleSearchResultmodal })(Transport);
