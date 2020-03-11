@@ -3,8 +3,10 @@ import {
     TRANSPORT_ERROR,
     SET_LOADING,
     GET_INPUT,
+    GET_DISTANCE_MATRIX,
     GET_ADDRESS_PREDICTIONS,
     TOGGLE_SEARCH_RESULT,
+    GET_SELECTED_ADDRESS,
 } from "../actions/types";
 
 // import { GET_HOTELS } from "../actions/types";
@@ -14,6 +16,8 @@ const initialState = {
     inputData: {},
     resultType: {},
     predictions: [],
+    selectedAddress: {},
+    distanceMatrix: {},
     loading: false,
     error: null
 };
@@ -44,6 +48,25 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 predictions: action.payload,
+            };
+        case GET_SELECTED_ADDRESS:
+            let selectedTitle = state.resultType.pickUp ? "selectedPickUp" : "selectedDropOff"
+            return {
+                ...state,
+                selectedAddress: {
+                    [selectedTitle]: action.payload
+
+                },
+                resultType: {
+                    pickUp: false,
+                    dropOff: false
+                }
+            };
+        case GET_DISTANCE_MATRIX:
+            return {
+                ...state,
+                distanceMatrix: action.payload
+
             };
         case SET_LOADING:
             return {

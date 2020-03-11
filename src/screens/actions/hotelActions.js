@@ -1,11 +1,11 @@
 import { GET_HOTELS, SET_LOADING, HOTELS_ERROR, SEARCH_HOTELS } from "./types";
-
+import { BASE_URL } from '../../../key.json'
 //Get hotels from server
 export const getHotels = () => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch("http://6c158600.ngrok.io/hotels", {
+    const res = await fetch(`${BASE_URL}/hotels`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -35,7 +35,7 @@ export const searchHotels = text => async dispatch => {
     setLoading();
     // console.log(text);
     text = text.toLowerCase();
-    const res = await fetch(`http://6c158600.ngrok.io/hotels?city_like=${text}`);
+    const res = await fetch(`${BASE_URL}/hotels?city_like=${text}`);
     const data = await res.json();
 
     dispatch({

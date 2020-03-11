@@ -25,7 +25,7 @@ import { GoogleAutoComplete } from "react-native-google-autocomplete";
 // import LocationItem from "./components/Transport/LocationItem";
 import { API_KEY } from "../../key.json";
 import PropTypes from "prop-types";
-import { getCurrentLocation, getInputData, toggleSearchResultmodal, getAddressPredictions } from "./actions/transportActions";
+import { getCurrentLocation, getSelectedAddress, getInputData, toggleSearchResultmodal, getAddressPredictions } from "./actions/transportActions";
 
 // import { DestinationBtn } from "./components/Transport/DestinationBtn";
 import { CurrentLocationBtn } from "./components/Transport/CurrentLocationBtn";
@@ -41,8 +41,10 @@ const Transport = ({ navigation,
   transport: { region, resultType, inputData, loading, predictions },
   getCurrentLocation,
   getInputData,
+  getSelectedAddress,
   toggleSearchResultmodal,
   getAddressPredictions
+
 }) => {
   const [destination, setDestination] = useState(null);
   const [destinationRegion, setDestinationRegion] = useState("");
@@ -196,6 +198,7 @@ const Transport = ({ navigation,
             {((!isSearching) && (predictions.length) !== 0)
               &&
               <SearchResults
+                getSelectedAddress={getSelectedAddress}
                 locationResults={locationResults}
                 fetchDetails={fetchDetails}
                 predictions={predictions}
@@ -241,10 +244,11 @@ Transport.propTypes = {
   getInputData: PropTypes.func.isRequired,
   toggleSearchResultmodal: PropTypes.func.isRequired,
   getAddressPredictions: PropTypes.func.isRequired,
+  getSelectedAddress: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   transport: state.transport
 });
 
-export default connect(mapStateToProps, { getAddressPredictions, getCurrentLocation, getInputData, toggleSearchResultmodal })(Transport);
+export default connect(mapStateToProps, { getSelectedAddress, getAddressPredictions, getCurrentLocation, getInputData, toggleSearchResultmodal })(Transport);

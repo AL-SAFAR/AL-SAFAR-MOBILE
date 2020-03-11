@@ -15,22 +15,22 @@ const Comment = ({ }) => {
     created: Date.now()
   }, {
     user: {
-      name: "Ali",
-      avatar: "https://uinames.com/api/photos/female/7.jpg",
+      name: "Jennifer",
+      avatar: "https://images.unsplash.com/photo-1542080681-b52d382432af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
     },
     content: "loreemsdanjasdjksdansdankjsnajnasjknjdsn",
     created: Date.now()
   }, {
     user: {
       name: "Ali",
-      avatar: "https://uinames.com/api/photos/female/7.jpg",
+      avatar: "https://images.unsplash.com/photo-1541647376583-8934aaf3448a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
     },
     content: "loreemsdanjasdjksdansdankjsnajnasjknjdsn",
     created: Date.now() + 5
   }, {
     user: {
-      name: "Ali",
-      avatar: "https://uinames.com/api/photos/female/7.jpg",
+      name: "jannie",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
     },
     content: "loreemsdanjasdjksdansdankjsnajnasjknjdsn",
     created: Date.now()
@@ -68,7 +68,7 @@ const Comment = ({ }) => {
 //     flexDirection: 'row',
 //   },
 //   avatarContainer: {
-//     alignItems: 'center',
+//     janniegnItems: 'center',
 //     marginLeft: 5,
 //     paddingTop: 10,
 //     width: 40,

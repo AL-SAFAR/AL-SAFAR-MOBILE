@@ -18,9 +18,9 @@ import RegisterScreen from "./src/screens/components/Login/RegisterScreen";
 import Login from "./src/screens/components/Login/Login";
 
 const AppSwitchNavigator = createSwitchNavigator({
-  Home: { screen: HomeNavigation },
   Login: { screen: Login },
   Register: { screen: RegisterScreen },
+  Home: { screen: HomeNavigation },
   Guide: { screen: GuideNavigation },
   Hotel: { screen: HotelNavigation }
 });

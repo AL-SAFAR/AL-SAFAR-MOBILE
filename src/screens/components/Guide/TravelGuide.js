@@ -4,19 +4,18 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 const TravelGuide = ({
-  placeUri,
-  placePrice,
-  guidePic,
-  placeName,
-  placeDescription,
+  guide,
   navigation
 }) => {
+  const { profileImage, name, location, charge, places } = guide;
+  const placeUri = { uri: places[0].placeImage }
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("GuideProfile");
+        navigation.navigate("GuideProfile", { guide: guide });
       }}
     >
+      {console.log(profileImage)}
       <View
         style={{
           height: 300,
@@ -51,7 +50,7 @@ const TravelGuide = ({
           <View style={{ paddingTop: 10, paddingLeft: 5 }}>
             <Text style={{ color: "#fff", fontSize: 27 }}>
               <Text style={{ color: "#fff", fontSize: 15 }}>$</Text>
-              {placePrice}
+              {charge}
               <Text
                 style={{
                   color: "#fff",
@@ -66,7 +65,7 @@ const TravelGuide = ({
           </View>
         </View>
         <Image
-          source={guidePic}
+          source={{ uri: profileImage }}
           style={{
             flex: 1,
             position: "absolute",
@@ -81,8 +80,8 @@ const TravelGuide = ({
           }}
         />
         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 18, flexWrap: "wrap" }}>{placeName}</Text>
-          <Text style={{ fontSize: 14, opacity: 0.4 }}>{placeDescription}</Text>
+          <Text style={{ fontSize: 18, flexWrap: "wrap" }}>{name}</Text>
+          <Text style={{ fontSize: 14, opacity: 0.4 }}>{location}</Text>
         </View>
       </View>
     </TouchableOpacity>

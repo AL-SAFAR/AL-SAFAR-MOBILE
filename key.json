@@ -1,4 +1,6 @@
 {
-    "API_KEY":"AIzaSyD6o3b8zQGfxexHtSSKClVViv9_ZK - BvbE",
-    "Stripe":"a#127gh_6p"
+    "API_KEY": "AIzaSyD6o3b8zQGfxexHtSSKClVViv9_ZK - BvbE",
+    "DISTANCE_KEY": "AIzaSyD75SKZAP2btPMqu7HpAhyQFjdgSVKXGOk",
+    "Stripe": "a#127gh_6p",
+    "BASE_URL": "http://776aeb39.ngrok.io"
 }

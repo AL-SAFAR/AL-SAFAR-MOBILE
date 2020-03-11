@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
+import ReadMore from 'react-native-read-more-text';
 // import {
 //   Container,
 //   Header,
@@ -40,6 +41,24 @@ const HotelProfile = ({ navigation }) => {
   const { checkIn, checkOut, Smoking } = houseRules;
   const { Activities } = facilities;
   const [modalOpen, setModalOpen] = useState(false);
+  _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{ color: "#0099ff", marginTop: 5 }} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+
+  _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{ color: "#0099ff", marginTop: 5 }} onPress={handlePress}>
+        Show less
+      </Text>
+    );
+  }
+  _handleTextReady = () => {
+    // ...
+  }
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <Modal visible={modalOpen} animationType="slide">
@@ -111,15 +130,15 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>Smoking Area</Text>
               </View>
             ) : (
-              <View style={styles.statsBox}>
-                <Ionicons
-                  name="logo-no-smoking"
-                  size={24}
-                  color="#0099ff"
-                ></Ionicons>
-                <Text style={[styles.text, styles.subText]}>No Smoking</Text>
-              </View>
-            )}
+                <View style={styles.statsBox}>
+                  <Ionicons
+                    name="logo-no-smoking"
+                    size={24}
+                    color="#0099ff"
+                  ></Ionicons>
+                  <Text style={[styles.text, styles.subText]}>No Smoking</Text>
+                </View>
+              )}
             {!wifi ? (
               <View
                 style={[
@@ -139,26 +158,26 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>No Wifi</Text>
               </View>
             ) : (
-              <View
-                style={[
-                  styles.statsBox,
-                  {
-                    borderColor: "#DFD8C8",
-                    borderLeftWidth: 1,
-                    borderRightWidth: 1
-                  }
-                ]}
-              >
-                <MaterialIcons
-                  name="wifi"
-                  size={24}
-                  color="#0099ff"
-                ></MaterialIcons>
-                <Text style={[styles.text, styles.subText]}>
-                  Wifi Available
+                <View
+                  style={[
+                    styles.statsBox,
+                    {
+                      borderColor: "#DFD8C8",
+                      borderLeftWidth: 1,
+                      borderRightWidth: 1
+                    }
+                  ]}
+                >
+                  <MaterialIcons
+                    name="wifi"
+                    size={24}
+                    color="#0099ff"
+                  ></MaterialIcons>
+                  <Text style={[styles.text, styles.subText]}>
+                    Wifi Available
                 </Text>
-              </View>
-            )}
+                </View>
+              )}
             {parking ? (
               <View style={styles.statsBox}>
                 <MaterialIcons
@@ -169,15 +188,15 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>Parking</Text>
               </View>
             ) : (
-              <View style={styles.statsBox}>
-                <MaterialIcons
-                  name="local-parking"
-                  size={24}
-                  color="#AEB5BC"
-                ></MaterialIcons>
-                <Text style={[styles.text, styles.subText]}> No Parking</Text>
-              </View>
-            )}
+                <View style={styles.statsBox}>
+                  <MaterialIcons
+                    name="local-parking"
+                    size={24}
+                    color="#AEB5BC"
+                  ></MaterialIcons>
+                  <Text style={[styles.text, styles.subText]}> No Parking</Text>
+                </View>
+              )}
           </View>
           {/* Description */}
           <View
@@ -190,19 +209,16 @@ const HotelProfile = ({ navigation }) => {
               }
             ]}
           >
-            <Text style={{ flexWrap: "wrap" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-              dicta eaque cupiditate, a non, alias, est suscipit ratione
-              repellat atque veniam. Consectetur provident consequatur
-              laboriosam dolore deserunt assumenda aliquam dolorem? Illum quo
-              saepe optio debitis nam, dolor, necessitatibus sapiente aliquam
-              provident, quaerat quae distinctio minus iusto rem et adipisci
-              iure! Iusto quos nisi doloremque reiciendis maxime? Architecto
-              dolores totam quidem. In ducimus a soluta. Suscipit cupiditate
-              incidunt nulla officiis velit eius iure et, molestiae itaque,
-              rerum optio nemo earum tempore fugit laborum. Aperiam tempora quod
-              suscipit unde repudiandae illo voluptas.
-            </Text>
+            <ReadMore
+              numberOfLines={6}
+              renderTruncatedFooter={this._renderTruncatedFooter}
+              renderRevealedFooter={this._renderRevealedFooter}
+              onReady={this._handleTextReady}
+            >
+              <Text style={{ flexWrap: "wrap" }}>
+                {description}
+              </Text>
+            </ReadMore>
           </View>
           <View style={{ flexDirection: "row" }}>
             {/* Foods */}

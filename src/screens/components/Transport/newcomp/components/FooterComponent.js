@@ -1,4 +1,4 @@
-import { FooterTab,Footer, Button } from 'native-base';
+import { FooterTab, Footer, Button } from 'native-base';
 import React from 'react'
 import { StyleSheet, Text, StatusBar } from 'react-native'
 import {
@@ -37,8 +37,8 @@ const FooterComponent = () => {
                     cars.map((obj, index) => {
                         return (
                             <Button key={index}>
-                                <MCIcon size={20} name={obj.icon} color={(index === 0) ? "#FF5E3A" : "grey"} />
-                                <Text style={{ fontSize: 12, color: (index === 0) ? "#FF5E3A" : "grey" }}>{obj.title}</Text>
+                                <MCIcon size={20} name={obj.icon} color={(index === 0) ? "#0099ff" : "grey"} />
+                                <Text style={{ fontSize: 12, color: (index === 0) ? "#0099ff" : "grey" }}>{obj.title}</Text>
                                 <Text style={styles.subText}>{obj.subTitle}</Text>
                             </Button>
 

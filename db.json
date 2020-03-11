@@ -1,86 +1,165 @@
 {
-  "hotels": 
-  [
+  "hotels": [
     {
       "id": 1,
       "hotelName": "Marriot",
-      "city":"islamabad","address": "Agha Khan Rd, F-5/1 Shalimar 5، Islamabad, Islamabad Capital Territory",
-      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
-      "hotelImages":[
+      "city": "islamabad",
+      "address": "5 Aga Khan Road Shalimar, Islamabad Capital Territory",
+      "description": "The five-star international Islamabad Marriott Hotel is located at the foot steps of the famous Margalla Hills and is within close proximity to Rawal Lake, the town centre, President & Prime Minister Houses, Ministry of Foreign Affairs, Senate, Parliament House, Foreign Missions, World Bank, Government Offices, corporate sector, Print and Electronic media offices etc. The Hotel is a favourite rendezvous of politicians, diplomats, businessmen and movers and shakers of the country. Owing to the perfect location of the hotel, it hardly takes 20 minutes to commute between the Hotel, the Islamabad International Airport and the places of interests",
+      "hotelImages": [
         "https://source.unsplash.com/1024x768/?hotel/5",
         "https://source.unsplash.com/1024x768/?hotel/6",
         "https://source.unsplash.com/1024x768/?hotelroom/5",
         "https://source.unsplash.com/1024x768/?hotelroom/6"
       ],
-      "starRating":4,
-      "extras":{
-        "facilities":{
-          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+      "starRating": 4,
+      "extras": {
+        "facilities": {
+          "Activities": [
+            "2 swimming pools",
+            "Airport shuttle",
+            "good Fitness Center",
+            "Room service,Bar"
+          ]
         },
-        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
-        "wifi":true,
-        "parking":true
+        "foods": [
+          "Breakfast",
+          "Special diet meals",
+          "Wine/Champagne",
+          "Bottle of water",
+          "Chocolate/Cookies",
+          "Fruit",
+          "On-site coffee shop"
+        ],
+        "wifi": true,
+        "parking": true
       },
-      "houseRules":{
+      "houseRules": {
         "checkIn": "02:30",
         "checkOut": "12:30",
-        "Smoking":true
-      },"rate":"15,000"
+        "Smoking": true
+      },
+      "rate": "15,000"
     },
     {
       "id": 2,
       "hotelName": "Pearl Continental",
-      "address": "Mall Road, Rawalpindi",
-      "city":"lahore",
-      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
-      "hotelImages":[
+      "address": "Club Rd, Civil Lines, Karachi",
+      "city": "karachi",
+      "description": "Pearl-Continental Karachi is a part of the largest chain of hotels in Pakistan and a contemporary lifestyle destination perfectly suited for both business and leisure travelers. Guests can choose from an assortment of luxury rooms and suites to enjoy their stay. The hotel provides easy access to the main commercial, banking and shopping districts, consulates and other important places. Apart from comfortable living standards, Pearl-Continental Karachi also offers several ethnic restaurants and fine dining options, health club with indoor temperature-controlled swimming pool, leisure facilities, extensive selection of meeting rooms for business travelers and an indoor shopping arcade.",
+      "hotelImages": [
         "https://source.unsplash.com/1024x768/?hotel/2",
         "https://source.unsplash.com/1024x768/?hotel/3",
         "https://source.unsplash.com/1024x768/?hotelroom/2",
         "https://source.unsplash.com/1024x768/?hotelroom/3"
       ],
-      "starRating":5,
-      "extras":{
-        "facilities":{
-          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+      "starRating": 5,
+      "extras": {
+        "facilities": {
+          "Activities": [
+            "2 swimming pools",
+            "good Fitness Center",
+            "Room service,Bar"
+          ]
         },
-        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
-        "wifi":true,
-        "parking":false
+        "foods": [
+          "Breakfast",
+          "Special diet meals",
+          "Wine/Champagne",
+          "Bottle of water",
+          "Chocolate/Cookies",
+          "Fruit",
+          "On-site coffee shop"
+        ],
+        "wifi": true,
+        "parking": false
       },
-      "houseRules":{
+      "houseRules": {
         "checkIn": "01:30",
         "checkOut": "12:00",
-        "Smoking":false
-      },"rate":"12,000"
-    },   
+        "Smoking": false
+      },
+      "rate": "12,000"
+    },
     {
       "id": 3,
       "hotelName": "Serena",
-      "address": "Karachi",
-      "city":"karachi",
-      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque iste, deleniti illo minima necessitatibus iusto autem nesciunt quod aliquid? Expedita nesciunt maxime quidem voluptates corporis ea ipsa quis aspernatur ex?",
-      "hotelImages":[
+      "address": "Islamabad",
+      "city": "islamabad",
+      "description": "Islamabad Serena Hotel is a 5-star luxury hotel situated in a 14-acre garden for a peaceful atmosphere. The Islamabad International Airport is also only 7 miles away from the property. The hotel offers a total of 336 guest rooms and 51 suites to choose from. All accommodations are well furnished and elegantly designed. Guests can find many in-room amenities during their stays such as free high-speed internet access, air conditioning, a minibar, tea and coffee maker, flat-screen HDTV, iron, ironing board, and bathroom toiletries. Select rooms also offer views of the garden.",
+      "hotelImages": [
         "https://source.unsplash.com/1024x768/?hotel/9",
         "https://source.unsplash.com/1024x768/?hotel/8",
         "https://source.unsplash.com/1024x768/?hotelroom/9",
         "https://source.unsplash.com/1024x768/?hotelroom/8"
       ],
-      "starRating":5,
-      "extras":{
-        "facilities":{
-          "Activities": ["2 swimming pools","Airport shuttle","good Fitness Center","Room service,Bar"]
+      "starRating": 5,
+      "extras": {
+        "facilities": {
+          "Activities": [
+            "2 swimming pools",
+            "Airport shuttle",
+            "good Fitness Center",
+            "Room service,Bar"
+          ]
         },
-        "foods": ["Breakfast","Special diet meals","Wine/Champagne","Bottle of water","Chocolate/Cookies","Fruit","On-site coffee shop"],
-        "wifi":true,
-        "parking":false
+        "foods": [
+          "Breakfast",
+          "Special diet meals",
+          "Airport shuttle",
+          "Wine/Champagne",
+          "Bottle of water",
+          "Chocolate/Cookies",
+          "Fruit",
+          "On-site coffee shop"
+        ],
+        "wifi": true,
+        "parking": false
       },
-      "houseRules":{
+      "houseRules": {
         "checkIn": "01:30",
         "checkOut": "12:00",
-        "Smoking":false
+        "Smoking": false
       },
-      "rate":"12,000"
-    } 
+      "rate": "12,000"
+    }
+  ],
+  "guides": [
+    {
+      "id": 1,
+      "name": "Julie",
+      "profileImage": "https://uinames.com/api/photos/female/7.jpg",
+      "location": "Islamabad",
+      "charge": "5000",
+      "places": [
+        {
+          "placeName": "Faisal Masjid",
+          "placeImage": "https://thumbs.dreamstime.com/z/long-exposure-faisal-mosque-islamabad-pakistan-evening-115629895.jpg"
+        },
+        {
+          "placeName": "Pakistan Monument",
+          "placeImage": "https://www.youlinmagazine.com/articles/a-look-into-pakistan-monument.jpg"
+        }
+      ],
+      "description": "With 60 miles of canals and nearly 7,000 buildings dating from the 21th century or earlier, Islamabad is one of Pakistan's best preserved cities—the center has barely changed since Rembrandt’s time. Yet it’s no mere museum piece: T+L’s Islamabad travel guide shows that, alongside the historic monuments and Old Masters, the city is a modern capital with all the trappings a traveler could want, including a wide range of hotels, innovative restaurants, and stylish shopping."
+    },
+    {
+      "id": 2,
+      "name": "Jamal",
+      "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+      "location": "Karachi",
+      "charge": "4000",
+      "places": [
+        {
+          "placeName": "Clifton",
+          "placeImage": "https://images.unsplash.com/photo-1452784444945-3f422708fe5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+          "placeName": "Mazar-e-Quaid",
+          "placeImage": "https://images.adsttc.com/media/images/5107/fcf8/b3fc/4b27/2000/00f0/slideshow/stringio.jpg"
+        }
+      ],
+      "description": "With 60 miles of canals and nearly 7,000 buildings dating from the 21th century or earlier, Karachi is one of Pakistan's best preserved cities—the center has barely changed since Rembrandt’s time. Yet it’s no mere museum piece: T+L’s Karachi travel guide shows that, alongside the historic monuments and Old Masters, the city is a modern capital with all the trappings a traveler could want, including a wide range of hotels, innovative restaurants, and stylish shopping."
+    }
   ]
 }

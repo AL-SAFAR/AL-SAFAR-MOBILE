@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Button, Text, Image, StatusBar } from "react-native";
 import { connect } from "react-redux";
 
 import TravelGuide from "./components/Guide/TravelGuide";
 import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../styles/global";
+import PropTypes from "prop-types";
+import { getGuides } from "./actions/guideActions";
+import Loader from "./components/layout/Loader";
 
-const Guide = ({ navigation }) => {
+
+const Guide = ({
+  navigation,
+  guide: { guides, loading },
+  getGuides
+}) => {
+  useEffect(() => {
+    getGuides();
+    //eslint-disable-next-line
+  }, []);
+  if (loading || guides === null) {
+    return <Loader />;
+  }
+  var city = {}
+  var filterByCity = guides.filter(function (entry) {
+    if (city[entry.location]) {
+      return false;
+    }
+    city[entry.location] = true;
+    return true;
+  });
+
   return (
     <View style={globalStyles.container}>
       <ScrollView vertical showsVerticalScrollIndicator={false}>
@@ -16,46 +40,38 @@ const Guide = ({ navigation }) => {
           Meet our Guides!
         </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TravelGuide
-            navigation={navigation}
-            placeUri={{
-              uri:
-                "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=753&q=80"
-            }}
-            placePrice={139}
-            guidePic={{ uri: "https://uinames.com/api/photos/female/7.jpg" }}
-            placeName={"Walk to the Beach / Lay at the beach"}
-            placeDescription={"Entire Home • 27 reviews • Karachi"}
-          />
-          <TravelGuide
-            placeUri={{
-              uri:
-                "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-            }}
-            placePrice={102}
-            guidePic={{ uri: "https://uinames.com/api/photos/male/19.jpg" }}
-            placeName={"Infinity Pool"}
-            placeDescription={"40 reviews • Islamabad"}
-          />
-          <TravelGuide
-            placeUri={{
-              uri:
-                "https://images.unsplash.com/photo-1502252430442-aac78f397426?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-            }}
-            placePrice={102}
-            guidePic={{ uri: "https://uinames.com/api/photos/female/19.jpg" }}
-            placeName={"Walk at Fairy Meadows "}
-            placeDescription={"40 reviews • Gilgit"}
-          />
+          {guides.length === 0 ? (
+            <Text style={{ color: "red", justifyContent: "center" }}>
+              No Guides To Show
+          </Text>
+          ) : null}
+          {guides.map(guide => {
+            return (
+              <TravelGuide
+                key={guide.id}
+
+                navigation={navigation}
+                guide={guide}
+              />)
+          })}
         </ScrollView>
 
         <View style={{ marginTop: 20 }}>
           <Text
             style={{ paddingHorizontal: 20, fontSize: 22, fontWeight: "700" }}
           >
-            Just for the Weekend
+            Top Guides
           </Text>
-          <TravelGuide
+          {filterByCity.map(guide => {
+            return (
+              <TravelGuide
+                key={guide.id}
+
+                navigation={navigation}
+                guide={guide}
+              />)
+          })}
+          {/* <TravelGuide
             placeUri={{
               uri:
                 "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
@@ -74,11 +90,20 @@ const Guide = ({ navigation }) => {
             guidePic={{ uri: "https://uinames.com/api/photos/female/14.jpg" }}
             placeName={"Buckingham Palace"}
             placeDescription={"Entire Palace • 27 reviews • London"}
-          />
+          /> */}
         </View>
       </ScrollView>
     </View>
   );
 };
+Guide.propTypes = {
+  guide: PropTypes.object.isRequired,
+  getGuides: PropTypes.func.isRequired
+  // searchHotels: PropTypes.func.isRequired
+};
 
-export default Guide;
+const mapStateToProps = state => ({
+  guide: state.guide
+});
+
+export default connect(mapStateToProps, { getGuides })(Guide);

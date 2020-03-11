@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   Picker,
+  ScrollView,
   Button,
   TextInput,
   View,
@@ -145,28 +146,28 @@ const BookingForm = () => {
                   disabled={false}
                 />
               </View>
-              {/* <View style={globalStyles.input}>
-              <DatePicker
-                defaultDate={Date.now()}
-                minimumDate={Date.now()}
-                maximumDate={maxDate}
-                locale={"en"}
-                onChangeText={props.handleChange("fromDate")}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText="Stay ends On"
-                textStyle={{ color: "green" }}
-                placeHolderTextStyle={{ color: "black" }}
-                onDateChange={date => {
-                  setchoseDate(date);
-                  console.log(date);
-                }}
-                disabled={false}
-              />
-            </View> */}
-              <TextInput
+              <View style={globalStyles.input}>
+                <DatePicker
+                  defaultDate={Date.now()}
+                  minimumDate={Date.now()}
+                  maximumDate={maxDate}
+                  locale={"en"}
+                  onChangeText={props.handleChange("fromDate")}
+                  timeZoneOffsetInMinutes={undefined}
+                  modalTransparent={false}
+                  animationType={"fade"}
+                  androidMode={"default"}
+                  placeHolderText="Stay ends On"
+                  textStyle={{ color: "green" }}
+                  placeHolderTextStyle={{ color: "black" }}
+                  onDateChange={date => {
+                    setchoseDate(date);
+                    console.log(date);
+                  }}
+                  disabled={false}
+                />
+              </View>
+              {/* <TextInput
                 style={globalStyles.input}
                 placeholder="Review body"
                 onChangeText={props.handleChange("body")}
@@ -177,7 +178,7 @@ const BookingForm = () => {
                 placeholder="Rating (1-5)"
                 onChangeText={props.handleChange("rating")}
                 value={props.values.rating}
-              />
+              /> */}
               <Button
                 title="Confirm Booking"
                 color="#0099ff"

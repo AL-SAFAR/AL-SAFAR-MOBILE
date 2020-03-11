@@ -4,14 +4,19 @@ import { View, List, ListItem, Left, Body } from "native-base";
 import {
     MaterialIcons as MIcon,
 } from "@expo/vector-icons";
+import { getSelectedAddress } from '../../../actions/transportActions';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 
 const width = Dimensions.get("window").width;
 const SearchResults = ({
-    predictions
+    predictions, fetchDetails, getSelectedAddress
 }) => {
 
+    const handleSelectedAddress = async (placeID) => {
+        const res = await fetchDetails(placeID)
+        getSelectedAddress(res);
+    }
     return (
         <View style={styles.searchResultsWrapper} >
             <List>
@@ -26,7 +31,7 @@ const SearchResults = ({
                             return (
                                 <ListItem
                                     key={el.id}
-                                    // onPress={() => handleSelectedAddress(item.placeID)}
+                                    onPress={() => handleSelectedAddress(el.place_id)}
                                     button avatar>
                                     <Left style={styles.leftContainer}>
                                         <MIcon style={styles.leftIcon} name="location-on" color="#0099ff" />

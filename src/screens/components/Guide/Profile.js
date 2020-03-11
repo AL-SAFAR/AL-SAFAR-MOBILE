@@ -25,9 +25,11 @@ const cards = [
 ];
 const width = Dimensions.get('window').width;
 const Profile = ({ navigation }) => {
-  const guide = {
-    profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
-  }
+  const guide = navigation.getParam("guide");
+  const { places, name, description, location, profileImage } = guide
+  // const guide = {
+  //   profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
+  // }
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -45,7 +47,7 @@ const Profile = ({ navigation }) => {
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
-              source={guide.profileImage}
+              source={{ uri: profileImage }}
               style={styles.image}
               resizeMode="cover"
             ></Image>
@@ -64,10 +66,10 @@ const Profile = ({ navigation }) => {
 
         <View style={styles.infoContainer}>
           <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-            Julie
+            {name}
           </Text>
           <Text style={[styles.text, { color: "#34FFB9", fontSize: 14 }]}>
-            Islamabad,Pakistan
+            {location}
           </Text>
         </View>
 
@@ -92,8 +94,11 @@ const Profile = ({ navigation }) => {
         </View>
 
         <Text style={[styles.recent, { fontSize: 24 }]}>Introduction</Text>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.recentItem}>
+        <View style={{ alignItems: "center", marginHorizontal: 10 }}>
+          <Text>
+            {description}
+          </Text>
+          {/* <View style={styles.recentItem}>
             <View style={styles.activityIndicator}></View>
             <View style={{ width: 250 }}>
               <Text
@@ -104,6 +109,7 @@ const Profile = ({ navigation }) => {
                 <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
               </Text>
             </View>
+
           </View>
 
           <View style={styles.recentItem}>
@@ -144,24 +150,24 @@ const Profile = ({ navigation }) => {
                 dolores ea velit, optio illo.
               </Text>
             </View>
-          </View>
+          </View>*/}
         </View>
 
         <Container style={{ height: 400, marginHorizontal: 10 }}>
           <DeckSwiper
-            dataSource={cards}
+            dataSource={places}
             renderItem={item =>
               <Card >
                 <CardItem>
                   <Left>
-                    <Thumbnail source={guide.profileImage} />
+                    <Thumbnail source={{ uri: profileImage }} />
                     <Body>
-                      <Text style={{ fontSize: 16 }}>{item.text}</Text>
+                      <Text style={{ fontSize: 16 }}>{item.placeName}</Text>
                     </Body>
                   </Left>
                 </CardItem>
                 <CardItem cardBody>
-                  <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                  <Image style={{ height: 300, flex: 1 }} source={{ uri: item.placeImage }} />
                 </CardItem>
               </Card>
             }

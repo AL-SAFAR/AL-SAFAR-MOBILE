@@ -173,8 +173,14 @@ class Login extends Component {
         "Password should contain at least 8 characters which include uppercase,lowercase and a number",
         [{ text: "Understood", onPress: () => console.log("alert closed") }]
       );
-    } else {
+    } else if (email === "khawa@gmail.com" && password === "Khawa1234") {
       this.props.navigation.navigate("Home");
+    } else {
+      Alert.alert(
+        "OOPS!",
+        "Invalid Credentials",
+        [{ text: "Understood", onPress: () => console.log("alert closed") }]
+      );
     }
     Keyboard.dismiss();
   };

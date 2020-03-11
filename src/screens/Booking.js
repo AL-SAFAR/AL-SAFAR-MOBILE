@@ -51,14 +51,22 @@ const Booking = ({
           <Category
             imageUri={require("../../assets/home.jpg")}
             Name="Islamabad"
-          />
-          <Category
-            imageUri={require("../../assets/experiences.jpg")}
-            Name="Gilgit"
+            searchHotels={searchHotels}
           />
           <Category
             imageUri={require("../../assets/restaurant.jpg")}
             Name="Karachi"
+            searchHotels={searchHotels}
+
+          // onPress={searchHotels("Karachi")}
+
+          />
+          <Category
+            imageUri={require("../../assets/experiences.jpg")}
+            Name="Gilgit"
+            searchHotels={searchHotels}
+
+          // onPress={searchHotels("Gilgit")}
           />
           <Category
             imageUri={{
@@ -66,6 +74,9 @@ const Booking = ({
                 "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
             }}
             Name="Kashmir"
+            searchHotels={searchHotels}
+
+          // onPress={searchHotels("Kashmir")}
           />
         </ScrollView>
       </View>
