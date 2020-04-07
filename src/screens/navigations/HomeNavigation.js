@@ -10,6 +10,7 @@ import {
   Feather as FeatherIcon
 } from "@expo/vector-icons";
 
+import Payment from "../components/Payment";
 import Explore from "../Explore";
 import Transport from "../Transport";
 import Booking from "../Booking";
