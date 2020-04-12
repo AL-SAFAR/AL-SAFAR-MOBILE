@@ -7,10 +7,9 @@ import {
   Ionicons as Icons,
   FontAwesome as FIcons,
   AntDesign as AD,
-  Feather as FeatherIcon
+  Feather as FeatherIcon,
 } from "@expo/vector-icons";
 
-import Payment from "../components/Payment";
 import Explore from "../Explore";
 import Transport from "../Transport";
 import Booking from "../Booking";
@@ -26,8 +25,8 @@ const navigator = createBottomTabNavigator(
         tabBarLabel: "EXPLORE",
         tabBarIcon: ({ tintColor }) => (
           <Icons name="ios-search" color={tintColor} size={24} />
-        )
-      }
+        ),
+      },
     },
     Transport: {
       screen: Transport,
@@ -35,8 +34,8 @@ const navigator = createBottomTabNavigator(
         tabBarLabel: "TRANSPORT",
         tabBarIcon: ({ tintColor }) => (
           <AD name="car" color={tintColor} size={24} />
-        )
-      }
+        ),
+      },
     },
     Booking: {
       screen: Booking,
@@ -47,8 +46,8 @@ const navigator = createBottomTabNavigator(
             source={require("../../../assets/hotel.png")}
             style={{ height: 24, width: 24, tintColor: tintColor }}
           />
-        )
-      }
+        ),
+      },
     },
     Agent: {
       screen: TravelAgent,
@@ -59,8 +58,8 @@ const navigator = createBottomTabNavigator(
             source={require("../../../assets/seller.png")}
             style={{ height: 24, width: 24, tintColor: tintColor }}
           />
-        )
-      }
+        ),
+      },
     },
     Guide: {
       screen: Guide,
@@ -71,9 +70,9 @@ const navigator = createBottomTabNavigator(
             source={require("../../../assets/lighthouse.png")}
             style={{ height: 24, width: 24, tintColor: tintColor }}
           />
-        )
-      }
-    }
+        ),
+      },
+    },
   },
   {
     tabBarOptions: {
@@ -85,9 +84,9 @@ const navigator = createBottomTabNavigator(
         shadowOffset: { width: 5, height: 3 },
         shadowColor: "black",
         shadowOpacity: 0.5,
-        elevation: 10
-      }
-    }
+        elevation: 10,
+      },
+    },
   }
 );
 export default createAppContainer(navigator);
