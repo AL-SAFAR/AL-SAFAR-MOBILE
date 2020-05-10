@@ -54,6 +54,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 selectedAddress: {
+                    ...state.selectedAddress,
                     [selectedTitle]: action.payload
 
                 },

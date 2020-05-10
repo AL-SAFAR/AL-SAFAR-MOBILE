@@ -14,6 +14,7 @@ const SearchResults = ({
 }) => {
 
     const handleSelectedAddress = async (placeID) => {
+// console.log(placeID)
         const res = await fetchDetails(placeID)
         getSelectedAddress(res);
     }
