@@ -8,9 +8,11 @@ import {
   SET_LOADING,
   TRANSPORT_ERROR,
   SEARCH_HOTELS,
+  UPDATE_CAR,
+  CALCULATE_FARE,
 } from "./types";
 import { Dimensions } from "react-native";
-import { DISTANCE_KEY, BASE_URL } from "../../../key.json";
+import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
 import store from "../../../store";
 import request from "../../../util/request";
 import axios from "axios";
@@ -122,47 +124,20 @@ export const getSelectedAddress = (payload) => async (dispatch) => {
       type: GET_SELECTED_ADDRESS,
       payload: payload,
     });
-    // .then(() => {
     const { selectedAddress } = store.getState().transport;
-    // console.log(selectedAddress)
-
-    // const { lat, lng } = payload.geometry.location;
-    if (selectedAddress.selectedPickUp && selectedAddress.selectedDropOff) {
-      console.log("DropOff:" + selectedAddress.selectedDropOff.formatted_address)
-
-      // console.log(selectedAddress);
-        // console.log(selectedAddress.selectedPickUp.geometry.location.lat);
-        console.log(
-          "You are ",
-          getDistance(
-            {
-              latitude: selectedAddress.selectedPickUp.geometry.location.lat,
-              longitude: selectedAddress.selectedPickUp.geometry.location.lng
-            },
-            {
-              latitude: selectedAddress.selectedDropOff.geometry.location.lat,
-              longitude: selectedAddress.selectedDropOff.geometry.location.lng
-            }
-          ),
-          "meters away from 51.525, 7.4575"
-        );
-
-      //   // request.get("https://maps.googleapis.com/maps/api/distancematrix/json")
-      //   //     .query({
-      //   //         origins: selectedAddress.selectedPickUp.geometry.location.lat + "," + selectedAddress.selectedPickUp.geometry.location.lng,
-      //   //         destinations: selectedAddress.selectedDropOff.geometry.location.lat + "," + selectedAddress.selectedDropOff.geometry.location.lng,
-      //   //         mode: "driving",
-      //   //         key: DISTANCE_KEY
-      //   //     })
-      //   //     .finish((error, res) => {
-      //   //         console.log(res)
-      //   //         console.log(error);
-      //   //         // dispatch({
-      //   //         //     type: GET_DISTANCE_MATRIX,
-      //   //         //     payload: res.body
-      //   //         // });
-      //   //     })
-    }
+    // if (selectedAddress.selectedPickUp && selectedAddress.selectedDropOff) {
+    //   const pickup = `${selectedAddress.selectedPickUp.geometry.location.lat},${selectedAddress.selectedPickUp.geometry.location.lng}`;
+    //   const dropoff = `${selectedAddress.selectedDropOff.geometry.location.lat},${selectedAddress.selectedDropOff.geometry.location.lng}`;
+    //   console.log(selectedAddress.selectedPickUp.name);
+    //   console.log("++++++++++++++++++++++");
+    //   console.log(selectedAddress.selectedDropOff.name);
+    //   const DistTime = getDistanceAndTime(pickup, dropoff);
+    //   dispatch({
+    //     type: GET_DISTANCE_MATRIX,
+    //     payload: DistTime,
+    //   });
+    //   console.log(DistTime);
+    // }
   } catch (err) {
     dispatch({
       type: TRANSPORT_ERROR,
@@ -171,6 +146,84 @@ export const getSelectedAddress = (payload) => async (dispatch) => {
   }
 };
 
+//getting distance and time from distance matrix api
+const getDistanceAndTime = async (BaseLocation, TargetLocation) => {
+  // get location of base BaseLocation
+  // get locations of targets TargetLocation
+  // prepare final API call
+  let ApiURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+  let params = `origins=${BaseLocation}&destinations=${TargetLocation}&key=${DISTANCE_DIRECTION_KEY}`;
+  let finalApiURL = `${ApiURL}${encodeURI(params)}`;
+
+  // get duration/distance from base to each target
+  try {
+    let response = await fetch(finalApiURL);
+    let responseJson = await response.json();
+    console.log(responseJson);
+    return responseJson;
+    // output
+    //   {
+    //     "destination_addresses" : [ "21000 W 10 Mile Rd, Southfield, MI 48075, USA" ],
+    //     "origin_addresses" : [ "555 E Lafayette St, Detroit, MI 48226, USA" ],
+    //     "rows" : [{
+    //           "elements" : [{
+    //                 "distance" : {
+    //                    "text" : "28.1 km",
+    //                    "value" : 28073},
+    //                 "duration" : {
+    //                    "text" : "23 mins",
+    //                    "value" : 1367},
+    //                 "status" : "OK"}]}],
+    //     "status" : "OK"
+    //  }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateCar = (payload) => async (dispatch) => {
+  try {
+    console.log(payload);
+    dispatch({
+      type: UPDATE_CAR,
+      payload: payload,
+    });
+  } catch (err) {
+    dispatch({
+      type: TRANSPORT_ERROR,
+      payload: err,
+    });
+  }
+};
+// calculate Fare
+export const calculateFare = (payload) => async (dispatch) => {
+  const { distance, duration } = payload;
+  // console.log(payload);
+  const fareValue = [
+    { type: "Car", baseFare: 60, distanceRate: 7.5, timeRate: 4 },
+    { type: "Premium", baseFare: 100, distanceRate: 7.5, timeRate: 4 },
+    { type: "Jeep", baseFare: 150, distanceRate: 7.5, timeRate: 4 },
+    { type: "Bike", baseFare: 40, distanceRate: 7.5, timeRate: 4 },
+  ];
+  const { carType } = store.getState().transport;
+  const fares = fareValue.filter((item) => {
+    return item.type === carType;
+  });
+  const fare = fares[0];
+  // console.log(fare);
+  const distanceInKm = distance;
+  const timeInMin = duration;
+  const pricePerKm = fare.distanceRate * distanceInKm;
+  // console.log(pricePerKm);
+  const pricePerMinute = fare.timeRate * timeInMin;
+  // console.log(pricePerMinute);
+  const totalFare = Math.ceil(fare.baseFare + pricePerKm + pricePerMinute);
+
+  dispatch({
+    type: CALCULATE_FARE,
+    payload: totalFare,
+  });
+};
 //set laoding true
 export const setLoading = () => {
   return {
