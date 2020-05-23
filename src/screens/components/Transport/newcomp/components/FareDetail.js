@@ -3,6 +3,7 @@ import {
   // FontAwesome as FIcon,
   MaterialCommunityIcons as MCIcon,
 } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 
 import {
   Container,
@@ -12,8 +13,9 @@ import {
   RequestButton,
   RequestButtonText,
 } from "./detailstyle";
+import { bookCar } from "../../../../actions/transportActions";
 
-const FareDetail = ({ distance, duration, fare, carType }) => {
+const FareDetail = ({ distance, duration, fare, carType, bookCar }) => {
   const cars = [
     {
       title: "Car",
@@ -53,7 +55,7 @@ const FareDetail = ({ distance, duration, fare, carType }) => {
       <TypeTitle>{car[0].title}</TypeTitle>
       <TypeDescription>PKR {fare}</TypeDescription>
 
-      <RequestButton onPress={() => {}}>
+      <RequestButton onPress={bookCar}>
         <RequestButtonText>Book Now</RequestButtonText>
       </RequestButton>
     </Container>

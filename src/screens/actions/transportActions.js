@@ -9,9 +9,11 @@ import {
   TRANSPORT_ERROR,
   SEARCH_HOTELS,
   UPDATE_CAR,
+  BOOK_CAR,
   CALCULATE_FARE,
 } from "./types";
 import { Dimensions } from "react-native";
+
 import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
 import store from "../../../store";
 import request from "../../../util/request";
@@ -181,6 +183,7 @@ const getDistanceAndTime = async (BaseLocation, TargetLocation) => {
   }
 };
 
+//update CarType
 export const updateCar = (payload) => async (dispatch) => {
   try {
     console.log(payload);
@@ -195,6 +198,7 @@ export const updateCar = (payload) => async (dispatch) => {
     });
   }
 };
+
 // calculate Fare
 export const calculateFare = (payload) => async (dispatch) => {
   const { distance, duration } = payload;
@@ -224,6 +228,39 @@ export const calculateFare = (payload) => async (dispatch) => {
     payload: totalFare,
   });
 };
+
+//BOOK CAR
+export const bookCar = () => async (dispatch) => {
+  const { carType, selectedAddress, fare } = store.getState().transport;
+  const { selectedPickUp, selectedDropOff } = selectedAddress;
+  console.log(selectedPickUp.formatted_address);
+  const payload = {
+    userName: "Ali",
+    pickUp: {
+      address: selectedPickUp.formatted_address,
+      name: selectedPickUp.name,
+      latitude: selectedPickUp.geometry.location.lat,
+      longitude: selectedPickUp.geometry.location.lng,
+    },
+    dropOff: {
+      address: selectedDropOff.formatted_address,
+      name: selectedDropOff.name,
+      latitude: selectedDropOff.geometry.location.lat,
+      longitude: selectedDropOff.geometry.location.lng,
+    },
+    fare,
+    isPending: true,
+  };
+  axios.post(`${BASE_URL}/api/driver/carBooking`, payload).then(
+    (response) => {
+      console.log(response.data);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+};
+
 //set laoding true
 export const setLoading = () => {
   return {

@@ -7,6 +7,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
   StyleSheet,
   ActivityIndicator,
   StatusBar,
@@ -36,6 +37,7 @@ import {
   toggleSearchResultmodal,
   getAddressPredictions,
   calculateFare,
+  bookCar,
 } from "./actions/transportActions";
 
 // import { DestinationBtn } from "./components/Transport/DestinationBtn";
@@ -68,6 +70,7 @@ const Transport = ({
   getAddressPredictions,
   calculateFare,
   updateCar,
+  bookCar,
 }) => {
   const [destination, setDestination] = useState(null);
   const [destinationRegion, setDestinationRegion] = useState("");
@@ -241,6 +244,7 @@ const Transport = ({
 
       {distance !== 0 && duration !== 0 && fare !== 0 ? (
         <FareDetail
+          bookCar={bookCar}
           carType={carType}
           distance={distance}
           duration={duration}
@@ -326,6 +330,7 @@ Transport.propTypes = {
   getSelectedAddress: PropTypes.func.isRequired,
   updateCar: PropTypes.func.isRequired,
   calculateFare: PropTypes.func.isRequired,
+  bookCar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -339,5 +344,6 @@ export default connect(mapStateToProps, {
   getInputData,
   updateCar,
   calculateFare,
+  bookCar,
   toggleSearchResultmodal,
 })(Transport);

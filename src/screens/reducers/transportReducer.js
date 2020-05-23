@@ -9,6 +9,7 @@ import {
   CALCULATE_FARE,
   GET_SELECTED_ADDRESS,
   UPDATE_CAR,
+  BOOK_CAR,
 } from "../actions/types";
 
 // import { GET_HOTELS } from "../actions/types";
@@ -82,6 +83,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fare: action.payload,
+        predictions: [],
       };
 
     case SET_LOADING:
