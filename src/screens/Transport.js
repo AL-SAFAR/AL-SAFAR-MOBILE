@@ -38,6 +38,7 @@ import {
   getAddressPredictions,
   calculateFare,
   bookCar,
+  getNearByDrivers,
 } from "./actions/transportActions";
 
 // import { DestinationBtn } from "./components/Transport/DestinationBtn";
@@ -50,6 +51,7 @@ import FooterComponent from "./components/Transport/newcomp/components/FooterCom
 // import CarOptions from "./components/Transport/CarOptions";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
+const carMaker = require("../../assets/car.png");
 
 const Transport = ({
   navigation,
@@ -59,6 +61,7 @@ const Transport = ({
     inputData,
     loading,
     fare,
+    nearByDrivers,
     carType,
     predictions,
     selectedAddress,
@@ -71,6 +74,7 @@ const Transport = ({
   calculateFare,
   updateCar,
   bookCar,
+  getNearByDrivers,
 }) => {
   const [destination, setDestination] = useState(null);
   const [destinationRegion, setDestinationRegion] = useState("");
@@ -100,6 +104,13 @@ const Transport = ({
     }
   }, [carType]);
 
+  useEffect(() => {
+    getCurrentLocation();
+    setTimeout(() => {
+      getNearByDrivers();
+    }, 1000);
+  }, []);
+
   centerMap = () => {
     const { latitude, longitude, latitudeDelta, longitudeDelta } = region;
     this.map.animateToRegion({
@@ -117,6 +128,7 @@ const Transport = ({
     // console.log(destination);
     // console.log("hello" + destination);
   };
+
   return (
     <View style={styles.container}>
       {/* <GoogleAutoComplete
@@ -197,7 +209,70 @@ const Transport = ({
           }}
           style={{ flex: 1 }}
         >
-          <Marker coordinate={region} pinColor="#0099ff" />
+          <Marker
+            coordinate={region}
+            pinColor="#0099ff"
+            title={"You're here"}
+          />
+
+          {selectedAddress.selectedPickUp && (
+            <Marker
+              coordinate={{
+                latitude: selectedAddress.selectedPickUp.geometry.location.lat,
+                latitudeDelta: 0.0922,
+                longitude: selectedAddress.selectedPickUp.geometry.location.lng,
+                longitudeDelta: 0.051862500000000006,
+              }}
+              pinColor="#0099ff"
+              title={"You're PickUp"}
+            />
+          )}
+
+          {selectedAddress.selectedDropOff && (
+            <Marker
+              coordinate={{
+                latitude: selectedAddress.selectedDropOff.geometry.location.lat,
+                latitudeDelta: 0.0922,
+                longitude:
+                  selectedAddress.selectedDropOff.geometry.location.lng,
+                longitudeDelta: 0.051862500000000006,
+              }}
+              pinColor="green"
+              title={"You're DropOff"}
+            />
+          )}
+          {nearByDrivers &&
+            nearByDrivers.map((marker, index) => {
+              return (
+                <MapView.Marker
+                  key={index}
+                  coordinate={{
+                    latitude: marker.coordinate.coordinates[1],
+                    latitudeDelta: 0.0922,
+                    longitude: marker.coordinate.coordinates[0],
+                    longitudeDelta: 0.051862500000000006,
+                  }}
+                  image={carMaker}
+
+                  // image={carMaker}
+                />
+              );
+
+              {
+                /* <Driver
+                key={index}
+                driver={{
+                  uid: "null",
+                  coordinate: {
+                    latitude: marker.coordinate.coordinates[1],
+                    longitude: marker.coordinate.coordinates[0],
+                  },
+                }}
+                image={carMaker}
+              />; */
+              }
+            })}
+
           {selectedAddress.selectedPickUp && selectedAddress.selectedDropOff ? (
             <MapViewDirections
               origin={{
@@ -228,16 +303,6 @@ const Transport = ({
           ) : (
             <View></View>
           )}
-
-          <Driver
-            driver={{
-              uid: "null",
-              location: {
-                latitude: 33.5925877,
-                longitude: 73.0596366,
-              },
-            }}
-          />
         </MapView>
       )}
       <FooterComponent updateCar={updateCar} />
@@ -331,6 +396,7 @@ Transport.propTypes = {
   updateCar: PropTypes.func.isRequired,
   calculateFare: PropTypes.func.isRequired,
   bookCar: PropTypes.func.isRequired,
+  getNearByDrivers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -345,5 +411,6 @@ export default connect(mapStateToProps, {
   updateCar,
   calculateFare,
   bookCar,
+  getNearByDrivers,
   toggleSearchResultmodal,
 })(Transport);

@@ -10,6 +10,7 @@ import {
   SEARCH_HOTELS,
   UPDATE_CAR,
   BOOK_CAR,
+  GET_NEARBY_DRIVERS,
   CALCULATE_FARE,
 } from "./types";
 import { Dimensions } from "react-native";
@@ -251,7 +252,7 @@ export const bookCar = () => async (dispatch) => {
     fare,
     isPending: true,
   };
-  axios.post(`${BASE_URL}/api/driver/carBooking`, payload).then(
+  axios.post(`${BASE_URL}/driver/carBooking`, payload).then(
     (response) => {
       console.log(response.data);
     },
@@ -261,6 +262,30 @@ export const bookCar = () => async (dispatch) => {
   );
 };
 
+//get nearby drivers
+export const getNearByDrivers = () => async (dispatch) => {
+  const { region } = store.getState().transport;
+  // console.log(region);
+  const { latitude, longitude } = region;
+  console.log(region);
+  axios
+    .get(
+      `${BASE_URL}/api/driver/driverLocationSocket?lat=` +
+        latitude +
+        "&lng=" +
+        longitude
+    )
+    .then((res) => {
+      // console.log(res.data);
+      dispatch({
+        type: GET_NEARBY_DRIVERS,
+        payload: res.data,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 //set laoding true
 export const setLoading = () => {
   return {

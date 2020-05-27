@@ -10,6 +10,7 @@ import {
   GET_SELECTED_ADDRESS,
   UPDATE_CAR,
   BOOK_CAR,
+  GET_NEARBY_DRIVERS,
 } from "../actions/types";
 
 // import { GET_HOTELS } from "../actions/types";
@@ -25,6 +26,7 @@ const initialState = {
   fare: 0,
   loading: false,
   error: null,
+  nearByDrivers: [],
 };
 
 export default (state = initialState, action) => {
@@ -84,6 +86,11 @@ export default (state = initialState, action) => {
         ...state,
         fare: action.payload,
         predictions: [],
+      };
+    case GET_NEARBY_DRIVERS:
+      return {
+        ...state,
+        nearByDrivers: action.payload,
       };
 
     case SET_LOADING:

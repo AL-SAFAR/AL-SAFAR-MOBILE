@@ -1,6 +1,6 @@
-import { FooterTab, Footer, Button } from "native-base";
-import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FooterTab, Footer, Button } from "native-base";
 import {
   // FontAwesome as FIcon,
   MaterialCommunityIcons as MCIcon,

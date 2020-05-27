@@ -1,36 +1,36 @@
 import { GET_HOTELS, SET_LOADING, HOTELS_ERROR, SEARCH_HOTELS } from "./types";
-import { BASE_URL } from '../../../key.json'
+import { BASE_URL } from "../../../key.json";
 //Get hotels from server
-export const getHotels = () => async dispatch => {
+export const getHotels = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`${BASE_URL}/hotels`, {
+    const res = await fetch(`${BASE_URL}/users/viewHotels`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    }).catch(err => {
-      console.log(err)
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => {
+      console.log(err);
     });
     const data = await res.json();
-    // console.log(data)
+    console.log(data);
 
-    dispatch({
-      type: GET_HOTELS,
-      payload: data
-    });
+    // dispatch({
+    //   type: GET_HOTELS,
+    //   payload: data
+    // });
   } catch (err) {
     // console.log(err)
     dispatch({
       type: HOTELS_ERROR,
-      payload: err.response.data
+      payload: err.response.data,
     });
   }
 };
 // Search Hotels
-export const searchHotels = text => async dispatch => {
+export const searchHotels = (text) => async (dispatch) => {
   try {
     setLoading();
     // console.log(text);
@@ -40,12 +40,12 @@ export const searchHotels = text => async dispatch => {
 
     dispatch({
       type: SEARCH_HOTELS,
-      payload: data
+      payload: data,
     });
   } catch (err) {
     dispatch({
       type: HOTELS_ERROR,
-      payload: err
+      payload: err,
     });
   }
 };
@@ -53,6 +53,6 @@ export const searchHotels = text => async dispatch => {
 //set laoding true
 export const setLoading = () => {
   return {
-    type: SET_LOADING
+    type: SET_LOADING,
   };
 };

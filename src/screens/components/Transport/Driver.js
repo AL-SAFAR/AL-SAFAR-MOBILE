@@ -9,17 +9,17 @@ export default class Driver extends Component {
       ? this.props.driver
       : {
           uid: "noDriversPassed",
-          location: { latitude: 0, longitude: 0 }
+          location: { latitude: 0, longitude: 0 },
         };
     const coordinate = new MapView.AnimatedRegion({
       latitude: driver.location.latitude,
       longitude: driver.location.longitude,
       longitudeDelta: 0.015,
-      latitudeDelta: 0.0121
+      latitudeDelta: 0.0121,
     });
     this.state = {
       driver: driver,
-      coordinate: coordinate
+      coordinate: coordinate,
     };
   }
 
@@ -28,16 +28,16 @@ export default class Driver extends Component {
       <MapView.Marker.Animated
         coordinate={this.state.coordinate}
         anchor={{ x: 0.35, y: 0.32 }} //centers car.png image
-        ref={marker => {
+        ref={(marker) => {
           this.marker = marker;
         }}
         style={{ width: 100, height: 50 }}
       >
         <Image
-          source={require("../../../../assets/car.png")}
+          source={carMarker}
           style={{
             width: 90,
-            height: 50
+            height: 50,
           }}
         />
       </MapView.Marker.Animated>
