@@ -28,7 +28,7 @@ const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 //Get USERS current location
 export const getCurrentLocation = () => async (dispatch) => {
   try {
-    navigator.geolocation.getCurrentPosition(
+    await navigator.geolocation.getCurrentPosition(
       (position) => {
         const region = {
           latitude: position.coords.latitude,
@@ -40,6 +40,7 @@ export const getCurrentLocation = () => async (dispatch) => {
           type: GET_CURRENT_LOCATION,
           payload: region,
         });
+        // console.log(region);
       },
       (err) => console.log(err),
       {
@@ -232,9 +233,18 @@ export const calculateFare = (payload) => async (dispatch) => {
 
 //BOOK CAR
 export const bookCar = () => async (dispatch) => {
-  const { carType, selectedAddress, fare } = store.getState().transport;
+  const {
+    carType,
+    selectedAddress,
+    fare,
+    nearByDrivers,
+  } = store.getState().transport;
   const { selectedPickUp, selectedDropOff } = selectedAddress;
-  console.log(selectedPickUp.formatted_address);
+  // console.log(selectedPickUp.formatted_address);
+  // const nearByDrivers= store().getState().transport.nearByDrivers
+  // const nearByDriver =
+  //   nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+  const nearByDriver = nearByDrivers[0];
   const payload = {
     userName: "Ali",
     pickUp: {
@@ -251,10 +261,20 @@ export const bookCar = () => async (dispatch) => {
     },
     fare,
     isPending: true,
+    nearByDriver: {
+      socketId: nearByDriver.socketId,
+      driverId: nearByDriver.driverId,
+      latitude: nearByDriver.coordinate.coordinates[1],
+      longitude: nearByDriver.coordinate.coordinates[0],
+    },
   };
   axios.post(`${BASE_URL}/driver/carBooking`, payload).then(
     (response) => {
-      console.log(response.data);
+      // console.log(response.data);
+      dispatch({
+        type: BOOK_CAR,
+        payload: response.data,
+      });
     },
     (error) => {
       console.log(error);
@@ -270,7 +290,7 @@ export const getNearByDrivers = () => async (dispatch) => {
   console.log(region);
   axios
     .get(
-      `${BASE_URL}/api/driver/driverLocationSocket?lat=` +
+      `${BASE_URL}/driver/driverLocationSocket?lat=` +
         latitude +
         "&lng=" +
         longitude

@@ -24,6 +24,7 @@ const initialState = {
   selectedAddress: {},
   distanceMatrix: {},
   fare: 0,
+  booking: {},
   loading: false,
   error: null,
   nearByDrivers: [],
@@ -91,6 +92,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         nearByDrivers: action.payload,
+      };
+    case BOOK_CAR:
+      return {
+        ...state,
+        booking: action.payload,
       };
 
     case SET_LOADING:
