@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, Fragment } from "react";
+import React, { Component, useRef, useState, useEffect, Fragment } from "react";
 import {
   Platform,
   Alert,
@@ -14,7 +14,7 @@ import {
   TextInput,
 } from "react-native";
 import { connect } from "react-redux";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
@@ -27,8 +27,11 @@ import {
 import { GoogleAutoComplete } from "react-native-google-autocomplete";
 // import LocationItem from "./components/Transport/LocationItem";
 import { API_KEY } from "../../key.json";
-import { DISTANCE_DIRECTION_KEY } from "../../key.json";
+import { DISTANCE_DIRECTION_KEY, HOME_BASE_URL } from "../../key.json";
 import PropTypes from "prop-types";
+// import io from "socket.io-client";
+// const SocketEndpoint = "https://837db3c8f01c.ngrok.io";
+
 import {
   getCurrentLocation,
   getSelectedAddress,
@@ -106,10 +109,24 @@ const Transport = ({
     }
   }, [carType]);
 
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (didMountRef.current && booking.isPending === false) {
+      navigation.navigate("TrackDriver");
+    } else {
+      didMountRef.current = true;
+    }
+  });
+
+  // useEffect(() => {
+  //   if (booking.isPending === false) {
+  //     navigation.navigate("TrackDriver");
+  //   }
+  // });
+
   useEffect(() => {
     setTimeout(() => {
       getCurrentLocation();
-
       getNearByDrivers();
     }, 5000);
   }, []);
@@ -143,6 +160,7 @@ const Transport = ({
           />
           {region.latitude && (
             <MapView
+              provider={PROVIDER_GOOGLE}
               initialRegion={region}
               showsUserLocation={true}
               rotateEnabled={false}

@@ -10,6 +10,7 @@ import {
   SEARCH_HOTELS,
   UPDATE_CAR,
   BOOK_CAR,
+  BOOKING_CONFIRMED,
   GET_NEARBY_DRIVERS,
   CALCULATE_FARE,
 } from "./types";
@@ -163,7 +164,7 @@ const getDistanceAndTime = async (BaseLocation, TargetLocation) => {
   try {
     let response = await fetch(finalApiURL);
     let responseJson = await response.json();
-    console.log(responseJson);
+    // console.log(responseJson);
     return responseJson;
     // output
     //   {
@@ -188,7 +189,7 @@ const getDistanceAndTime = async (BaseLocation, TargetLocation) => {
 //update CarType
 export const updateCar = (payload) => async (dispatch) => {
   try {
-    console.log(payload);
+    // console.log(payload);
     dispatch({
       type: UPDATE_CAR,
       payload: payload,
@@ -287,8 +288,8 @@ export const getNearByDrivers = () => async (dispatch) => {
   const { region } = store.getState().transport;
   // console.log(region);
   const { latitude, longitude } = region;
-  console.log(region);
-  axios
+  // console.log(region);
+  await axios
     .get(
       `${BASE_URL}/driver/driverLocationSocket?lat=` +
         latitude +
@@ -306,6 +307,7 @@ export const getNearByDrivers = () => async (dispatch) => {
       console.log(error);
     });
 };
+
 //set laoding true
 export const setLoading = () => {
   return {

@@ -3,9 +3,11 @@ import { combineReducers } from "redux";
 import guideReducer from "./guideReducer";
 import hotelReducer from "./hotelReducer";
 import transportReducer from "./transportReducer";
+import trackDriverReducer from "./trackDriverReducer";
 
 export default combineReducers({
   guide: guideReducer,
   hotel: hotelReducer,
-  transport: transportReducer
+  transport: transportReducer,
+  trackDriver: trackDriverReducer,
 });

@@ -10,6 +10,7 @@ import {
   GET_SELECTED_ADDRESS,
   UPDATE_CAR,
   BOOK_CAR,
+  BOOKING_CONFIRMED,
   GET_NEARBY_DRIVERS,
 } from "../actions/types";
 
@@ -99,6 +100,12 @@ export default (state = initialState, action) => {
         booking: action.payload,
       };
 
+    case BOOKING_CONFIRMED:
+      console.log(action.payload);
+      return {
+        ...state,
+        booking: action.payload,
+      };
     case SET_LOADING:
       return {
         ...state,
