@@ -50,7 +50,9 @@ const TrackDriver = ({
   }, []);
 
   useEffect(() => {
-    if (driverLocation) getDistanceFromDriver();
+    // if (driverLocation !== {}) {
+    getDistanceFromDriver();
+    // }
     // console.log("counter updated");
   }, [distanceFromDriver]);
 

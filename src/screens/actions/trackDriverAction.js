@@ -99,21 +99,22 @@ export const getDistanceFromDriver = () => async (dispatch) => {
   const { driverLocation } = store.getState().trackDriver;
   // const { coordinate } = driverLocation;
   console.log(driverLocation);
-  const distance = getDistance(
-    {
-      latitude: selectedPickUp.geometry.location.lat,
-      longitude: selectedPickUp.geometry.location.lng,
-    },
-    {
-      latitude: driverLocation.coordinate.coordinates[1],
-      longitude: driverLocation.coordinate.coordinates[0],
-    }
-  );
-  dispatch({
-    type: GET_DISTANCE_FROM_DRIVER,
-    payload: distance,
-  });
-
+  if (Object.entries(driverLocation).length !== 0) {
+    const distance = getDistance(
+      {
+        latitude: selectedPickUp.geometry.location.lat,
+        longitude: selectedPickUp.geometry.location.lng,
+      },
+      {
+        latitude: driverLocation.coordinate.coordinates[1],
+        longitude: driverLocation.coordinate.coordinates[0],
+      }
+    );
+    dispatch({
+      type: GET_DISTANCE_FROM_DRIVER,
+      payload: distance,
+    });
+  }
   // axios
   //   .get(`${BASE_URL}/driver/driverLocationSocket/` + id)
   //   .then((res) => {

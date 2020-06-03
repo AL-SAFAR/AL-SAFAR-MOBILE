@@ -146,6 +146,7 @@
               locationId: location._id,
               latitude: movementObj.lat,
               longitude: movementObj.long,
+              socketId: socket.id,
             };
             $.ajax({
               type: "PUT",

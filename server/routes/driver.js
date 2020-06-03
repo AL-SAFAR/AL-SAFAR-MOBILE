@@ -285,24 +285,48 @@ router.get("/driverLocationSocket/:id", async (req, res) => {
 // @access   Public
 router.put("/driverLocationSocket/:id", async (req, res) => {
   let io = req.app.io;
-  if (!req.body) {
+  const location = req.body;
+  const latitude = parseFloat(location.latitude);
+  const longitude = parseFloat(location.longitude);
+  if (!location) {
     res.status(400);
     res.json({
       error: "Bad data",
     });
   } else {
-    const { socketId } = req.body;
-
-    const driverFields = {};
-    if (socketId) driverFields.socketId = socketId;
+    const LocationFields = {};
+    if (location.socketId) LocationFields.socketId = location.socketId;
+    if (latitude && longitude)
+      LocationFields.coordinate = {
+        type: "Point",
+        coordinates: [longitude, latitude],
+      };
 
     let driverLocation = await DriverLocation.findById(req.params.id);
     if (!driverLocation)
       return res.status(404).json({ msg: "Location not found" });
     driverLocation = await DriverLocation.findByIdAndUpdate(
       req.params.id,
-      { $set: driverFields },
-      { new: true }
+      { $set: LocationFields },
+      { new: true },
+      (err, updateDetails) => {
+        if (err) {
+          console.log(updateDetails);
+          res.send(err);
+        }
+        if (updateDetails) {
+          DriverLocation.findById(req.params.id, (error, updatedLocation) => {
+            if (error) {
+              res.send(error);
+            }
+            res.send(updatedLocation);
+            io.emit("action", {
+              type: "UPDATE_DRIVER_LOCATION",
+              payload: updatedLocation,
+            });
+          });
+        }
+      }
     );
   }
 });
