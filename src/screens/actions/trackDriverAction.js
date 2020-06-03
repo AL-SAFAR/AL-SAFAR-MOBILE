@@ -3,15 +3,16 @@ import {
   GET_DRIVER_INFORMATION,
   UPDATE_DRIVER_LOCATION,
   GET_DRIVER_LOCATION,
+  GET_DISTANCE_FROM_DRIVER,
   TRANSPORT_ERROR,
 } from "./types";
 import { Dimensions } from "react-native";
 
-// import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
+import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
 import store from "../../../store";
 // import request from "../../../util/request";
 import axios from "axios";
-// import { getDistance } from "geolib";
+import { getDistance } from "geolib";
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
@@ -32,7 +33,7 @@ export const getCurrentLocation = () => async (dispatch) => {
           type: GET_CURRENT_LOCATION,
           payload: region,
         });
-        console.log(region);
+        // console.log(region);
       },
       (err) => console.log(err),
       {
@@ -56,7 +57,7 @@ export const getDriverInfo = () => async (dispatch) => {
   axios
     .get(`${BASE_URL}/driver/driver/` + id)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch({
         type: GET_DRIVER_INFORMATION,
         payload: res.data,
@@ -88,4 +89,44 @@ export const getDriverLocation = () => async (dispatch) => {
         payload: error,
       });
     });
+};
+
+//Get distance from driver
+export const getDistanceFromDriver = () => async (dispatch) => {
+  const { selectedAddress } = store.getState().transport;
+  const { selectedPickUp } = selectedAddress;
+
+  const { driverLocation } = store.getState().trackDriver;
+  // const { coordinate } = driverLocation;
+  console.log(driverLocation);
+  const distance = getDistance(
+    {
+      latitude: selectedPickUp.geometry.location.lat,
+      longitude: selectedPickUp.geometry.location.lng,
+    },
+    {
+      latitude: driverLocation.coordinate.coordinates[1],
+      longitude: driverLocation.coordinate.coordinates[0],
+    }
+  );
+  dispatch({
+    type: GET_DISTANCE_FROM_DRIVER,
+    payload: distance,
+  });
+
+  // axios
+  //   .get(`${BASE_URL}/driver/driverLocationSocket/` + id)
+  //   .then((res) => {
+  //     // console.log(res.data);
+  //     dispatch({
+  //       type: GET_DRIVER_LOCATION,
+  //       payload: res.data,
+  //     });
+  //   })
+  //   .catch(function (error) {
+  //     dispatch({
+  //       type: TRANSPORT_ERROR,
+  //       payload: error,
+  //     });
+  //   });
 };

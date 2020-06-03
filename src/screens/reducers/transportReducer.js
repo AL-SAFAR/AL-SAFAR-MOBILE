@@ -11,6 +11,7 @@ import {
   UPDATE_CAR,
   BOOK_CAR,
   BOOKING_CONFIRMED,
+  CLEAR_STATE,
   GET_NEARBY_DRIVERS,
 } from "../actions/types";
 
@@ -101,10 +102,25 @@ export default (state = initialState, action) => {
       };
 
     case BOOKING_CONFIRMED:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         booking: action.payload,
+      };
+
+    case CLEAR_STATE:
+      // console.log(action.payload);
+      return {
+        ...state,
+        inputData: {},
+        resultType: {},
+        carType: "Car",
+        predictions: [],
+        selectedAddress: {},
+        distanceMatrix: {},
+        fare: 0,
+        booking: {},
+        error: null,
       };
     case SET_LOADING:
       return {

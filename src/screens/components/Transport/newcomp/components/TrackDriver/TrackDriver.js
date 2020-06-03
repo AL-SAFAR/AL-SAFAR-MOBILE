@@ -8,8 +8,9 @@ import {
   getCurrentLocation,
   getDriverInfo,
   getDriverLocation,
+  getDistanceFromDriver,
 } from "../../../../../actions/trackDriverAction";
-// import MapTrack from "./MapTrack";
+import MapTrack from "./MapTrack";
 import DriverFound from "./DriverFound";
 import DriverFooterProfile from "./DriverFooterProfile";
 import DriverOnTheWayFooter from "./DriverOnTheWayFooter";
@@ -26,10 +27,12 @@ const TrackDriver = ({
     driverLocation,
     showDriverFound,
     showCarMarker,
+    distanceFromDriver,
   },
   getCurrentLocation,
   getDriverInfo,
   getDriverLocation,
+  getDistanceFromDriver,
 }) => {
   useEffect(() => {
     if (Platform.OS === "android" && !Constants.isDevice) {
@@ -42,9 +45,15 @@ const TrackDriver = ({
   }, []);
 
   useEffect(() => {
-    getCurrentLocation();
+    // getCurrentLocation();
     getDriverInfo();
   }, []);
+
+  useEffect(() => {
+    if (driverLocation) getDistanceFromDriver();
+    // console.log("counter updated");
+  }, [distanceFromDriver]);
+
   // region = {
   //   latitude: 33.628171,
   //   longitude: 73.062621,
@@ -53,7 +62,7 @@ const TrackDriver = ({
   // };
   return (
     <View style={styles.container}>
-      {/* {region && (
+      {region && (
         <MapTrack
           driverLocation={driverLocation}
           selectedAddress={selectedAddress}
@@ -61,9 +70,9 @@ const TrackDriver = ({
           showCarMarker={showCarMarker}
           carMarker={carMarker}
         />
-      )} */}
-      {/* <DriverOnTheWayFooter driverInfo={driverInfo} /> */}
-      {/* <DriverFooterProfile driverInfo={driverInfo} /> */}
+      )}
+      <DriverOnTheWayFooter driverInfo={driverInfo} />
+      <DriverFooterProfile driverInfo={driverInfo} />
 
       {showDriverFound && (
         <DriverFound
@@ -88,6 +97,7 @@ TrackDriver.propTypes = {
   transport: PropTypes.object.isRequired,
   trackDriver: PropTypes.object.isRequired,
   getDriverLocation: PropTypes.func.isRequired,
+  getDistanceFromDriver: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -98,5 +108,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getCurrentLocation,
   getDriverInfo,
+  getDistanceFromDriver,
   getDriverLocation,
 })(TrackDriver);

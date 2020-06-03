@@ -117,10 +117,11 @@ router.post(
 // @desc     get driver by id
 // @access   Public
 router.get("/driver/:id", async (req, res) => {
-  Driver.find((err, driver) => {
+  Driver.findById(req.params.id, (err, driver) => {
     if (err) {
       res.send(err);
     }
+    console.log(driver);
     res.send(driver);
   });
   // res.send("Bookings Route");

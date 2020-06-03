@@ -3,6 +3,7 @@ import {
   GET_DRIVER_INFORMATION,
   UPDATE_DRIVER_LOCATION,
   GET_DRIVER_LOCATION,
+  GET_DISTANCE_FROM_DRIVER,
   TRANSPORT_ERROR,
 } from "../actions/types";
 
@@ -14,6 +15,7 @@ const initialState = {
   driverLocation: {},
   showDriverFound: true,
   showCarMarker: false,
+  distanceFromDriver: {},
   error: {},
 };
 
@@ -42,7 +44,11 @@ export default (state = initialState, action) => {
         showDriverFound: false,
         showCarMarker: true,
       };
-
+    case GET_DISTANCE_FROM_DRIVER:
+      return {
+        ...state,
+        distanceFromDriver: action.payload,
+      };
     case TRANSPORT_ERROR:
       console.error(action.payload);
       return {

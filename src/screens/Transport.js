@@ -41,6 +41,7 @@ import {
   getAddressPredictions,
   calculateFare,
   bookCar,
+  clearDriverState,
   getNearByDrivers,
 } from "./actions/transportActions";
 
@@ -74,6 +75,7 @@ const Transport = ({
   getCurrentLocation,
   getInputData,
   getSelectedAddress,
+  clearDriverState,
   toggleSearchResultmodal,
   getAddressPredictions,
   calculateFare,
@@ -326,7 +328,12 @@ const Transport = ({
             )}
           </GoogleAutoComplete>
         </View>
-      )) || <FindDriver selectedAddress={selectedAddress} />}
+      )) || (
+        <FindDriver
+          selectedAddress={selectedAddress}
+          clearDriverState={clearDriverState}
+        />
+      )}
     </View>
   );
 };
@@ -366,6 +373,7 @@ Transport.propTypes = {
   calculateFare: PropTypes.func.isRequired,
   bookCar: PropTypes.func.isRequired,
   getNearByDrivers: PropTypes.func.isRequired,
+  clearDriverState: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -381,5 +389,6 @@ export default connect(mapStateToProps, {
   calculateFare,
   bookCar,
   getNearByDrivers,
+  clearDriverState,
   toggleSearchResultmodal,
 })(Transport);

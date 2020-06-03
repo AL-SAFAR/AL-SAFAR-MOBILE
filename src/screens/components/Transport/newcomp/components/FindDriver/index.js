@@ -4,17 +4,10 @@ import { View, Button } from "native-base";
 import { FontAwesome as Icon } from "@expo/vector-icons";
 import { Swing } from "react-native-animated-spinkit";
 import styles from "./FindDriverStyles";
-const FindDriver = ({ selectedAddress }) => {
+const FindDriver = ({ selectedAddress, clearDriverState }) => {
   const { selectedPickUp, selectedDropOff } = selectedAddress || {};
   return (
     <View style={styles.findDriverContainer}>
-      {/* <Spinner
-        style={styles.spinner}
-        isVisible
-        size={150}
-        type="Pulse"
-        color="#ffffff"
-      /> */}
       <Swing style={styles.spinner} size={150} color="#FFF" />
       <View style={styles.content}>
         <Text style={styles.text}> Processing your request</Text>
@@ -32,7 +25,7 @@ const FindDriver = ({ selectedAddress }) => {
           <Text style={styles.termsText}>
             By booking you confirm that you accept our T & C
           </Text>
-          <Button style={styles.cancelBtn}>
+          <Button style={styles.cancelBtn} onPress={() => clearDriverState()}>
             <Text style={styles.cancelBtnText}>Cancel</Text>
           </Button>
         </View>

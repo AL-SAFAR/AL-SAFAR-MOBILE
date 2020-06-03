@@ -12,6 +12,7 @@ import {
   BOOK_CAR,
   BOOKING_CONFIRMED,
   GET_NEARBY_DRIVERS,
+  CLEAR_STATE,
   CALCULATE_FARE,
 } from "./types";
 import { Dimensions } from "react-native";
@@ -306,6 +307,13 @@ export const getNearByDrivers = () => async (dispatch) => {
     .catch(function (error) {
       console.log(error);
     });
+};
+
+//CLEAR STATE ON CANCEL
+export const clearDriverState = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_STATE,
+  });
 };
 
 //set laoding true

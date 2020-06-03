@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import styles from "../DriverFound/DriveFoundStyles";
+import styles from "./MapTrackStyles";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
@@ -18,7 +18,7 @@ const MapTrack = ({
         initialRegion={region}
         showsUserLocation={true}
         rotateEnabled={false}
-        // style={styles.map}
+        style={styles.map}
         // showsTraffic={true}
         ref={(map) => {
           this.map = map;
