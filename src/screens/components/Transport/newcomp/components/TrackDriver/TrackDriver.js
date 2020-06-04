@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Dimensions, Platform } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -48,13 +48,18 @@ const TrackDriver = ({
     // getCurrentLocation();
     getDriverInfo();
   }, []);
+  const [durationDistance, setDurationDistance] = useState({
+    duration: 0,
+    distance: 0,
+  });
 
   useEffect(() => {
-    // if (driverLocation !== {}) {
-    getDistanceFromDriver();
-    // }
+    if (driverLocation !== {}) {
+      getDistanceFromDriver(durationDistance);
+    }
+    console.log(durationDistance);
     // console.log("counter updated");
-  }, [distanceFromDriver]);
+  }, [durationDistance]);
 
   // region = {
   //   latitude: 33.628171,
@@ -71,9 +76,13 @@ const TrackDriver = ({
           region={region}
           showCarMarker={showCarMarker}
           carMarker={carMarker}
+          setDurationDistance={setDurationDistance}
         />
       )}
-      <DriverOnTheWayFooter driverInfo={driverInfo} />
+      <DriverOnTheWayFooter
+        driverInfo={driverInfo}
+        distanceFromDriver={distanceFromDriver}
+      />
       <DriverFooterProfile driverInfo={driverInfo} />
 
       {showDriverFound && (

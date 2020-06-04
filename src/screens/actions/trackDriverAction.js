@@ -7,7 +7,7 @@ import {
   TRANSPORT_ERROR,
 } from "./types";
 import { Dimensions } from "react-native";
-
+// import MapViewDirections from "react-native-maps-directions";
 import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
 import store from "../../../store";
 // import request from "../../../util/request";
@@ -92,29 +92,12 @@ export const getDriverLocation = () => async (dispatch) => {
 };
 
 //Get distance from driver
-export const getDistanceFromDriver = () => async (dispatch) => {
-  const { selectedAddress } = store.getState().transport;
-  const { selectedPickUp } = selectedAddress;
+export const getDistanceFromDriver = (durationDistance) => async (dispatch) => {
+  dispatch({
+    type: GET_DISTANCE_FROM_DRIVER,
+    payload: durationDistance,
+  });
 
-  const { driverLocation } = store.getState().trackDriver;
-  // const { coordinate } = driverLocation;
-  console.log(driverLocation);
-  if (Object.entries(driverLocation).length !== 0) {
-    const distance = getDistance(
-      {
-        latitude: selectedPickUp.geometry.location.lat,
-        longitude: selectedPickUp.geometry.location.lng,
-      },
-      {
-        latitude: driverLocation.coordinate.coordinates[1],
-        longitude: driverLocation.coordinate.coordinates[0],
-      }
-    );
-    dispatch({
-      type: GET_DISTANCE_FROM_DRIVER,
-      payload: distance,
-    });
-  }
   // axios
   //   .get(`${BASE_URL}/driver/driverLocationSocket/` + id)
   //   .then((res) => {

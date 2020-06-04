@@ -54,7 +54,7 @@
         console.log(socket.id);
         var driverData = {
           socketId: socket.id,
-          locationId: "5ed5e29ed4ce17254c115ea7",
+          locationId: "5ed879ae87aa3b17dcf30e77",
         };
 
         $.ajax({
@@ -103,36 +103,40 @@
         socket.on("trackDriver", (location) => {
           var driverMovement = [
             {
-              lat: 3.113667,
-              long: 101.687565,
+              lat: 33.6271102,
+              long: 73.0607377,
             },
             {
-              lat: 3.118748,
-              long: 101.678467,
+              lat: 33.6260602,
+              long: 73.0607327,
             },
             {
-              lat: 3.12727,
-              long: 101.688423,
+              lat: 33.6251301,
+              long: 73.0612798,
             },
             {
-              lat: 3.137383,
-              long: 101.695118,
+              lat: 33.6240921,
+              long: 73.0612148,
             },
             {
-              lat: 3.137383,
-              long: 101.695118,
+              lat: 33.6228261,
+              long: 73.0612308,
             },
             {
-              lat: 3.152857,
-              long: 101.703529,
+              lat: 33.6223261,
+              long: 73.0613378,
             },
             {
-              lat: 3.146642,
-              long: 101.695845,
+              lat: 33.6216781,
+              long: 73.0614398,
             },
             {
-              lat: 3.1591601,
-              long: 101.7136599,
+              lat: 33.6217321,
+              long: 73.0625448,
+            },
+            {
+              lat: 33.62193060000001,
+              long: 73.0645363,
             },
           ];
           var index = 0;
@@ -150,7 +154,7 @@
             };
             $.ajax({
               type: "PUT",
-              url: "/api/driver/driverLocation/" + location._id,
+              url: "/api/driver/driverLocationSocket/" + location._id,
               dataType: "json",
               data: driverCurrentLocation,
             }).done(function (response) {

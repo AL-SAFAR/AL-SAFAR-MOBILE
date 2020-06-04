@@ -288,6 +288,7 @@ router.put("/driverLocationSocket/:id", async (req, res) => {
   const location = req.body;
   const latitude = parseFloat(location.latitude);
   const longitude = parseFloat(location.longitude);
+  // console.log(location);
   if (!location) {
     res.status(400);
     res.json({
@@ -301,17 +302,17 @@ router.put("/driverLocationSocket/:id", async (req, res) => {
         type: "Point",
         coordinates: [longitude, latitude],
       };
-
+    console.log(LocationFields);
     let driverLocation = await DriverLocation.findById(req.params.id);
-    if (!driverLocation)
-      return res.status(404).json({ msg: "Location not found" });
+    if (!driverLocation) console.log("driver not found");
+    // return res.status(404).json({ msg: "Location not found" });
     driverLocation = await DriverLocation.findByIdAndUpdate(
       req.params.id,
       { $set: LocationFields },
       { new: true },
       (err, updateDetails) => {
         if (err) {
-          console.log(updateDetails);
+          console.log(err);
           res.send(err);
         }
         if (updateDetails) {
@@ -335,6 +336,17 @@ router.put("/driverLocationSocket/:id", async (req, res) => {
 router.get("/driverLocationSocket/", async (req, res) => {
   // console.log(req.query);
   try {
+    const LocationFields = {};
+    LocationFields.coordinate = {
+      type: "Point",
+      coordinates: [73.0596073, 33.6281604],
+    };
+
+    await DriverLocation.findByIdAndUpdate(
+      "5ed879ae87aa3b17dcf30e77",
+      { $set: LocationFields },
+      { new: true }
+    );
     await DriverLocation.ensureIndexes({ coordinate: "2dsphere" });
     await DriverLocation.find(
       {

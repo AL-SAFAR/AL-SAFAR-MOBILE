@@ -1,13 +1,13 @@
 import React from "react";
-import { Text, Image } from "react-native";
+import { Text, Image, TouchableOpacity } from "react-native";
 import { View, Button } from "native-base";
 import StarRating from "react-native-star-rating";
 import { FontAwesome as Icon } from "@expo/vector-icons";
-
+import { Linking } from "expo";
 import styles from "./DriverFooterProfileStyles.js";
 
 export const DriverFooterProfile = ({ driverInfo, getDriverLocation }) => {
-  const { profilePic, starRating } = driverInfo || "";
+  const { profilePic, starRating, mobile } = driverInfo || "";
   return (
     <View style={styles.footerContainer}>
       <View style={styles.imageContainer}>
@@ -27,12 +27,18 @@ export const DriverFooterProfile = ({ driverInfo, getDriverLocation }) => {
         />
       </View>
       <View style={styles.iconContainer} />
-      <View style={styles.iconContainer}>
+      <TouchableOpacity
+        style={styles.iconContainer}
+        onPress={() => Linking.openURL(`tel:${mobile}`)}
+      >
         <Icon name="phone" size={30} style={styles.icon} />
-      </View>
-      <View style={styles.iconContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.iconContainer}
+        onPress={() => Linking.openURL(`sms:${mobile}`)}
+      >
         <Icon name="comment-o" size={30} style={styles.icon} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

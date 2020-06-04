@@ -18,7 +18,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-import * as Location from "expo-location";
+// import * as Location from "expo-location";
 import {
   Entypo as En,
   FontAwesome as F,
@@ -257,7 +257,7 @@ const Transport = ({
                   apikey={DISTANCE_DIRECTION_KEY}
                   mode="DRIVING"
                   strokeWidth={3}
-                  strokeColor="blue"
+                  strokeColor="#0099ff"
                   onReady={(result) => {
                     setDuration(Math.ceil(result.duration));
                     setDistance(Math.ceil(result.distance));

@@ -45,6 +45,7 @@ export default (state = initialState, action) => {
         showCarMarker: true,
       };
     case GET_DISTANCE_FROM_DRIVER:
+      // console.log(action.payload);
       return {
         ...state,
         distanceFromDriver: action.payload,
