@@ -9,7 +9,7 @@ const Hotel = ({
   hotel,
   rating,
   imageUri,
-  navigation
+  navigation,
 }) => {
   return (
     <TouchableOpacity
@@ -22,7 +22,7 @@ const Hotel = ({
         height: width / 2 - 30,
         borderWidth: 1,
         borderColor: "#dddddd",
-        marginBottom: 15
+        marginBottom: 15,
         // marginHorizontal: 20
         // marginRight: 15
       }}
@@ -33,7 +33,7 @@ const Hotel = ({
             flex: 1,
             width: null,
             height: null,
-            resizeMode: "cover"
+            resizeMode: "cover",
           }}
           source={imageUri}
         />
@@ -43,7 +43,7 @@ const Hotel = ({
           flex: 1,
           alignItems: "flex-start",
           justifyContent: "space-evenly",
-          paddingLeft: 10
+          paddingLeft: 10,
         }}
       >
         <Text style={{ fontSize: 10, color: "#b63838" }}>{city}</Text>

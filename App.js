@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import HomeNavigation from "./src/screens/navigations/HomeNavigation";
+import DrawerNavigation from "./src/screens/navigations/DrawerNavigation";
 import GuideNavigation from "./src/screens/navigations/Guide/GuideNavigation";
 import HotelNavigation from "./src/screens/navigations/Hotel/HotelNavigation";
 import TransportNavigation from "./src/screens/navigations/Transport/TransportNavigation";
@@ -19,6 +20,9 @@ import RegisterScreen from "./src/screens/components/Login/RegisterScreen";
 import Login from "./src/screens/components/Login/Login";
 
 const AppSwitchNavigator = createSwitchNavigator({
+  Drawer: {
+    screen: DrawerNavigation,
+  },
   Home: {
     screen: HomeNavigation,
   },
