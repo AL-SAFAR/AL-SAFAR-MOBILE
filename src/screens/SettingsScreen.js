@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,58 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { globalStyles } from "../../styles/global";
+import { globalStyles } from "./global";
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
+import axios from "axios";
 
 const SettingsScreen = ({ navigation }) => {
+  const [ProfileImage, setProfileImage] = useState(
+    "https://images.unsplash.com/photo-1591238856576-44bf9f35c141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+  );
+  const pickImage = async () => {
+    if (Constants.platform.ios || Constants.platform.android) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      let base64Img = `data:image/jpg;base64,${result.base64}`;
+
+      //Add your cloud name
+      let apiUrl = "https://api.cloudinary.com/v1_1/al-safar/image/upload";
+
+      let data = {
+        file: base64Img,
+        upload_preset: "al-safar-upload",
+      };
+
+      fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+      })
+        .then(async (r) => {
+          let data = await r.json();
+          console.log(data);
+          // this.setState({ image: result.uri })
+          setProfileImage(result.uri);
+          // return data.secure_url
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -30,19 +79,21 @@ const SettingsScreen = ({ navigation }) => {
           <View style={styles.profileImage}>
             <Image
               source={{
-                uri:
-                  "https://images.unsplash.com/photo-1591238856576-44bf9f35c141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+                uri: ProfileImage,
               }}
               style={styles.image}
               resizeMode="cover"
             ></Image>
           </View>
-          <View style={styles.add}>
-            <Text style={{ color: "#DFD8C8", fontSize: 14 }}>Hire</Text>
-          </View>
+          <TouchableOpacity style={styles.add} onPress={pickImage}>
+            <View>
+              <Text style={{ color: "#fff", fontSize: 14 }}>Edit</Text>
+            </View>
+          </TouchableOpacity>
         </View>
+
         <View style={styles.infoContainer}>
-          <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+          <Text style={[styles.text, { fontWeight: "200", fontSize: 24 }]}>
             Sophie Turner
           </Text>
         </View>
@@ -54,21 +105,27 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
   },
-  profileImage: {
-    width: 200,
-    height: 200,
-    overflow: "hidden",
-  },
   text: {
     color: "#52575D",
   },
+  image: {
+    flex: 1,
+    borderRadius: 180,
+    height: undefined,
+    width: undefined,
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    overflow: "hidden",
+  },
   add: {
-    backgroundColor: "#41444B",
+    backgroundColor: "#0099ff",
     position: "absolute",
     bottom: 5,
-    right: 0,
-    width: 60,
-    height: 30,
+    right: -5,
+    width: 50,
+    height: 25,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -79,4 +136,5 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 });
+
 export default SettingsScreen;
