@@ -18,7 +18,7 @@ import TransportNavigation from "./src/screens/navigations/Transport/TransportNa
 
 import RegisterScreen from "./src/screens/components/Login/RegisterScreen";
 import Login from "./src/screens/components/Login/Login";
-
+import AccountNavigation from "./src/screens/navigations/Acccount/AccountNavigation";
 const AppSwitchNavigator = createSwitchNavigator({
   Drawer: {
     screen: DrawerNavigation,
@@ -28,6 +28,9 @@ const AppSwitchNavigator = createSwitchNavigator({
   },
   Guide: {
     screen: GuideNavigation,
+  },
+  Account: {
+    screen: AccountNavigation,
   },
   Hotel: {
     screen: HotelNavigation,

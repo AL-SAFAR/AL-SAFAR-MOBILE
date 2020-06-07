@@ -17,14 +17,12 @@ const Room = require("../models/HotelManagment/Room");
 router.post(
   "/",
   [
-    check("name", "full Name is required")
-      .not()
-      .isEmpty(),
+    check("name", "full Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 8 or more characters"
-    ).isLength({ min: 8 })
+    ).isLength({ min: 8 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -46,7 +44,7 @@ router.post(
       customer = new Customer({
         name,
         email,
-        password
+        password,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -58,8 +56,8 @@ router.post(
       const payload = {
         user: {
           id: customer.id,
-          userType: "0"
-        }
+          userType: "0",
+        },
       };
 
       jwt.sign(
@@ -127,8 +125,22 @@ router.put("/:id", auth, async (req, res) => {
 // @access   Public
 router.get("/viewHotels", async (req, res) => {
   try {
-    const hotels = await Hotel.find();
-    res.json(hotels);
+    Hotel.aggregate([
+      {
+        $lookup: {
+          from: "rooms", // collection name in db
+          localField: "_id",
+          foreignField: "hotelId",
+          as: "rooms",
+        },
+      },
+    ]).exec(function (err, rooms) {
+      // students contain WorksnapsTimeEntries
+      // console.log(students);
+      res.json(rooms);
+    });
+    // const hotels = await Hotel.find();
+    // res.json(hotels);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -155,19 +167,19 @@ router.post("/BookRoom/:hotelid", auth, async (req, res) => {
       hotelId: hotel.id,
       isAvailable: true,
       roomType: roomType,
-      roomMaxOccupancy: roomMaxOccupancy
+      roomMaxOccupancy: roomMaxOccupancy,
     });
     let hotelAlreadyBooked = await HotelBooking.findOne({
       toDate: { $lte: fromDate },
-      hotelId: hotel.id
+      hotelId: hotel.id,
     });
     if (!roomAvailable) {
       return res.status(401).json({
-        msg: "No Rooms Available Fully Booked please Contact Customer Support"
+        msg: "No Rooms Available Fully Booked please Contact Customer Support",
       });
     } else if (!hotelAlreadyBooked) {
       return res.status(401).json({
-        msg: "No Rooms Available Fully Booked please Contact Customer Support"
+        msg: "No Rooms Available Fully Booked please Contact Customer Support",
       });
     }
     if (roomAvailable) {
@@ -176,7 +188,7 @@ router.post("/BookRoom/:hotelid", auth, async (req, res) => {
         roomId: roomAvailable.id,
         customerId: req.user.id,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
 
       await hotelBooking.save();
@@ -194,7 +206,7 @@ router.post("/BookRoom/:hotelid", auth, async (req, res) => {
         roomId: roomAvailable.id,
         customerId: req.user.id,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
       await hotelBooking.save();
       res.json("You will recieve your booking confirmation sortly");
@@ -215,7 +227,7 @@ router.post("/uniqueroomshotel", async (req, res) => {
 
     let Economy = await Room.findOne({
       hotelId: hotel._id,
-      roomType: "Economy"
+      roomType: "Economy",
     });
 
     if (Economy || Economy !== null) {
@@ -230,7 +242,7 @@ router.post("/uniqueroomshotel", async (req, res) => {
     }
     let Deleuxe = await Room.findOne({
       hotelId: hotel._id,
-      roomType: "Delexue"
+      roomType: "Delexue",
     });
 
     if (Deleuxe || Deleuxe !== null) {

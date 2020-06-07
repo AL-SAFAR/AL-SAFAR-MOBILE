@@ -9,11 +9,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { globalStyles } from "./global";
+import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import axios from "axios";
+import { ListItem, Button, Icon, Left, Body, Right, Switch } from "native-base";
 
 const SettingsScreen = ({ navigation }) => {
   const [ProfileImage, setProfileImage] = useState(
@@ -30,6 +31,7 @@ const SettingsScreen = ({ navigation }) => {
       allowsEditing: true,
       aspect: [4, 3],
       base64: true,
+      quality: 0.1,
     });
 
     if (!result.cancelled) {
@@ -42,22 +44,35 @@ const SettingsScreen = ({ navigation }) => {
         file: base64Img,
         upload_preset: "al-safar-upload",
       };
-
-      fetch(apiUrl, {
-        body: JSON.stringify(data),
-        headers: {
+      axios
+        .post(apiUrl, data, {
           "content-type": "application/json",
-        },
-        method: "POST",
-      })
-        .then(async (r) => {
-          let data = await r.json();
+          timeout: 1000,
+        })
+        .then((r) => {
+          let data = r.json();
           console.log(data);
           // this.setState({ image: result.uri })
           setProfileImage(result.uri);
           // return data.secure_url
         })
         .catch((err) => console.log(err));
+
+      // fetch(apiUrl, {
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "content-type": "application/json",
+      //   },
+      //   method: "POST",
+      // })
+      //   .then(async (r) => {
+      //     let data = await r.json();
+      //     console.log(data);
+      //     // this.setState({ image: result.uri })
+      //     setProfileImage(result.uri);
+      //     // return data.secure_url
+      //   })
+      //   .catch((err) => console.log(err));
     }
   };
 
@@ -65,9 +80,7 @@ const SettingsScreen = ({ navigation }) => {
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyles.titleBar}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("HomeNavigation")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
             <Ionicons
               name="ios-arrow-back"
               size={24}
@@ -91,11 +104,59 @@ const SettingsScreen = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
-
         <View style={styles.infoContainer}>
           <Text style={[styles.text, { fontWeight: "200", fontSize: 24 }]}>
             Sophie Turner
           </Text>
+        </View>
+        <View style={{ marginTop: 10 }}>
+          <ListItem
+            icon
+            style={styles.listitem}
+            onPress={() => {
+              console.log("DSA");
+            }}
+          >
+            <Left>
+              <Button style={{ backgroundColor: "#007AFF" }}>
+                <Icon active name="edit" type="AntDesign" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Edit Profile</Text>
+            </Body>
+            <Right>
+              <Icon active name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon style={styles.listitem}>
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="airplane" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Change Password</Text>
+            </Body>
+            <Right>
+              <Text>******</Text>
+              <Icon active name="arrow-forward" color="#0099ff" />
+            </Right>
+          </ListItem>
+          <ListItem icon style={styles.listitem}>
+            <Left>
+              <Button style={{ backgroundColor: "#007AFF" }}>
+                <Icon active name="bluetooth" color="#0099ff" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Bluetooth</Text>
+            </Body>
+            <Right>
+              <Text>On</Text>
+              <Icon active name="arrow-forward" color="#0099ff" />
+            </Right>
+          </ListItem>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -134,6 +195,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     marginTop: 16,
+  },
+  listitem: {
+    marginVertical: 10,
   },
 });
 
