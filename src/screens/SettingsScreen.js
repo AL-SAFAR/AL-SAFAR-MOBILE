@@ -80,7 +80,9 @@ const SettingsScreen = ({ navigation }) => {
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyles.titleBar}>
-          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("HomeNavigation")}
+          >
             <Ionicons
               name="ios-arrow-back"
               size={24}
@@ -113,9 +115,7 @@ const SettingsScreen = ({ navigation }) => {
           <ListItem
             icon
             style={styles.listitem}
-            onPress={() => {
-              console.log("DSA");
-            }}
+            onPress={() => navigation.navigate("EditProfile")}
           >
             <Left>
               <Button style={{ backgroundColor: "#007AFF" }}>

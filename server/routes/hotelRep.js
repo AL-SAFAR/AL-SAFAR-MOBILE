@@ -175,9 +175,9 @@ router.post("/createHotelProfile", auth, async (req, res) => {
   } = req.body;
 
   // console.log("Body=");
-  console.log(req.body);
-  console.log("File=");
-  console.log(req.files);
+  // console.log(req.body);
+  // console.log("File=");
+  // console.log(req.files);
   // Build contact object
   const hotelFields = {};
   if (name) hotelFields.hotelName = name;

@@ -5,7 +5,7 @@ export const getHotels = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`${BASE_URL}/hotels`, {
+    const res = await fetch(`${BASE_URL}/users/viewHotels`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -14,9 +14,8 @@ export const getHotels = () => async (dispatch) => {
     }).catch((err) => {
       console.log(err);
     });
-    const data = await res.json();
-    console.log(data);
-
+    let data = await res.json();
+    // console.log(data);
     dispatch({
       type: GET_HOTELS,
       payload: data,

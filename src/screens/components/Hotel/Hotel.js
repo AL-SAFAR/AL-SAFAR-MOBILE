@@ -4,10 +4,10 @@ import StarRating from "react-native-star-rating";
 const Hotel = ({
   width,
   city,
-  name,
-  price,
+  hotelName,
+  rent,
   hotel,
-  rating,
+  starRating,
   imageUri,
   navigation,
 }) => {
@@ -47,9 +47,13 @@ const Hotel = ({
         }}
       >
         <Text style={{ fontSize: 10, color: "#b63838" }}>{city}</Text>
-        <Text style={{ fontSize: 12, fontWeight: "bold" }}>{name}</Text>
-        <Text style={{ fontSize: 10 }}>Rs.{price}</Text>
-        <StarRating disable maxStars={5} rating={rating} starSize={10} />
+        <Text style={{ fontSize: 12, fontWeight: "bold" }}>{hotelName}</Text>
+        <Text style={{ fontSize: 10 }}>Rs.{rent}</Text>
+        {starRating > 0 ? (
+          <StarRating disable maxStars={5} rating={starRating} starSize={10} />
+        ) : (
+          <StarRating disable maxStars={5} rating={3} starSize={10} />
+        )}
       </View>
     </TouchableOpacity>
   );

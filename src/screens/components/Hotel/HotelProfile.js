@@ -7,9 +7,9 @@ import {
   Dimensions,
   SafeAreaView,
   StyleSheet,
-  Modal
+  Modal,
 } from "react-native";
-import ReadMore from 'react-native-read-more-text';
+import ReadMore from "react-native-read-more-text";
 // import {
 //   Container,
 //   Header,
@@ -34,7 +34,7 @@ const HotelProfile = ({ navigation }) => {
     hotelImages,
     starRating,
     extras,
-    houseRules
+    houseRules,
   } = hotel;
 
   const { foods, facilities, wifi, parking } = extras;
@@ -47,7 +47,7 @@ const HotelProfile = ({ navigation }) => {
         Read more
       </Text>
     );
-  }
+  };
 
   _renderRevealedFooter = (handlePress) => {
     return (
@@ -55,10 +55,10 @@ const HotelProfile = ({ navigation }) => {
         Show less
       </Text>
     );
-  }
+  };
   _handleTextReady = () => {
     // ...
-  }
+  };
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <Modal visible={modalOpen} animationType="slide">
@@ -69,7 +69,7 @@ const HotelProfile = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
-          <BookingForm />
+          <BookingForm setModalOpen={setModalOpen} />
         </View>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -111,8 +111,8 @@ const HotelProfile = ({ navigation }) => {
                   textAlign: "center",
                   color: "#0099ff",
                   fontSize: 14,
-                  flexWrap: "wrap"
-                }
+                  flexWrap: "wrap",
+                },
               ]}
             >
               {address}
@@ -130,15 +130,15 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>Smoking Area</Text>
               </View>
             ) : (
-                <View style={styles.statsBox}>
-                  <Ionicons
-                    name="logo-no-smoking"
-                    size={24}
-                    color="#0099ff"
-                  ></Ionicons>
-                  <Text style={[styles.text, styles.subText]}>No Smoking</Text>
-                </View>
-              )}
+              <View style={styles.statsBox}>
+                <Ionicons
+                  name="logo-no-smoking"
+                  size={24}
+                  color="#0099ff"
+                ></Ionicons>
+                <Text style={[styles.text, styles.subText]}>No Smoking</Text>
+              </View>
+            )}
             {!wifi ? (
               <View
                 style={[
@@ -146,8 +146,8 @@ const HotelProfile = ({ navigation }) => {
                   {
                     borderColor: "#DFD8C8",
                     borderLeftWidth: 1,
-                    borderRightWidth: 1
-                  }
+                    borderRightWidth: 1,
+                  },
                 ]}
               >
                 <MaterialIcons
@@ -158,26 +158,26 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>No Wifi</Text>
               </View>
             ) : (
-                <View
-                  style={[
-                    styles.statsBox,
-                    {
-                      borderColor: "#DFD8C8",
-                      borderLeftWidth: 1,
-                      borderRightWidth: 1
-                    }
-                  ]}
-                >
-                  <MaterialIcons
-                    name="wifi"
-                    size={24}
-                    color="#0099ff"
-                  ></MaterialIcons>
-                  <Text style={[styles.text, styles.subText]}>
-                    Wifi Available
+              <View
+                style={[
+                  styles.statsBox,
+                  {
+                    borderColor: "#DFD8C8",
+                    borderLeftWidth: 1,
+                    borderRightWidth: 1,
+                  },
+                ]}
+              >
+                <MaterialIcons
+                  name="wifi"
+                  size={24}
+                  color="#0099ff"
+                ></MaterialIcons>
+                <Text style={[styles.text, styles.subText]}>
+                  Wifi Available
                 </Text>
-                </View>
-              )}
+              </View>
+            )}
             {parking ? (
               <View style={styles.statsBox}>
                 <MaterialIcons
@@ -188,15 +188,15 @@ const HotelProfile = ({ navigation }) => {
                 <Text style={[styles.text, styles.subText]}>Parking</Text>
               </View>
             ) : (
-                <View style={styles.statsBox}>
-                  <MaterialIcons
-                    name="local-parking"
-                    size={24}
-                    color="#AEB5BC"
-                  ></MaterialIcons>
-                  <Text style={[styles.text, styles.subText]}> No Parking</Text>
-                </View>
-              )}
+              <View style={styles.statsBox}>
+                <MaterialIcons
+                  name="local-parking"
+                  size={24}
+                  color="#AEB5BC"
+                ></MaterialIcons>
+                <Text style={[styles.text, styles.subText]}> No Parking</Text>
+              </View>
+            )}
           </View>
           {/* Description */}
           <View
@@ -205,8 +205,8 @@ const HotelProfile = ({ navigation }) => {
               {
                 paddingHorizontal: 10,
                 textAlign: "justify",
-                paddingVertical: 10
-              }
+                paddingVertical: 10,
+              },
             ]}
           >
             <ReadMore
@@ -215,9 +215,7 @@ const HotelProfile = ({ navigation }) => {
               renderRevealedFooter={this._renderRevealedFooter}
               onReady={this._handleTextReady}
             >
-              <Text style={{ flexWrap: "wrap" }}>
-                {description}
-              </Text>
+              <Text style={{ flexWrap: "wrap" }}>{description}</Text>
             </ReadMore>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -228,7 +226,7 @@ const HotelProfile = ({ navigation }) => {
                 width: width / 2,
                 borderRightWidth: 1,
                 borderColor: "#DFD8C8",
-                marginTop: 5
+                marginTop: 5,
               }}
             >
               <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
@@ -245,7 +243,7 @@ const HotelProfile = ({ navigation }) => {
                             <Text
                               style={[
                                 styles.text,
-                                { color: "#41444B", fontWeight: "300" }
+                                { color: "#41444B", fontWeight: "300" },
                               ]}
                             >
                               {food}
@@ -263,7 +261,7 @@ const HotelProfile = ({ navigation }) => {
               style={{
                 ...styles.infoContainer,
                 width: width / 2,
-                marginTop: 5
+                marginTop: 5,
               }}
             >
               <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
@@ -280,7 +278,7 @@ const HotelProfile = ({ navigation }) => {
                             <Text
                               style={[
                                 styles.text,
-                                { color: "#41444B", fontWeight: "300" }
+                                { color: "#41444B", fontWeight: "300" },
                               ]}
                             >
                               {activity}
@@ -309,7 +307,7 @@ const HotelProfile = ({ navigation }) => {
               style={{
                 ...styles.statsBox,
                 borderColor: "#DFD8C8",
-                borderLeftWidth: 1
+                borderLeftWidth: 1,
               }}
             >
               <Text
@@ -330,7 +328,7 @@ const HotelProfile = ({ navigation }) => {
               borderRadius: 10,
               borderWidth: 1,
               padding: 5,
-              backgroundColor: "#0099ff"
+              backgroundColor: "#0099ff",
             }}
           >
             <View style={styles.statsBox}>
@@ -346,7 +344,7 @@ const HotelProfile = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
   modalToggle: {
     // marginBottom: 10,
@@ -357,33 +355,33 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10,
     borderRadius: 50,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   modalContent: {
     flex: 1,
     backgroundColor: "white",
-    color: "#0099ff"
+    color: "#0099ff",
   },
   text: {
-    color: "#52575D"
+    color: "#52575D",
   },
   image: {
     flex: 1,
     borderRadius: 180,
     height: undefined,
-    width: undefined
+    width: undefined,
   },
 
   subText: {
     fontSize: 12,
     color: "#AEB5BC",
     textTransform: "uppercase",
-    fontWeight: "500"
+    fontWeight: "500",
   },
   profileImage: {
     width: 200,
     height: 200,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   dm: {
     backgroundColor: "#41444B",
@@ -393,7 +391,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   active: {
     backgroundColor: "#34FFB9",
@@ -403,7 +401,7 @@ const styles = StyleSheet.create({
     padding: 4,
     height: 20,
     width: 20,
-    borderRadius: 10
+    borderRadius: 10,
   },
   add: {
     backgroundColor: "#41444B",
@@ -414,28 +412,28 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   infoContainer: {
     // alignSelf: "center",
     alignItems: "center",
-    marginTop: 16
+    marginTop: 16,
   },
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 32
+    marginTop: 32,
   },
   statsBox: {
     alignItems: "center",
-    flex: 1
+    flex: 1,
   },
   mediaImageContainer: {
     width: 180,
     height: 200,
     borderRadius: 12,
     overflow: "hidden",
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   mediaCount: {
     backgroundColor: "#41444B",
@@ -451,18 +449,18 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0, 0, 0, 0.38)",
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 20,
-    shadowOpacity: 1
+    shadowOpacity: 1,
   },
   recent: {
     marginLeft: 78,
     marginTop: 32,
     marginBottom: 6,
-    fontSize: 10
+    fontSize: 10,
   },
   recentItem: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 16
+    marginBottom: 16,
   },
   activityIndicator: {
     backgroundColor: "#0099ff",
@@ -471,8 +469,8 @@ const styles = StyleSheet.create({
     width: 8,
     borderRadius: 6,
     marginTop: 5,
-    marginRight: 10
-  }
+    marginRight: 10,
+  },
 });
 
 export default HotelProfile;

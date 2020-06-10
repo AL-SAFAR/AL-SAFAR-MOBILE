@@ -5,7 +5,7 @@ import {
   TextInput,
   Dimensions,
   StatusBar,
-  FlatList
+  FlatList,
 } from "react-native";
 import { connect } from "react-redux";
 import Hotel from "./components/Hotel/Hotel";
@@ -22,7 +22,7 @@ const Booking = ({
   navigation,
   hotel: { hotels, loading },
   getHotels,
-  searchHotels
+  searchHotels,
 }) => {
   useEffect(() => {
     getHotels();
@@ -58,25 +58,24 @@ const Booking = ({
             Name="Karachi"
             searchHotels={searchHotels}
 
-          // onPress={searchHotels("Karachi")}
-
+            // onPress={searchHotels("Karachi")}
           />
           <Category
             imageUri={require("../../assets/experiences.jpg")}
             Name="Gilgit"
             searchHotels={searchHotels}
 
-          // onPress={searchHotels("Gilgit")}
+            // onPress={searchHotels("Gilgit")}
           />
           <Category
             imageUri={{
               uri:
-                "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
             }}
             Name="Kashmir"
             searchHotels={searchHotels}
 
-          // onPress={searchHotels("Kashmir")}
+            // onPress={searchHotels("Kashmir")}
           />
         </ScrollView>
       </View>
@@ -85,7 +84,7 @@ const Booking = ({
           fontSize: 24,
           fontWeight: "700",
           paddingHorizontal: 20,
-          marginTop: 15
+          marginTop: 15,
         }}
       >
         Hotels around Pakistan
@@ -99,7 +98,7 @@ const Booking = ({
           flexWrap: "wrap",
           marginHorizontal: "auto",
           justifyContent: "space-between",
-          marginBottom: 10
+          marginBottom: 10,
         }}
       >
         {hotels.length === 0 ? (
@@ -107,17 +106,17 @@ const Booking = ({
             No Hotels To Show
           </Text>
         ) : null}
-        {hotels.map(hotel => {
+        {hotels.map((hotel) => {
           return (
             <Hotel
-              key={hotel.id}
+              key={hotel._id}
               navigation={navigation}
               width={width}
-              name={hotel.hotelName}
+              hotelName={hotel.hotelName}
               hotel={hotel}
               city={hotel.city}
-              price={hotel.rate}
-              rating={parseInt(hotel.starRating)}
+              rent={hotel.rent}
+              starRating={parseInt(hotel.starRating)}
               imageUri={{ uri: hotel.hotelImages[0] }}
             />
           );
@@ -178,12 +177,12 @@ const Booking = ({
 
 Booking.propTypes = {
   hotel: PropTypes.object.isRequired,
-  getHotels: PropTypes.func.isRequired
+  getHotels: PropTypes.func.isRequired,
   // searchHotels: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  hotel: state.hotel
+const mapStateToProps = (state) => ({
+  hotel: state.hotel,
 });
 
 export default connect(mapStateToProps, { getHotels, searchHotels })(Booking);
