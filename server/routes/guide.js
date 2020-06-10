@@ -15,9 +15,7 @@ const GuideProfile = require("../models/UserManagment/guideProfile");
 router.post(
   "/",
   [
-    check("name", "full Name is required")
-      .not()
-      .isEmpty(),
+    check("name", "full Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "mobile",
@@ -31,7 +29,7 @@ router.post(
     check(
       "password",
       "Please enter a password with 8 or more characters"
-    ).isLength({ min: 8 })
+    ).isLength({ min: 8 }),
     // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
     // check("serviceCharges", "Charges should be greater than 1000").isLength({
     //   min: 3
@@ -59,7 +57,7 @@ router.post(
         email,
         password,
         mobile,
-        cnic
+        cnic,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -71,8 +69,8 @@ router.post(
       const payload = {
         user: {
           id: guide.id,
-          userType: "2"
-        }
+          userType: "2",
+        },
       };
 
       jwt.sign(
@@ -125,7 +123,7 @@ router.post("/updateProfile", auth, async (req, res) => {
     { $set: guideFields },
     { new: true }
   );
-  file.mv("client/src/images/TravelGuideProfile/" + fileName, err => {
+  file.mv("client/src/images/TravelGuideProfile/" + fileName, (err) => {
     if (err) {
       // res.send(err);
       console.error(err);
@@ -156,13 +154,13 @@ router.post("/guideprofile", auth, async (req, res) => {
       let places = [];
       let counter = 0;
       let fileKeys = Object.keys(req.files);
-      fileKeys.forEach(function(key) {
+      fileKeys.forEach(function (key) {
         let file = req.files[key];
         let fileName =
           file.name.split(".")[0] + req.user.id + "." + file.name.split(".")[1];
         places.push({ placeName: placenames[counter], placeImage: fileName });
         ++counter;
-        file.mv("client/src/images/TravelGuidePlaces/" + fileName, err => {
+        file.mv("client/src/images/TravelGuidePlaces/" + fileName, (err) => {
           if (err) {
             // res.send(err);
             console.error(err);
@@ -190,8 +188,8 @@ router.post("/guideprofile", auth, async (req, res) => {
   }
 });
 
-// @route    POST api/guideprofile
-// @desc     Create Guide Profile
+// @route    get api/guideprofile
+// @desc     view Guide Profile
 // @access   Public
 router.get("/guidedetails", async (req, res) => {
   try {
@@ -203,11 +201,11 @@ router.get("/guidedetails", async (req, res) => {
             from: "guideprofiles",
             localField: "_id",
             foreignField: "guide",
-            as: "UserProfile"
-          }
-        }
+            as: "UserProfile",
+          },
+        },
       ],
-      function(error, response) {
+      function (error, response) {
         if (error) res.status(500).send("Server Error");
         res.json(response);
         console.log(response);

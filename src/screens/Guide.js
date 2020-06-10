@@ -9,12 +9,7 @@ import PropTypes from "prop-types";
 import { getGuides } from "./actions/guideActions";
 import Loader from "./components/layout/Loader";
 
-
-const Guide = ({
-  navigation,
-  guide: { guides, loading },
-  getGuides
-}) => {
+const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
   useEffect(() => {
     getGuides();
     //eslint-disable-next-line
@@ -22,12 +17,12 @@ const Guide = ({
   if (loading || guides === null) {
     return <Loader />;
   }
-  var city = {}
+  var city = {};
   var filterByCity = guides.filter(function (entry) {
-    if (city[entry.location]) {
+    if (city[entry.city]) {
       return false;
     }
-    city[entry.location] = true;
+    city[entry.city] = true;
     return true;
   });
 
@@ -43,16 +38,16 @@ const Guide = ({
           {guides.length === 0 ? (
             <Text style={{ color: "red", justifyContent: "center" }}>
               No Guides To Show
-          </Text>
+            </Text>
           ) : null}
-          {guides.map(guide => {
+          {guides.map((guide) => {
             return (
               <TravelGuide
                 key={guide.id}
-
                 navigation={navigation}
                 guide={guide}
-              />)
+              />
+            );
           })}
         </ScrollView>
 
@@ -62,14 +57,14 @@ const Guide = ({
           >
             Top Guides
           </Text>
-          {filterByCity.map(guide => {
+          {filterByCity.map((guide) => {
             return (
               <TravelGuide
                 key={guide.id}
-
                 navigation={navigation}
                 guide={guide}
-              />)
+              />
+            );
           })}
           {/* <TravelGuide
             placeUri={{
@@ -98,12 +93,12 @@ const Guide = ({
 };
 Guide.propTypes = {
   guide: PropTypes.object.isRequired,
-  getGuides: PropTypes.func.isRequired
+  getGuides: PropTypes.func.isRequired,
   // searchHotels: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  guide: state.guide
+const mapStateToProps = (state) => ({
+  guide: state.guide,
 });
 
 export default connect(mapStateToProps, { getGuides })(Guide);

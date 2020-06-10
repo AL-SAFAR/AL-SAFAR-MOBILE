@@ -24,6 +24,9 @@ router.get("/", auth, async (req, res) => {
     } else if (req.user.userType === "1") {
       const hotelRep = await HotelRep.findById(req.user.id).select("-password");
       res.json(hotelRep);
+    } else if (req.user.userType === "2") {
+      const guide = await Guide.findById(req.user.id).select("-password");
+      res.json(guide);
     }
     // else if (req.type === "2") {
     //   const guide = await HotelRep.findById(req.Guide.id).select(
@@ -49,7 +52,7 @@ router.post(
   "/",
   [
     check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists()
+    check("password", "Password is required").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -86,15 +89,15 @@ router.post(
       const payload = {
         user: {
           id: user.id,
-          userType: type
-        }
+          userType: type,
+        },
       };
 
       jwt.sign(
         payload,
         config.get("jwtSecret"),
         {
-          expiresIn: 360000
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;

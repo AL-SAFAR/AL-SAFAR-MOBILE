@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import StarRating from "react-native-star-rating";
+// import CacheImage from "../CacheImage";
 const Hotel = ({
   width,
   city,
@@ -35,8 +36,12 @@ const Hotel = ({
             height: null,
             resizeMode: "cover",
           }}
-          source={imageUri}
+          source={{ uri: imageUri }}
         />
+        {/* <CacheImage
+          style={styles.image}
+          uri="https://www.planwallpaper.com/static/images/maxresdefault_8yZPhSS.jpg"
+        /> */}
       </View>
       <View
         style={{

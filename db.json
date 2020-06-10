@@ -5,7 +5,7 @@
       "hotelName": "Marriot",
       "city": "islamabad",
       "address": "5 Aga Khan Road Shalimar, Islamabad Capital Territory",
-      "description": "The five-star international Islamabad Marriott Hotel is located at the foot steps of the famous Margalla Hills and is within close proximity to Rawal Lake, the town centre, President & Prime Minister Houses, Ministry of Foreign Affairs, Senate, Parliament House, Foreign Missions, World Bank, Government Offices, corporate sector, Print and Electronic media offices etc. The Hotel is a favourite rendezvous of politicians, diplomats, businessmen and movers and shakers of the country. Owing to the perfect location of the hotel, it hardly takes 20 minutes to commute between the Hotel, the Islamabad International Airport and the places of interests",
+      "description": "The five-star international Islamabad Marriott Hotel is located at the foot steps of the famous Margalla Hills and is within close proximity to Rawal Lake, the town centre, President & Prime Minister Houses, Ministry of Foreign Affairs, Senate, Parliament House, Foreign Missions, World Bank, Government Offices, corporate sector, Print and Electronic media offices etc. The Hotel is a favourite rendezvous of politicians, diplomats, businessmen and movers and shakers of the country. Owing to the perfect city of the hotel, it hardly takes 20 minutes to commute between the Hotel, the Islamabad International Airport and the places of interests",
       "hotelImages": [
         "https://source.unsplash.com/1024x768/?hotel/5",
         "https://source.unsplash.com/1024x768/?hotel/6",
@@ -129,8 +129,8 @@
       "id": 1,
       "name": "Julie",
       "profileImage": "https://uinames.com/api/photos/female/7.jpg",
-      "location": "Islamabad",
-      "charge": "5000",
+      "city": "Islamabad",
+      "serviceCharges": "5000",
       "places": [
         {
           "placeName": "Faisal Masjid",
@@ -147,8 +147,8 @@
       "id": 2,
       "name": "Jamal",
       "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      "location": "Karachi",
-      "charge": "4000",
+      "city": "Karachi",
+      "serviceCharges": "4000",
       "places": [
         {
           "placeName": "Clifton",

@@ -6,6 +6,7 @@ import {
   Dimensions,
   StatusBar,
   FlatList,
+  ClippingRectangle,
 } from "react-native";
 import { connect } from "react-redux";
 import Hotel from "./components/Hotel/Hotel";
@@ -107,6 +108,10 @@ const Booking = ({
           </Text>
         ) : null}
         {hotels.map((hotel) => {
+          let image = hotel.hotelImages[0];
+          {
+            /* console.log(hotel.hotelImages[0]); */
+          }
           return (
             <Hotel
               key={hotel._id}
@@ -117,7 +122,8 @@ const Booking = ({
               city={hotel.city}
               rent={hotel.rent}
               starRating={parseInt(hotel.starRating)}
-              imageUri={{ uri: hotel.hotelImages[0] }}
+              imageUri={hotel.hotelImages[0]}
+              // imageUri={hotel.hotelImages[0]}
             />
           );
         })}
