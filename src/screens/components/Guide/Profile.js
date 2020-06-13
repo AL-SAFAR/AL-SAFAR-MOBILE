@@ -62,7 +62,7 @@ const Profile = ({ navigation }) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyles.titleBar}>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
             <View>
               <Ionicons
                 name="ios-arrow-back"

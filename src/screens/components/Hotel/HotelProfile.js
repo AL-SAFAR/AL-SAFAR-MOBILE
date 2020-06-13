@@ -74,9 +74,7 @@ const HotelProfile = ({ navigation }) => {
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyles.titleBar}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("HomeNavigation")}
-          >
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
             <Ionicons
               name="ios-arrow-back"
               size={24}
