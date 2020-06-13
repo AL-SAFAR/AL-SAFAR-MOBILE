@@ -4,23 +4,20 @@ import {
   Picker,
   ScrollView,
   Button,
+  TouchableOpacity,
   TextInput,
   View,
   Text,
 } from "react-native";
-import moment from "moment";
-import NumericInput from "react-native-numeric-input";
+// import moment from "moment";
+// import NumericInput from "react-native-numeric-input";
 import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 import { globalStyles } from "../../../../styles/global";
 import { DatePicker } from "native-base";
 import { CreditCardInput } from "react-native-credit-card-input";
-const BookingForm = ({ setModalOpen }) => {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-  const [adults, setAdults] = useState(1);
-  const [childs, setChilds] = useState(0);
-  const [roomType, setRoomType] = useState(null);
-  const [noOfRooms, setNoOfRooms] = useState(1);
+const GuideBookingForm = ({ setModalOpen }) => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [paymentDetails, setPaymentDetails] = useState(null);
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 3);
@@ -47,22 +44,10 @@ const BookingForm = ({ setModalOpen }) => {
   };
   const handleSubmit = () => {
     // console.log();
-    let person = adults + Math.ceil(childs / 2);
-    person = 0;
-    if (
-      fromDate &&
-      toDate &&
-      person > 0 &&
-      roomType &&
-      noOfRooms > 0 &&
-      paymentDetails
-    ) {
+    if (startDate && endDate && paymentDetails) {
       let bookdetails = {
-        fromDate,
-        toDate,
-        person,
-        noOfRooms,
-        roomType,
+        startDate,
+        endDate,
         paymentDetails,
       };
       console.log(bookdetails);
@@ -77,14 +62,7 @@ const BookingForm = ({ setModalOpen }) => {
           setModalOpen(false);
         },
       });
-    } else if (
-      fromDate ||
-      toDate ||
-      person > 0 ||
-      roomType ||
-      noOfRooms > 0 ||
-      paymentDetails
-    ) {
+    } else if (startDate || endDate || paymentDetails) {
       Popup.show({
         type: "Warning",
         title: "Fields Incomplete",
@@ -115,92 +93,12 @@ const BookingForm = ({ setModalOpen }) => {
         >
           <View>
             <View style={globalStyles.input}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={{ marginTop: 15, fontSize: 16 }}>Adults</Text>
-                <NumericInput
-                  type="up-down"
-                  value={adults}
-                  minValue={1}
-                  // onChangeText={handleChange("adults")}
-                  onChange={(value) => setAdults(value)}
-                />
-              </View>
-            </View>
-            <View style={globalStyles.input}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={{ marginTop: 15, fontSize: 16 }}>Children</Text>
-                <NumericInput
-                  type="up-down"
-                  value={childs}
-                  minValue={0}
-                  // onChangeText={handleChange("childs")}
-                  onChange={(value) => setChilds(value)}
-                />
-              </View>
-            </View>
-            <View style={globalStyles.input}>
-              <Picker
-                style={{
-                  // marginTop: 5,
-                  height: 40,
-                  width: 400,
-                }}
-                mode="dropdown"
-                prompt={"Select Room Type"}
-                itemStyle={{
-                  borderWidth: 1,
-                  borderColor: "black",
-                  backgroundColor: "grey",
-                }}
-                selectedValue={roomType}
-                onValueChange={(itemValue) => {
-                  setRoomType(itemValue);
-                }}
-              >
-                <Picker.Item
-                  label="Select your Room Type"
-                  value={null}
-                  key={0}
-                />
-                <Picker.Item label="Economy" value={"economy"} key={1} />
-                <Picker.Item label="Deluxe" value={"deluxe"} key={2} />
-                <Picker.Item label="Luxury" value={"luxury"} key={3} />
-              </Picker>
-            </View>
-            <View style={globalStyles.input}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={{ marginTop: 15, fontSize: 16 }}>No Of Rooms</Text>
-                <NumericInput
-                  type="up-down"
-                  value={noOfRooms}
-                  minValue={1}
-                  // onChangeText={handleChange("noOfRooms")}
-                  onChange={(value) => setNoOfRooms(value)}
-                />
-              </View>
-            </View>
-            <View style={globalStyles.input}>
               <DatePicker
                 defaultDate={Date.now()}
                 minimumDate={Date.now()}
                 maximumDate={maxDate}
                 locale={"en"}
-                // onChangeText={handleChange("fromDate")}
+                // onChangeText={handleChange("startDate")}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
                 animationType={"fade"}
@@ -209,7 +107,7 @@ const BookingForm = ({ setModalOpen }) => {
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
-                  setFromDate(date);
+                  setStartDate(date);
                   console.log(date);
                 }}
                 disabled={false}
@@ -221,7 +119,7 @@ const BookingForm = ({ setModalOpen }) => {
                 minimumDate={Date.now()}
                 maximumDate={maxDate}
                 locale={"en"}
-                // onChangeText={handleChange("fromDate")}
+                // onChangeText={handleChange("startDate")}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
                 animationType={"fade"}
@@ -230,7 +128,7 @@ const BookingForm = ({ setModalOpen }) => {
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
-                  setToDate(date);
+                  setEndDate(date);
                   console.log(date);
                 }}
                 disabled={false}
@@ -253,14 +151,19 @@ const BookingForm = ({ setModalOpen }) => {
               onChange={_onChange}
               validColor="#7CFC00"
             />
-            <Button
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={globalStyles.button}>
+                <Text style={globalStyles.buttonText}>Confirm Booking</Text>
+              </View>
+            </TouchableOpacity>
+            {/* <Button
               style={{ marginTop: 10 }}
               title="Confirm Booking"
               color="#0099ff"
               // onPress={() =>
               // }
               onPress={handleSubmit}
-            />
+            /> */}
           </View>
         </View>
       </ScrollView>
@@ -268,4 +171,4 @@ const BookingForm = ({ setModalOpen }) => {
   );
 };
 
-export default BookingForm;
+export default GuideBookingForm;

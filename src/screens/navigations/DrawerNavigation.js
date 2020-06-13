@@ -4,25 +4,37 @@ import {
   Image,
   StyleSheet,
   SafeAreaView,
+  Alert,
   View,
+  AsyncStorage,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
   ImageBackground,
+  ClippingRectangle,
 } from "react-native";
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, NavigationActions } from "react-navigation";
+// import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 // import HomeScreen from "./screens/HomeScreen";
 import SettingsScreen from "../SettingsScreen";
 import SupportScreen from "../SupportScreen";
 import BookingHistory from "../BookingHistory";
 import HomeNavigation from "../navigations/HomeNavigation";
-
+import { logout } from "../actions/authActions";
 import { Ionicons as Icons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-
+const onlogout = async (navigation) => {
+  await AsyncStorage.clear();
+  navigation.navigate("Auth");
+};
 const CustomDrawerComponent = (props) => {
+  const { navigation } = props;
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{ flex: 1 }}
+      forceInset={{ top: "always", horizontal: "never" }}
+    >
       <ImageBackground
         source={require("../../../assets/headerPattern.jpg")}
         style={{ width: undefined, padding: 16, paddingTop: 48 }}
@@ -36,18 +48,55 @@ const CustomDrawerComponent = (props) => {
         />
         <Text style={styles.name}>Sophie Stewart</Text>
       </ImageBackground>
-      <ScrollView>
+
+      <ScrollView style={{ flex: 1 }}>
         <DrawerItems {...props} />
       </ScrollView>
-      <View
+      <TouchableOpacity
         style={{
-          flex: 1,
-          alignSelf: "flex-end",
-          marginBottom: 36,
+          height: 50,
+          marginHorizontal: 30,
+          marginBottom: 10,
+          borderRadius: 4,
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          backgroundColor: "#000",
         }}
+        onPress={
+          // () => onlogout(navigation)
+          () => {
+            Alert.alert(
+              "Logging Out",
+              "Are you sure you want to Log Out?",
+              [
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    onlogout(navigation);
+                  },
+                },
+                {
+                  text: "No",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: false }
+            );
+          }
+        }
       >
-        <Text>Log Out</Text>
-      </View>
+        <Icons
+          style={{ marginHorizontal: 10 }}
+          name="md-log-out"
+          size={24}
+          color="white"
+        />
+        <Text style={{ fontSize: 18, color: "#fff", fontWeight: "300" }}>
+          Log Out
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -93,6 +142,7 @@ const AppDrawerNavigator = createDrawerNavigator(
   },
   {
     contentComponent: CustomDrawerComponent,
+
     drawerWidth: width * 0.85,
     hideStatusBar: true,
     contentOptions: {
@@ -125,6 +175,24 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginVertical: 8,
   },
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  label: {
+    margin: 16,
+    fontWeight: "bold",
+    color: "rgba(0, 0, 0, .87)",
+  },
+  iconContainer: {
+    marginHorizontal: 16,
+    width: 24,
+    alignItems: "center",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
 });
 
-export default createAppContainer(AppDrawerNavigator);
+export default AppDrawerNavigator;

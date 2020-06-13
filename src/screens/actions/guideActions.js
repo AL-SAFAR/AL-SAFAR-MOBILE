@@ -14,10 +14,10 @@ export const getGuides = () => async (dispatch) => {
     });
   } catch (err) {
     console.log(err);
-    dispatch({
-      type: GUIDES_ERROR,
-      payload: err.response,
-    });
+    // dispatch({
+    //   type: GUIDES_ERROR,
+    //   payload: err.response.s,
+    // });
   }
 };
 

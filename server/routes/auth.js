@@ -74,7 +74,7 @@ router.post(
       else if (type === "5") user = await Admin.findOne({ email });
       else if (type === "6") user = await SupportAssistant.findOne({ email });
 
-      console.log(user);
+      // console.log(user);
 
       if (!user) {
         return res.status(400).json({ msg: "Invalid Credentials" });

@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -16,13 +16,13 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
   Ionicons as Icons,
   FontAwesome as FIcons,
-  Feather as FeatherIcon
+  Feather as FeatherIcon,
 } from "@expo/vector-icons";
 
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
 function cacheImages(images) {
-  return images.map(image => {
+  return images.map((image) => {
     if (typeof image === "string") {
       return Image.prefetch(image);
     } else {
@@ -76,7 +76,7 @@ const RegisterScreen = ({ navigation }) => {
       style={{
         flex: 1,
         backgroundColor: "white",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
       }}
       behavior="padding"
       enabled
@@ -98,13 +98,13 @@ const RegisterScreen = ({ navigation }) => {
             borderRadius: 30,
             backgroundColor: "white",
             width: 50,
-            marginTop: 50
+            marginTop: 50,
           }}
         >
           <View
             style={{
               alignSelf: "center",
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
             <Icons name="ios-arrow-back" size={30} style={{ color: "black" }} />
@@ -113,11 +113,11 @@ const RegisterScreen = ({ navigation }) => {
 
         <View
           style={{
-            // backgroundColor: "#fff",
+            backgroundColor: "#fff",
             borderRadius: 15,
             flex: 12,
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <TextInput
@@ -125,14 +125,14 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.textInput}
             value={name}
             placeholderTextColor="black"
-            onChangeText={text => setName(text)}
+            onChangeText={(text) => setName(text)}
           />
           <TextInput
             placeholder="EMAIL"
             style={styles.textInput}
             value={email}
             placeholderTextColor="black"
-            onChangeText={text => setEmail(text)}
+            onChangeText={(text) => setEmail(text)}
           />
           <TextInput
             placeholder="PASSWORD"
@@ -140,7 +140,7 @@ const RegisterScreen = ({ navigation }) => {
             secureTextEntry={true}
             value={password}
             placeholderTextColor="black"
-            onChangeText={text => setPassword(text)}
+            onChangeText={(text) => setPassword(text)}
           />
 
           <TextInput
@@ -149,7 +149,7 @@ const RegisterScreen = ({ navigation }) => {
             keyboardType="phone-pad"
             value={mobile}
             placeholderTextColor="black"
-            onChangeText={text => setMobile(text)}
+            onChangeText={(text) => setMobile(text)}
           />
           <TouchableOpacity onPress={this.SignUp}>
             <View style={{ ...styles.innerButton, marginTop: 10 }}>
@@ -157,7 +157,7 @@ const RegisterScreen = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "bold",
-                  color: "#0099ff"
+                  color: "#0099ff",
                 }}
               >
                 SIGN IN
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
     // backgroundColor: "#fff",
     // borderTopLeftRadius: 30,
     // borderTopRightRadius: 30,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   innerButton: {
     backgroundColor: "white",
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   // closeButton: {
   //   height: 40,
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingLeft: 10,
     marginVertical: 5,
-    borderColor: "rgba(0,0,0,0.2)"
-  }
+    borderColor: "rgba(0,0,0,0.2)",
+  },
 });
 export default RegisterScreen;

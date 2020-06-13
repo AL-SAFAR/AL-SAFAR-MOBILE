@@ -6,47 +6,53 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  ACCOUNT_DELETED
+  CLEAR_PROFILE,
 } from "../actions/types";
 
+import { AsyncStorage } from "react-native";
+import { AuthSession } from "expo";
+
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: AsyncStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
-  user: null
+  user: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
     case USER_LOADED:
+      AsyncStorage.setItem("user", JSON.stringify(payload));
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload
+        user: payload,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
+      AsyncStorage.setItem("token", payload.token);
       return {
         ...state,
-        ...payload,
+        token: payload.token,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
-    case ACCOUNT_DELETED:
-      localStorage.removeItem("token");
+    case CLEAR_PROFILE:
+      AsyncStorage.removeItem("token");
+      AsyncStorage.removeItem("user");
       return {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        user: null,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   Text,
   TextInput,
@@ -9,20 +9,23 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
 } from "react-native";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
+import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 import { Formik } from "formik";
 import Animated, { Easing } from "react-native-reanimated";
 import {
   TapGestureHandler,
   State,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native-gesture-handler";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 function cacheImages(images) {
-  return images.map(image => {
+  return images.map((image) => {
     if (typeof image === "string") {
       return Image.prefetch(image);
     } else {
@@ -46,7 +49,7 @@ const {
   timing,
   clockRunning,
   interpolate,
-  Extrapolate
+  Extrapolate,
 } = Animated;
 const { width, height } = Dimensions.get("window");
 
@@ -55,13 +58,13 @@ function runTiming(clock, value, dest) {
     finished: new Value(0),
     position: new Value(0),
     time: new Value(0),
-    frameTime: new Value(0)
+    frameTime: new Value(0),
   };
 
   const config = {
     duration: 1000,
     toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease)
+    easing: Easing.inOut(Easing.ease),
   };
 
   return block([
@@ -71,141 +74,172 @@ function runTiming(clock, value, dest) {
       set(state.position, value),
       set(state.frameTime, 0),
       set(config.toValue, dest),
-      startClock(clock)
+      startClock(clock),
     ]),
     timing(clock, state, config),
     cond(state.finished, debug("stop clock", stopClock(clock))),
-    state.position
+    state.position,
   ]);
 }
-class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    this.buttonOpacity = new Value(1);
-    this.state = {
-      password: "",
-      email: "",
-      isReady: false
-    };
-
-    this.onStateChange = event([
-      {
-        nativeEvent: ({ state }) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(this.buttonOpacity, runTiming(new Clock(), 1, 0))
-            )
-          ])
-      }
-    ]);
-    this.onCloseState = event([
-      {
-        nativeEvent: ({ state }) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(this.buttonOpacity, runTiming(new Clock(), 0, 1))
-            )
-          ])
-      }
-    ]);
-    this.buttonY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [100, 0],
-      extrapolate: Extrapolate.CLAMP
-    });
-
-    this.bgY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [-height / 3 - 50, 0],
-      extrapolate: Extrapolate.CLAMP
-    });
-    this.textInputZindex = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [1, -1],
-      extrapolate: Extrapolate.CLAMP
-    });
-    this.textInputY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [0, 100],
-      extrapolate: Extrapolate.CLAMP
-    });
-    this.textInputOpacity = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [1, 0],
-      extrapolate: Extrapolate.CLAMP
-    });
-    this.rotateCross = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [180, 360],
-      extrapolate: Extrapolate.CLAMP
-    });
-  }
-
-  async _loadAssetsAsync() {
+import { loginuser, test } from "../../actions/authActions";
+const Login = ({ navigation, auth: { user }, loginuser }) => {
+  const [buttonOpacity, setbuttonOpacity] = useState(new Value(1));
+  const [password, setpassword] = useState("");
+  const [email, setemail] = useState("");
+  const [isReady, setisReady] = useState(false);
+  const onStateChange = event([
+    {
+      nativeEvent: ({ state }) =>
+        block([
+          cond(
+            eq(state, State.END),
+            set(buttonOpacity, runTiming(new Clock(), 1, 0))
+          ),
+        ]),
+    },
+  ]);
+  const onCloseState = event([
+    {
+      nativeEvent: ({ state }) =>
+        block([
+          cond(
+            eq(state, State.END),
+            set(buttonOpacity, runTiming(new Clock(), 0, 1))
+          ),
+        ]),
+    },
+  ]);
+  const buttonY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [100, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const bgY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [-height / 3 - 50, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const textInputZindex = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [1, -1],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const textInputY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [0, 100],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const textInputOpacity = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [1, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const rotateCross = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [180, 360],
+    extrapolate: Extrapolate.CLAMP,
+  });
+  const _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([]);
     require("../../../../assets/patterns/background.jpg");
     require("../../../../assets/logo.png");
     await Promise.all([...imageAssets]);
-  }
+  };
 
-  SignIn = () => {
-    const { email, password } = this.state;
+  const SignIn = async () => {
     if (email === "") {
-      Alert.alert("OOPS!", "Please Fill the Email field", [
-        { text: "Understood", onPress: () => console.log("alert closed") }
-      ]);
+      Popup.show({
+        type: "Warning",
+        title: "Field Incomplete",
+        textBody: "Please Fill the Email",
+        buttontext: "Understood",
+        callback: () => Popup.hide(),
+      });
+      // Alert.alert("OOPS!", "Please Fill the Email field", [
+      //   { text: "Understood", onPress: () => console.log("alert closed") },
+      // ]);
     } else if (password === "") {
-      Alert.alert("OOPS!", "please fill the Password field", [
-        { text: "Understood", onPress: () => console.log("alert closed") }
-      ]);
+      Popup.show({
+        type: "Warning",
+        title: "Field Incomplete",
+        textBody: "Please Fill the Password",
+        buttontext: "Understood",
+        callback: () => Popup.hide(),
+      });
+      // Alert.alert("OOPS!", "please fill the Password field", [
+      //   { text: "Understood", onPress: () => console.log("alert closed") },
+      // ]);
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      Alert.alert("OOPS!", "Invalid Email address", [
-        { text: "Understood", onPress: () => console.log("alert closed") }
-      ]);
+      Popup.show({
+        type: "Danger",
+        title: "Invalid Email",
+        textBody: "Enter a Valid Email",
+        buttontext: "Try again",
+        callback: () => Popup.hide(),
+      });
+      // Alert.alert("OOPS!", "Invalid Email address", [
+      //   { text: "Understood", onPress: () => console.log("alert closed") },
+      // ]);
     } else if (
       !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(password)
     ) {
-      Alert.alert(
-        "OOPS!",
-        "Password should contain at least 8 characters which include uppercase,lowercase and a number",
-        [{ text: "Understood", onPress: () => console.log("alert closed") }]
-      );
-    } else if (email === "khawa@gmail.com" && password === "Khawa1234") {
-      this.props.navigation.navigate("Home");
+      Popup.show({
+        type: "Danger",
+        title: "Invalid Password",
+        textBody:
+          "Password should contain at least 8 characters which include uppercase,lowercase and a number",
+        buttontext: "Try again",
+        callback: () => Popup.hide(),
+      });
+      // Alert.alert(
+      //   "OOPS!",
+      //   "Password should contain at least 8 characters which include uppercase,lowercase and a number",
+      //   [{ text: "Understood", onPress: () => console.log("alert closed") }]
+      // );
+      // } else if (loginuser(email, password)) {
+      // this.props.navigation.navigate("Home");
+      // console.log("loggedin");
     } else {
-      Alert.alert(
-        "OOPS!",
-        "Invalid Credentials",
-        [{ text: "Understood", onPress: () => console.log("alert closed") }]
-      );
+      loginuser(email, password).then((res) => {
+        // console.log(res);
+        if (res) {
+          navigation.navigate("App");
+        } else {
+          Popup.show({
+            type: "Danger",
+            title: "Invalid Credentials",
+            textBody: "Please recheck your Credentials",
+            buttontext: "Try again",
+            callback: () => Popup.hide(),
+          });
+        }
+      });
     }
     Keyboard.dismiss();
   };
 
   clearFields = () => {
-    const { email, password } = this.state;
-    this.setState({ email: "", password: "" });
+    setemail("");
+    setpassword("");
   };
-  render() {
-    if (!this.state.isReady) {
-      return (
-        <AppLoading
-          startAsync={this._loadAssetsAsync}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={console.warn}
-        />
-      );
-    }
 
+  if (!isReady) {
     return (
+      <AppLoading
+        startAsync={_loadAssetsAsync}
+        onFinish={() => setisReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
+
+  return (
+    <Root>
       <KeyboardAvoidingView
         style={{
           flex: 1,
           backgroundColor: "white",
-          justifyContent: "flex-end"
+          justifyContent: "flex-end",
         }}
         behavior="padding"
         enabled
@@ -213,7 +247,7 @@ class Login extends Component {
         <Animated.View
           style={{
             ...StyleSheet.absoluteFill,
-            transform: [{ translateY: this.bgY }]
+            transform: [{ translateY: bgY }],
           }}
         >
           <Svg height={height + 50} width={width}>
@@ -233,7 +267,7 @@ class Login extends Component {
           style={{
             flex: 1,
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Text
@@ -243,27 +277,25 @@ class Login extends Component {
           </Text>
         </View>
         <View style={{ height: height / 3, justifyContent: "center" }}>
-          <TapGestureHandler onHandlerStateChange={this.onStateChange}>
+          <TapGestureHandler onHandlerStateChange={onStateChange}>
             <Animated.View
               style={{
                 ...styles.button,
 
-                opacity: this.buttonOpacity,
-                transform: [{ translateY: this.buttonY }]
+                opacity: buttonOpacity,
+                transform: [{ translateY: buttonY }],
               }}
             >
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
             </Animated.View>
           </TapGestureHandler>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
             <Animated.View
               style={{
                 ...styles.button,
                 backgroundColor: "#0099FF",
-                opacity: this.buttonOpacity,
-                transform: [{ translateY: this.buttonY }]
+                opacity: buttonOpacity,
+                transform: [{ translateY: buttonY }],
               }}
             >
               <Text
@@ -277,8 +309,8 @@ class Login extends Component {
             <Animated.View
               style={{
                 alignItems: "center",
-                opacity: this.buttonOpacity,
-                transform: [{ translateY: this.buttonY }]
+                opacity: buttonOpacity,
+                transform: [{ translateY: buttonY }],
               }}
             >
               <Text
@@ -291,25 +323,25 @@ class Login extends Component {
 
           <Animated.View
             style={{
-              zIndex: this.textInputZindex,
-              opacity: this.textInputOpacity,
-              transform: [{ translateY: this.textInputY }],
+              zIndex: textInputZindex,
+              opacity: textInputOpacity,
+              transform: [{ translateY: textInputY }],
               backgroundColor: "#fff",
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,
               height: height / 3,
               ...StyleSheet.absoluteFill,
               top: null,
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
-            <TapGestureHandler onHandlerStateChange={this.onCloseState}>
+            <TapGestureHandler onHandlerStateChange={onCloseState}>
               <Animated.View style={styles.closeButton}>
-                <TouchableOpacity onPress={this.clearFields}>
+                <TouchableOpacity onPress={clearFields}>
                   <Animated.Text
                     style={{
                       fontSize: 15,
-                      transform: [{ rotate: concat(this.rotateCross, "deg") }]
+                      transform: [{ rotate: concat(rotateCross, "deg") }],
                     }}
                   >
                     X
@@ -321,26 +353,26 @@ class Login extends Component {
               placeholder="EMAIL"
               style={styles.textInput}
               keyboardType="email-address"
-              value={this.state.email}
+              value={email}
               placeholderTextColor="black"
-              onChangeText={text => this.setState({ email: text })}
+              onChangeText={(text) => setemail(text)}
             />
             <TextInput
               placeholder="PASSWORD"
-              value={this.state.password}
+              value={password}
               secureTextEntry={true}
               style={styles.textInput}
-              onChangeText={text => this.setState({ password: text })}
+              onChangeText={(text) => setpassword(text)}
               placeholderTextColor="black"
             />
 
-            <TouchableOpacity onPress={this.SignIn}>
+            <TouchableOpacity onPress={SignIn}>
               <Animated.View style={styles.innerButton}>
                 <Text
                   style={{
                     fontSize: 20,
                     fontWeight: "bold",
-                    color: "#0099ff"
+                    color: "#0099ff",
                   }}
                 >
                   SIGN IN
@@ -350,15 +382,15 @@ class Login extends Component {
           </Animated.View>
         </View>
       </KeyboardAvoidingView>
-    );
-  }
-}
+    </Root>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   button: {
     backgroundColor: "white",
@@ -371,7 +403,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   innerButton: {
     backgroundColor: "white",
@@ -385,7 +417,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   closeButton: {
     height: 40,
@@ -399,7 +431,7 @@ const styles = StyleSheet.create({
     left: width / 2 - 20,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
   },
   textInput: {
     height: 50,
@@ -408,7 +440,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingLeft: 10,
     marginVertical: 5,
-    borderColor: "rgba(0,0,0,0.2)"
-  }
+    borderColor: "rgba(0,0,0,0.2)",
+  },
 });
-export default Login;
+// export default Login;
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  loginuser: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loginuser })(Login);

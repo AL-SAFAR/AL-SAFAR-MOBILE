@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
   View,
+  Modal,
+  TouchableOpacity,
   Image,
   Text,
   Dimensions,
@@ -10,7 +12,7 @@ import {
 } from "react-native";
 import Comment from "../layout/Comment";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+// import { TouchableOpacity } from "react-native-gesture-handler";
 import { globalStyles } from "../../../../styles/global";
 import {
   Container,
@@ -22,6 +24,7 @@ import {
   Body,
   Icon,
 } from "native-base";
+import GuideBookingForm from "../Guide/GuideBookingForm";
 const cards = [
   {
     text: "Faisal Mosque",
@@ -41,16 +44,32 @@ const Profile = ({ navigation }) => {
   // const guide = {
   //   profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
   // }
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
+      <Modal visible={modalOpen} animationType="slide">
+        <View style={styles.modalContent}>
+          <MaterialIcons
+            name="close"
+            size={24}
+            style={styles.modalToggle}
+            onPress={() => setModalOpen(false)}
+          />
+          <GuideBookingForm setModalOpen={setModalOpen} />
+        </View>
+      </Modal>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={globalStyles.titleBar}>
           <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-            <Ionicons
-              name="ios-arrow-back"
-              size={24}
-              color="#52575D"
-            ></Ionicons>
+            <View>
+              <Ionicons
+                name="ios-arrow-back"
+                size={24}
+                color="#52575D"
+              ></Ionicons>
+            </View>
           </TouchableOpacity>
           <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
         </View>
@@ -70,9 +89,20 @@ const Profile = ({ navigation }) => {
               color="#DFD8C8"
             ></MaterialIcons>
           </View>
-          <View style={styles.add}>
-            <Text style={{ color: "#DFD8C8", fontSize: 14 }}>Hire</Text>
-          </View>
+
+          {/* <TouchableOpacity style={styles.add} onPress={pickImage}>
+            <View>
+              <Text style={{ color: "#fff", fontSize: 14 }}>Edit</Text>
+            </View>
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            style={styles.add}
+            onPress={() => setModalOpen(true)}
+          >
+            <View>
+              <Text style={{ color: "#DFD8C8", fontSize: 14 }}>Hire</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.infoContainer}>
@@ -193,6 +223,22 @@ const Profile = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
+  },
+  modalContent: {
+    flex: 1,
+    backgroundColor: "white",
+    color: "#0099ff",
+  },
+  modalToggle: {
+    // marginBottom: 10,
+    marginTop: 20,
+    borderWidth: 1,
+    // borderColor: "",
+    backgroundColor: "#0099ff",
+    color: "white",
+    padding: 10,
+    borderRadius: 50,
+    alignSelf: "center",
   },
   text: {
     color: "#52575D",
