@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { CarHistory } from "./components/History/CarHistory";
+import { HistoryCard } from "./components/History/HistoryCard";
 const BookingHistory = ({ navigation }) => {
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -49,13 +49,26 @@ const BookingHistory = ({ navigation }) => {
         <View
           style={{
             flex: 1,
+            borderRadius: 10,
             alignItems: "center",
           }}
         >
           <Text style={styles.heading}>Trip History</Text>
-          <CarHistory />
-          <CarHistory />
-          <CarHistory />
+          <HistoryCard
+            icon="car"
+            type="Car Bookings"
+            gradient={["#0B486B", "#F56217"]}
+          />
+          <HistoryCard
+            icon="hotel"
+            type="Hotel Bookings"
+            gradient={["#1D2671", "#C33764"]}
+          />
+          <HistoryCard
+            icon="mountain"
+            type="Guide Bookings"
+            gradient={["#283c86", "#45a247"]}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

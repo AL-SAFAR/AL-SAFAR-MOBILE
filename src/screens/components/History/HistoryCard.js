@@ -7,32 +7,40 @@ import {
   View,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
-import { Ionicons as Icon } from "@expo/vector-icons";
-
-export const CarHistory = () => {
+import { FontAwesome5 as Icon } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+export const HistoryCard = ({ type, icon, gradient }) => {
   return (
     <TouchableOpacity style={styles.container}>
-      <View
+      <LinearGradient
+        colors={gradient}
+        start={[0, 0]}
+        end={[1, 0]}
         style={{
+          borderRadius: 10,
           flex: 1,
           flexDirection: "row",
           justifyContent: "flex-start",
           alignItems: "center",
         }}
       >
+        {/* <View
+
+        > */}
         <View style={styles.IconCol}>
           <Icon
             // style={{ alignSelf: "flex-start" }}
-            name="ios-car"
+            name={icon}
             size={32}
             color="#fff"
           />
         </View>
         <View style={styles.TypeCol}>
-          <Text style={styles.heading}>Car Bookings</Text>
+          <Text style={styles.heading}>{type}</Text>
         </View>
         {/* <Text>sssad</Text> */}
-      </View>
+        {/* </View> */}
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0099ff",
+    // backgroundColor: "#0099ff",
   },
   TypeCol: {
     alignItems: "center",
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: "500",
-    color: "#0099ff",
+    color: "#fff",
     // textShadowColor: "rgba(0, 0, 0, 0.75)",
     // textShadowOffset: { width: -1, height: 1 },
     // textShadowRadius: 1,
