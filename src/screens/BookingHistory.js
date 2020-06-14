@@ -56,18 +56,24 @@ const BookingHistory = ({ navigation }) => {
           <Text style={styles.heading}>Trip History</Text>
           <HistoryCard
             icon="car"
-            type="Car Bookings"
+            type="car"
+            heading="Car Bookings"
             gradient={["#0B486B", "#F56217"]}
+            navigation={navigation}
           />
           <HistoryCard
             icon="hotel"
-            type="Hotel Bookings"
+            type="hotel"
+            heading="Hotel Bookings"
             gradient={["#1D2671", "#C33764"]}
+            navigation={navigation}
           />
           <HistoryCard
             icon="mountain"
-            type="Guide Bookings"
+            type="guide"
+            heading="Guide Bookings"
             gradient={["#283c86", "#45a247"]}
+            navigation={navigation}
           />
         </View>
       </ScrollView>

@@ -5,6 +5,7 @@ import {
   ScrollView,
   Button,
   TextInput,
+  TouchableOpacity,
   View,
   Text,
 } from "react-native";
@@ -35,8 +36,9 @@ const BookingForm = ({ setModalOpen }) => {
         type: form.values.type,
       };
       setPaymentDetails(payment);
+      // console.log(form);
     } else {
-      console.log(form.valid);
+      console.log(form);
     }
   };
   const addtionalInputsProps = {
@@ -48,7 +50,7 @@ const BookingForm = ({ setModalOpen }) => {
   const handleSubmit = () => {
     // console.log();
     let person = adults + Math.ceil(childs / 2);
-    person = 0;
+    // person = 0;
     if (
       fromDate &&
       toDate &&
@@ -65,6 +67,7 @@ const BookingForm = ({ setModalOpen }) => {
         roomType,
         paymentDetails,
       };
+
       console.log(bookdetails);
       Popup.show({
         type: "Success",
@@ -77,14 +80,7 @@ const BookingForm = ({ setModalOpen }) => {
           setModalOpen(false);
         },
       });
-    } else if (
-      fromDate ||
-      toDate ||
-      person > 0 ||
-      roomType ||
-      noOfRooms > 0 ||
-      paymentDetails
-    ) {
+    } else if (fromDate || toDate || roomType || paymentDetails) {
       Popup.show({
         type: "Warning",
         title: "Fields Incomplete",
@@ -218,7 +214,7 @@ const BookingForm = ({ setModalOpen }) => {
             <View style={globalStyles.input}>
               <DatePicker
                 defaultDate={Date.now()}
-                minimumDate={Date.now()}
+                minimumDate={fromDate ? fromDate : Date.now()}
                 maximumDate={maxDate}
                 locale={"en"}
                 // onChangeText={handleChange("fromDate")}
@@ -253,14 +249,12 @@ const BookingForm = ({ setModalOpen }) => {
               onChange={_onChange}
               validColor="#7CFC00"
             />
-            <Button
-              style={{ marginTop: 10 }}
-              title="Confirm Booking"
-              color="#0099ff"
-              // onPress={() =>
-              // }
-              onPress={handleSubmit}
-            />
+
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={globalStyles.button}>
+                <Text style={globalStyles.buttonText}>Confirm Booking</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

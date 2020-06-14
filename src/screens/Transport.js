@@ -115,6 +115,7 @@ const Transport = ({
   useEffect(() => {
     if (didMountRef.current && booking.isPending === false) {
       navigation.navigate("TrackDriver");
+      console.log(booking);
     } else {
       didMountRef.current = true;
     }

@@ -26,7 +26,8 @@ import TransportNavigation from "./src/screens/navigations/Transport/TransportNa
 import AuthLoadingScreen from "./src/screens/AuthLoadingScreen";
 import RegisterScreen from "./src/screens/components/Login/RegisterScreen";
 import Login from "./src/screens/components/Login/Login";
-import AccountNavigation from "./src/screens/navigations/Acccount/AccountNavigation";
+import AccountNavigation from "./src/screens/navigations/DrawerItems/AccountNavigation";
+import HistoryNavigation from "./src/screens/navigations/DrawerItems/HistoryNavigation";
 import createAnimatedSwitchNavigator from "react-navigation-animated-switch";
 import { Transition } from "react-native-reanimated";
 
@@ -51,6 +52,12 @@ const AppNavigator = createStackNavigator({
   },
   Account: {
     screen: AccountNavigation,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  History: {
+    screen: HistoryNavigation,
     navigationOptions: {
       headerShown: false,
     },

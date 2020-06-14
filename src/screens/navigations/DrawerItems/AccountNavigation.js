@@ -19,6 +19,6 @@ const screens = {
   },
 };
 
-const AcccountStack = createStackNavigator(screens);
+const AccountStack = createStackNavigator(screens);
 
-export default createAppContainer(AcccountStack);
+export default createAppContainer(AccountStack);

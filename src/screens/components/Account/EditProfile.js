@@ -46,7 +46,9 @@ const EditProfile = ({ navigation }) => {
           ]}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("SettingsScreen")}
+            onPress={() =>
+              navigation.navigate("Drawer", { screen: "Settings" })
+            }
           >
             <Ionicons
               name="ios-arrow-back"

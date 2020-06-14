@@ -9,9 +9,12 @@ import {
 const { width, height } = Dimensions.get("window");
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-export const HistoryCard = ({ type, icon, gradient }) => {
+export const HistoryCard = ({ navigation, type, heading, icon, gradient }) => {
+  const navigateToHistory = () => {
+    navigation.navigate("HistoryScreen", { type: type });
+  };
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={navigateToHistory}>
       <LinearGradient
         colors={gradient}
         start={[0, 0]}
@@ -36,7 +39,7 @@ export const HistoryCard = ({ type, icon, gradient }) => {
           />
         </View>
         <View style={styles.TypeCol}>
-          <Text style={styles.heading}>{type}</Text>
+          <Text style={styles.heading}>{heading}</Text>
         </View>
         {/* <Text>sssad</Text> */}
         {/* </View> */}

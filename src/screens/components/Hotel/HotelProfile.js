@@ -319,20 +319,23 @@ const HotelProfile = ({ navigation }) => {
           {/* book now button */}
           <TouchableOpacity
             onPress={() => setModalOpen(true)}
-            style={{
-              ...styles.statsContainer,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              borderRadius: 10,
-              borderWidth: 1,
-              padding: 5,
-              backgroundColor: "#0099ff",
-            }}
+            // style={{
+            //   ...styles.statsContainer,
+            //   marginVertical: 10,
+            //   marginHorizontal: 10,
+            //   borderRadius: 10,
+            //   borderWidth: 1,
+            //   padding: 5,
+            //   backgroundColor: "#0099ff",
+            // }}
           >
-            <View style={styles.statsBox}>
+            {/* <View style={styles.statsBox}>
               <Text style={{ color: "white", fontWeight: "200", fontSize: 26 }}>
                 BOOK NOW
               </Text>
+            </View> */}
+            <View style={globalStyles.button}>
+              <Text style={globalStyles.buttonText}>BOOK NOW</Text>
             </View>
           </TouchableOpacity>
         </View>
