@@ -15,6 +15,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import axios from "axios";
 import { ListItem, Button, Icon, Left, Body, Right, Switch } from "native-base";
+import { Madoka } from "react-native-textinput-effects";
 
 const SettingsScreen = ({ navigation }) => {
   const [ProfileImage, setProfileImage] = useState(
@@ -75,7 +76,8 @@ const SettingsScreen = ({ navigation }) => {
       //   .catch((err) => console.log(err));
     }
   };
-
+  const [enablePass, setenablePass] = useState(false);
+  const [password, setPassword] = useState("");
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -129,7 +131,13 @@ const SettingsScreen = ({ navigation }) => {
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem icon style={styles.listitem}>
+          <ListItem
+            icon
+            style={styles.listitem}
+            onPress={() => {
+              setenablePass(true);
+            }}
+          >
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="airplane" />
@@ -143,20 +151,21 @@ const SettingsScreen = ({ navigation }) => {
               <Icon active name="arrow-forward" color="#0099ff" />
             </Right>
           </ListItem>
-          <ListItem icon style={styles.listitem}>
-            <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="bluetooth" color="#0099ff" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Bluetooth</Text>
-            </Body>
-            <Right>
-              <Text>On</Text>
-              <Icon active name="arrow-forward" color="#0099ff" />
-            </Right>
-          </ListItem>
+          {enablePass && (
+            <View style={{ marginHorizontal: 10, padding: 10 }}>
+              <Madoka
+                label={"Password"}
+                // this is used as active and passive border color
+                borderColor={"#0099ff"}
+                inputPadding={16}
+                labelHeight={24}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                labelStyle={{ color: "#0099ff" }}
+                inputStyle={{ color: "#0099ff" }}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

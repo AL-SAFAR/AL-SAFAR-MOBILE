@@ -9,8 +9,9 @@ import {
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import CarCard from "./Car/CarCard";
-// import CarCard from "./Car/CarCard";
-const bookings = [
+import HotelCard from "./Hotel/HotelCard";
+import GuideCard from "./Guide/GuideCard";
+const carbookings = [
   {
     id: 1,
     pickUp: {
@@ -38,17 +39,61 @@ const bookings = [
     },
   },
 ];
+const hotelbookings = [
+  {
+    id: 1,
+    fromDate: new Date("2020/01/20"),
+    toDate: new Date("2020/02/10"),
+    charges: 9000,
+  },
+  {
+    id: 2,
+    fromDate: new Date("2020/01/20"),
+    toDate: new Date("2020/02/10"),
+    charges: 9000,
+  },
+];
+const guidebooking = [
+  {
+    id: 1,
+    startDate: new Date("2020/01/20"),
+    endDate: new Date("2020/02/10"),
+    charges: 9000,
+    profileImage:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+  },
+  {
+    id: 2,
+    startDate: new Date("2020/01/20"),
+    endDate: new Date("2020/02/10"),
+    charges: 9000,
+    profileImage:
+      "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+  },
+  {
+    id: 3,
+    startDate: new Date("2020/01/20"),
+    endDate: new Date("2020/02/10"),
+    charges: 9000,
+    profileImage:
+      "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+  },
+];
 const HistoryScreen = ({ navigation }) => {
   const type = navigation.getParam("type");
   const renderCards = (type) => {
     if (type === "car") {
-      return bookings.map((book) => {
+      return carbookings.map((book) => {
         return <CarCard navigation={navigation} key={book.id} book={book} />;
       });
     } else if (type === "hotel") {
-      return <Text>Hotel</Text>;
+      return hotelbookings.map((hotel) => {
+        return <HotelCard key={hotel.id} hotel={hotel} />;
+      });
     } else if (type === "guide") {
-      return <Text>Guide</Text>;
+      return guidebooking.map((guide) => {
+        return <GuideCard guide={guide} key={guide.id} />;
+      });
     }
   };
   return (

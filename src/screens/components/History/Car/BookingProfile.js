@@ -20,6 +20,10 @@ export const BookingProfile = ({ navigation }) => {
   const center = navigation.getParam("center");
   const mapUri = `https://maps.googleapis.com/maps/api/staticmap?center=${center.latitude},${center.longitude}&zoom=13&size=340x640&maptype=roadmap&markers=color:blue%7C${pickUp.latitude},${pickUp.longitude}&markers=color:green%7C${dropOff.latitude},${dropOff.longitude}&key=${DISTANCE_DIRECTION_KEY}`;
   const [stars, setstars] = useState(0);
+  const updateRating = (rating) => {
+    setstars(rating);
+    
+  };
   return (
     <SafeAreaView style={globalStyles.container}>
       <ImageBackground
@@ -75,7 +79,7 @@ export const BookingProfile = ({ navigation }) => {
                   maxStars={5}
                   rating={stars}
                   starSize={24}
-                  selectedStar={(rating) => setstars(rating)}
+                  selectedStar={(rating) => updateRating(rating)}
                 />
               </View>
             </View>
