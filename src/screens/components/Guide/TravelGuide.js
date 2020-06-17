@@ -12,7 +12,6 @@ const TravelGuide = ({ guide, navigation }) => {
         navigation.navigate("GuideProfile", { guide: guide });
       }}
     >
-      {console.log(profileImage)}
       <View
         style={{
           height: 300,

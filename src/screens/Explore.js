@@ -5,13 +5,13 @@ import {
   StatusBar,
   Image,
   Dimensions,
-  Animated
+  Animated,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import {
   Ionicons as Icons,
   FontAwesome as FIcons,
-  Feather as FeatherIcon
+  Feather as FeatherIcon,
 } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
@@ -19,7 +19,7 @@ import Category from "./components/Explore/Category";
 import Home from "./components/Explore/Home";
 import Tag from "./components/Explore/Tag";
 import { Platform } from "@unimodules/core";
-import Agent from "./components/Travel/Agent";
+// import Agent from "./components/Travel/Agent";
 
 const { height, width } = Dimensions.get("window");
 
@@ -37,18 +37,18 @@ export default class Explore extends Component {
     this.animatedHeaderHeight = this.scrollY.interpolate({
       inputRange: [0, 50],
       outputRange: [this.startHeaderHeight, this.endHeaderHeight],
-      extrapolate: "clamp"
+      extrapolate: "clamp",
     });
 
     this.animatedOpacity = this.animatedHeaderHeight.interpolate({
       inputRange: [this.endHeaderHeight, this.startHeaderHeight],
       outputRange: [0, 1],
-      extrapolate: "clamp"
+      extrapolate: "clamp",
     });
     this.animatedTop = this.animatedHeaderHeight.interpolate({
       inputRange: [this.endHeaderHeight, this.startHeaderHeight],
       outputRange: [-30, 10],
-      extrapolate: "clamp"
+      extrapolate: "clamp",
     });
   }
 
@@ -60,7 +60,7 @@ export default class Explore extends Component {
             height: this.animatedHeaderHeight,
             backgroundColor: "white",
             borderBottomWidth: 1,
-            borderBottomColor: "#dddddd"
+            borderBottomColor: "#dddddd",
           }}
         >
           <View
@@ -75,7 +75,7 @@ export default class Explore extends Component {
               shadowOffset: { width: 0, height: 0 },
               shadowColor: "black",
               shadowOpacity: 0.2,
-              elevation: 4
+              elevation: 4,
               // marginTop: 30
             }}
           >
@@ -92,7 +92,7 @@ export default class Explore extends Component {
                 flex: 1,
                 fontWeight: "700",
                 backgroundColor: "white",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
             />
           </View>
@@ -102,7 +102,7 @@ export default class Explore extends Component {
               marginHorizontal: 20,
               position: "relative",
               top: this.animatedTop,
-              opacity: this.animatedOpacity
+              opacity: this.animatedOpacity,
             }}
           >
             <Tag name="Guests" />
@@ -113,7 +113,7 @@ export default class Explore extends Component {
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event([
-            { nativeEvent: { contentOffset: { y: this.scrollY } } }
+            { nativeEvent: { contentOffset: { y: this.scrollY } } },
           ])}
         >
           <View style={{ flex: 1, backgroundColor: "white", paddingTop: 20 }}>
@@ -133,7 +133,7 @@ export default class Explore extends Component {
                     resizeMode: "cover",
                     borderRadius: 5,
                     borderWidth: 1,
-                    borderColor: "#dddddd"
+                    borderColor: "#dddddd",
                   }}
                   source={require("../../assets/home.jpg")}
                 />
@@ -144,7 +144,7 @@ export default class Explore extends Component {
                 style={{
                   fontSize: 24,
                   fontWeight: "700",
-                  paddingHorizontal: 20
+                  paddingHorizontal: 20,
                 }}
               >
                 Our Services
@@ -154,14 +154,14 @@ export default class Explore extends Component {
                   <Category
                     imageUri={{
                       uri:
-                        "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80"
+                        "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80",
                     }}
                     Name="Hotels"
                   />
                   <Category
                     imageUri={{
                       uri:
-                        "https://images.unsplash.com/46/sh3y2u5PSaKq8c4LxB3B_submission-photo-4.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=755&q=80"
+                        "https://images.unsplash.com/46/sh3y2u5PSaKq8c4LxB3B_submission-photo-4.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=755&q=80",
                     }}
                     Name="Motels"
                   />
@@ -172,7 +172,7 @@ export default class Explore extends Component {
                   <Category
                     imageUri={{
                       uri:
-                        "https://images.unsplash.com/photo-1504971737233-9a29c29c17cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+                        "https://images.unsplash.com/photo-1504971737233-9a29c29c17cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
                     }}
                     Name="Pick n Drop"
                   />
@@ -184,12 +184,12 @@ export default class Explore extends Component {
                 style={{
                   fontSize: 24,
                   fontWeight: "700",
-                  paddingHorizontal: 20
+                  paddingHorizontal: 20,
                 }}
               >
                 Hot Offers!
               </Text>
-              <Agent
+              {/* <Agent
                 placeUri={{
                   uri:
                     "https://images.unsplash.com/photo-1561486008-1011a284acfb?ixlib=rb-1.2.1&auto=format&fit=crop&w=747&q=80"
@@ -212,7 +212,7 @@ export default class Explore extends Component {
                 }}
                 placeName={"Buckingham Palace"}
                 placeDescription={"Entire Palace • 27 reviews • London"}
-              />
+              /> */}
             </View>
           </View>
         </ScrollView>

@@ -21,6 +21,7 @@ import store from "./store";
 import HomeNavigation from "./src/screens/navigations/HomeNavigation";
 import DrawerNavigation from "./src/screens/navigations/DrawerNavigation";
 import GuideNavigation from "./src/screens/navigations/Guide/GuideNavigation";
+import AgentNavigation from "./src/screens/navigations/Agent/AgentNavigation";
 import HotelNavigation from "./src/screens/navigations/Hotel/HotelNavigation";
 import TransportNavigation from "./src/screens/navigations/Transport/TransportNavigation";
 import AuthLoadingScreen from "./src/screens/AuthLoadingScreen";
@@ -46,6 +47,12 @@ const AppNavigator = createStackNavigator({
   },
   Guide: {
     screen: GuideNavigation,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Agent: {
+    screen: AgentNavigation,
     navigationOptions: {
       headerShown: false,
     },
@@ -117,6 +124,7 @@ const RootNavigator = createAnimatedSwitchNavigator(
 // let token = AsyncStorage.getItem("token");
 const Main = createAppContainer(RootNavigator);
 const App = () => {
+  console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <Main />

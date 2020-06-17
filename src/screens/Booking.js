@@ -44,7 +44,7 @@ const Booking = ({
       style={globalStyles.container}
     >
       <Text style={{ fontSize: 24, fontWeight: "700", paddingHorizontal: 20 }}>
-        What can we help you find?
+        Looking For An Hotel?
       </Text>
       <SearchBar search={searchHotels} />
       <View style={{ height: 130, marginTop: 20 }}>

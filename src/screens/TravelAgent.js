@@ -1,53 +1,178 @@
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, SafeAreaView, Text, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Agent from "./components/Travel/Agent";
 import { globalStyles } from "../../styles/global";
 
-const TravelAgent = () => {
+const TravelAgent = ({ navigation }) => {
+  const agents = [
+    {
+      id: 1,
+      companyUri:
+        "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80",
+      Location: "Lahore",
+      companyName: "Pak Travellers",
+      intro:
+        "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.",
+      packages: {
+        silver: [
+          "3star Hotel",
+          "Bus Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+        ],
+        gold: [
+          "3star Hotel",
+          "Economy Car Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+          "Murree Trip",
+        ],
+        diamond: [
+          "5star Hotel",
+          "Luxury Car",
+          "Dinner",
+          "Lunch",
+          "Breakfast",
+          "3 days plan",
+        ],
+      },
+    },
+    {
+      id: 2,
+      companyUri:
+        "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80",
+      Location: "Lahore",
+      companyName: "Pak Travellers",
+      intro:
+        "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.",
+      packages: {
+        silver: [
+          "3star Hotel",
+          "Bus Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+        ],
+        gold: [
+          "3star Hotel",
+          "Economy Car Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+          "Murree Trip",
+        ],
+        diamond: [
+          "5star Hotel",
+          "Luxury Car",
+          "Dinner",
+          "Lunch",
+          "Breakfast",
+          "3 days plan",
+        ],
+      },
+    },
+    {
+      id: 3,
+      companyUri:
+        "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80",
+      Location: "Lahore",
+      companyName: "Pak Travellers",
+      intro:
+        "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.",
+      packages: {
+        silver: [
+          "3star Hotel",
+          "Bus Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+        ],
+        gold: [
+          "3star Hotel",
+          "Economy Car Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+          "Murree Trip",
+        ],
+        diamond: [
+          "5star Hotel",
+          "Luxury Car",
+          "Dinner",
+          "Lunch",
+          "Breakfast",
+          "3 days plan",
+        ],
+      },
+    },
+    {
+      id: 4,
+      companyUri:
+        "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80",
+      Location: "Lahore",
+      companyName: "Pak Travellers",
+      intro:
+        "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid.",
+      packages: {
+        silver: [
+          "3star Hotel",
+          "Bus Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+        ],
+        gold: [
+          "3star Hotel",
+          "Economy Car Tour",
+          "Dinner",
+          "Breakfast",
+          "3 days plan",
+          "Murree Trip",
+        ],
+        diamond: [
+          "5star Hotel",
+          "Luxury Car",
+          "Dinner",
+          "Lunch",
+          "Breakfast",
+          "3 days plan",
+        ],
+      },
+    },
+  ];
+  const renderAgents = () => {
+    return agents.map((agent) => {
+      return <Agent key={agent.id} agent={agent} navigation={navigation} />;
+    });
+  };
   return (
-    <ScrollView
-      vertical
-      showsVerticalScrollIndicator={false}
-      style={globalStyles.container}
-    >
-      <Text style={{ paddingHorizontal: 20, fontSize: 24, fontWeight: "700" }}>
-        Travel Agent
-      </Text>
-      <Agent
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1503971090465-19d3c80f81f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=845&q=80"
-        }}
-        placeName={"Lahore"}
-        duration={"8 hours"}
-        placeDes={
-          "Among the most popular sights are the Lahore Fort, adjacent to the Walled City, and home to the Sheesh Mahal, the Alamgiri Gate, the Naulakha pavilion, and the Moti Masjid."
-        }
-      />
-      <Agent
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1470756544705-1848092fbe5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1488&q=80"
-        }}
-        placeName={"Islamabad"}
-        duration={"4 hours"}
-        placeDes={
-          "Daman-i-Koh, Margalla Zoo, Pakistan Monument, Faisal Mosque, Shakarparian, Lok Virsa Museum and Rawal lake view point are among the top tourist attractions in Islamabad. There are many spots for rock climbing in Margalla Hills"
-        }
-      />
-      <Agent
-        placeUri={{
-          uri:
-            "https://images.unsplash.com/photo-1533548036275-b79603f53145?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-        }}
-        placeName={"Multan"}
-        duration={"2 hours"}
-        placeDes={
-          "Mausoleum of Baha-ud-Din Zakariya, Mausoleum of Shah Rukn-e-Alam, Mausoleum of Shah Shams Sabzwari are among the top tourist attractions in Multan."
-        }
-      />
-    </ScrollView>
+    <SafeAreaView style={globalStyles.container}>
+      <ScrollView vertical showsVerticalScrollIndicator={false}>
+        <Text
+          style={{
+            paddingHorizontal: 20,
+            marginVertical: 10,
+            fontSize: 24,
+            fontWeight: "700",
+          }}
+        >
+          Travel Agent
+        </Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          {renderAgents()}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

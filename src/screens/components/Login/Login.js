@@ -235,14 +235,23 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
 
   return (
     <Root>
-      <KeyboardAvoidingView
+      {/* //   <KeyboardAvoidingView
+    //     style={{
+    //       flex: 1,
+    //       backgroundColor: "white",
+    //       justifyContent: "flex-end",
+    //     }}
+    //     behavior="padding"
+    //     enabled
+    //   >
+    //   </KeyboardAvoidingView> */}
+
+      <View
         style={{
           flex: 1,
           backgroundColor: "white",
           justifyContent: "flex-end",
         }}
-        behavior="padding"
-        enabled
       >
         <Animated.View
           style={{
@@ -381,7 +390,7 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
             </TouchableOpacity>
           </Animated.View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </Root>
   );
 };

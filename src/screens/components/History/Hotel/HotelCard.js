@@ -5,14 +5,18 @@ import {
   Text,
   View,
   Image,
+  Modal,
   TouchableOpacity,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
 import { Entypo } from "@expo/vector-icons";
 import StarRating from "react-native-star-rating";
+import HotelModal from "./HotelModal";
 import moment from "moment";
 const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
   const [stars, setstars] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const updateRating = (rating) => {
     setstars(rating);
   };
@@ -21,7 +25,20 @@ const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
   const hotelImage = `https://source.unsplash.com/1600x900/?hotel/${id}`;
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => setModalOpen(true)}>
+      <Modal visible={modalOpen} transparent={true} animationType="slide">
+        <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <View style={styles.modalView}>
+            {/* <MaterialIcons
+            name="close"
+            size={24}
+            style={styles.modalToggle}
+            onPress={() => setModalOpen(false)}
+          /> */}
+            <HotelModal setModalOpen={setModalOpen} />
+          </View>
+        </View>
+      </Modal>
       <View style={{ flexGrow: 4 }}>
         <Image
           style={{ flex: 1, resizeMode: "cover" }}
@@ -67,7 +84,7 @@ const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -105,6 +122,29 @@ const styles = StyleSheet.create({
   addressName: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  modalView: {
+    flex: 1,
+    // margin: 20,
+    backgroundColor: "white",
+    // marginVertical: height / 2,
+    // marginTop: 50,
+    // marginBottom: 50,
+    borderRadius: 20,
+    marginVertical: width / 5,
+    marginHorizontal: 20,
+    // padding: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   tripDetails: {
     alignItems: "center",
