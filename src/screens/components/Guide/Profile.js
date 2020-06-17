@@ -82,13 +82,18 @@ const Profile = ({ navigation }) => {
               resizeMode="cover"
             ></Image>
           </View>
-          <View style={styles.dm}>
+          <TouchableOpacity
+            style={styles.dm}
+            onPress={() => {
+              navigation.navigate("Chat", { receivingUser: guide.id });
+            }}
+          >
             <MaterialIcons
               name="chat"
               size={18}
               color="#DFD8C8"
             ></MaterialIcons>
-          </View>
+          </TouchableOpacity>
 
           {/* <TouchableOpacity style={styles.add} onPress={pickImage}>
             <View>

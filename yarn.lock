@@ -1293,6 +1293,14 @@
     xmlbuilder "^14.0.0"
     xmldom "~0.1.31"
 
+"@expo/react-native-action-sheet@^3.6.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@expo/react-native-action-sheet/-/react-native-action-sheet-3.8.0.tgz#0db8b70ea8550ceb2983abda8584efa3a61d7389"
+  integrity sha512-tCfwysuqy0sfaN+aA98IKUrwCLKsbDHSYLcnHrx9wNbawOHNez8rSeFtieAS48/HyrPI75yg/ZGvxe6UsJRS8Q==
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.1"
+    hoist-non-react-statics "^3.3.0"
+
 "@expo/results@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@expo/results/-/results-1.0.0.tgz#fd4b22f936ceafce23b04799f54b87fe2a9e18d1"
@@ -2150,6 +2158,14 @@
   integrity sha512-VSS6zc7AIOdHVXmqKaGNPYl8eGrMvWi0R5pt3evJL3UdxO8XS28/XAkBXNyLQoymHxhMd4bF3o1U9mZkWDeN8w==
   dependencies:
     "@types/hapi__joi" "*"
+
+"@types/hoist-non-react-statics@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
+  dependencies:
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
 
 "@types/http-cache-semantics@*":
   version "4.0.0"
@@ -4808,6 +4824,11 @@ dateformat@3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+
+dayjs@1.8.26:
+  version "1.8.26"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.26.tgz#c6d62ccdf058ca72a8d14bb93a23501058db9f1e"
+  integrity sha512-KqtAuIfdNfZR5sJY1Dixr2Is4ZvcCqhb0dZpCOt5dGEFiMzoIbjkTSzUb4QKTCsP+WNpGwUjAFIZrnZvUxxkhw==
 
 debounce@^1.2.0:
   version "1.2.0"
@@ -11601,6 +11622,11 @@ react-native-button@^2.3.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-communications@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
+  integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
+
 react-native-credit-card-input@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/react-native-credit-card-input/-/react-native-credit-card-input-0.4.1.tgz#e62dd1a9beeab6787e5373ba23b93831cbf5f3de"
@@ -11659,6 +11685,21 @@ react-native-gesture-handler@~1.3.0:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-gifted-chat@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/react-native-gifted-chat/-/react-native-gifted-chat-0.16.1.tgz#2ffc346aa8858b005abf77b104ce433e6ed993ef"
+  integrity sha512-PF4NIcw3xqhAWc15bgebQ6OvUveJdVi92nPu4v9e8FDALdTi2T2YiVe/EuoC7ddsmb8a00UGytpfwEylwy+m6g==
+  dependencies:
+    "@expo/react-native-action-sheet" "^3.6.0"
+    dayjs "1.8.26"
+    prop-types "^15.7.2"
+    react-native-communications "^2.2.1"
+    react-native-iphone-x-helper "^1.2.1"
+    react-native-lightbox "^0.8.1"
+    react-native-parsed-text EvanBacon/react-native-parsed-text
+    react-native-typing-animation "^0.1.7"
+    uuid "3.4.0"
+
 react-native-google-autocomplete@^0.1.8:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/react-native-google-autocomplete/-/react-native-google-autocomplete-0.1.9.tgz#7353ac6178564c5ad7e7ff6556b01a7ae30b641c"
@@ -11689,7 +11730,7 @@ react-native-image-slider-box@^1.0.12:
   dependencies:
     react-native-snap-carousel "*"
 
-react-native-iphone-x-helper@^1.0.3:
+react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
@@ -11701,6 +11742,13 @@ react-native-keyboard-aware-scroll-view@0.9.1, react-native-keyboard-aware-scrol
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
+
+react-native-lightbox@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.8.1.tgz#4e561ec46e61617a0f3f12c88ec2695360998878"
+  integrity sha512-TFZA6iKEEHpAUIXjMTRb6vx0/9rHgEKy3ZBiRAy295PwldYg5c8opwnbyURLIl522ykeqhVx9uGdXjSMIowLvA==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-maps-directions@^1.8.0:
   version "1.8.0"
@@ -11738,6 +11786,12 @@ react-native-paper@^3.2.1:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
+
+"react-native-parsed-text@github:EvanBacon/react-native-parsed-text":
+  version "0.0.22"
+  resolved "https://codeload.github.com/EvanBacon/react-native-parsed-text/tar.gz/c909f64ee437796fd1b047edd73146fc89edb796"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-pixel-perfect@^1.0.1:
   version "1.0.2"
@@ -11815,6 +11869,11 @@ react-native-textinput-effects@^0.6.1:
   integrity sha512-L4VCspAvxr6ug1OperVFnairQmSKes4dzRiHRzIOIJ7sJPDEpV3uSuvE5RiuNad6/SaPTLgfsjZSw4t7FWltRg==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.5"
+
+react-native-typing-animation@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz#8f2cf08d9400ae543a110292eb7d71523dda5528"
+  integrity sha512-4H3rF9M+I2yAZpYJcY0Mb29TXkn98QK12rrKSY6LZj1BQD9NNmRZuNXzwX4XHapsIz+N/J8M3p27FOQPbfzqeg==
 
 react-native-vector-icons@^4.5.0:
   version "4.6.0"
@@ -14402,15 +14461,15 @@ uuid@3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
+uuid@3.4.0, uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.3.3:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
+  integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
 uuid@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
   integrity sha1-Z+LoY3lyFVMN/zGOW/nc6/1Hsho=
-
-uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.3.3:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
-  integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
 uuid@^8.0.0:
   version "8.1.0"

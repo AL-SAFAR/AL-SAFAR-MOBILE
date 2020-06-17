@@ -17,7 +17,7 @@ import { AsyncStorage } from "react-native";
 // Load User
 export const loadUser = () => async (dispatch) => {
   let token = await AsyncStorage.getItem("token");
-
+  // console.log(token);
   // if (AsyncStorage.getItem("token")) {
   //   setAuthToken(AsyncStorage.getItem("token"));
   // }
