@@ -25,22 +25,26 @@ import {
   Icon,
 } from "native-base";
 import GuideBookingForm from "../Guide/GuideBookingForm";
-const cards = [
-  {
-    text: "Faisal Mosque",
-    name: "One",
-    image: { uri: "https://source.unsplash.com/1024x768/?hotel/5" },
-  },
-  {
-    text: "Centaurus",
-    name: "Two",
-    image: { uri: "https://source.unsplash.com/1024x768/?hotel/9" },
-  },
-];
+// const cards = [
+//   {
+//     text: "Faisal Mosque",
+//     name: "One",
+//     image: { uri: "https://source.unsplash.com/1024x768/?hotel/5" },
+//   },
+//   {
+//     text: "Centaurus",
+//     name: "Two",
+//     image: { uri: "https://source.unsplash.com/1024x768/?hotel/9" },
+//   },
+// ];
 const width = Dimensions.get("window").width;
 const Profile = ({ navigation }) => {
   const guide = navigation.getParam("guide");
-  const { places, name, description, city, profileImage } = guide;
+  const { UserProfile, name } = guide;
+  const profileImage = guide.Image;
+  const { city, serviceCharges, places, description } = UserProfile[0];
+
+  // const { places, name, description, city, profileImage } = guide;
   // const guide = {
   //   profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
   // }
@@ -85,7 +89,7 @@ const Profile = ({ navigation }) => {
           <TouchableOpacity
             style={styles.dm}
             onPress={() => {
-              navigation.navigate("Chat", { receivingUser: guide.id });
+              navigation.navigate("Chat", { receivingUser: guide._id });
             }}
           >
             <MaterialIcons

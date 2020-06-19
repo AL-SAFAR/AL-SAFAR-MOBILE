@@ -3,24 +3,27 @@ const mongoose = require("mongoose");
 const CustomerSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   mobile: {
-    type: String
+    type: String,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  Image: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("customer", CustomerSchema);

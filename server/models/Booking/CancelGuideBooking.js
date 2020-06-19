@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const GuideBookingSchema = mongoose.Schema({
-  paymentId: {
+  bookingId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "payment",
+    ref: "guideBooking",
   },
   guideId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,23 +15,17 @@ const GuideBookingSchema = mongoose.Schema({
   },
   status: {
     type: String,
+    default: "pending",
   },
-  startDate: {
-    type: Date,
-    default: Date.now,
-  },
-  endDate: {
-    type: Date,
+  sentFrom: {
+    type: String,
   },
   cancelDate: {
     type: Date,
   },
-  starRating: {
-    type: Number,
-  },
-  feedback: {
+  message: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("guideBooking", GuideBookingSchema);
+module.exports = mongoose.model("cancelguideBooking", GuideBookingSchema);

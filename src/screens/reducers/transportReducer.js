@@ -102,7 +102,7 @@ export default (state = initialState, action) => {
       };
 
     case BOOKING_CONFIRMED:
-      // console.log(action.payload);
+      console.log(action.payload);
       return {
         ...state,
         booking: action.payload,

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
 import CardInput from "./components/CardInput";
-import StripeClient from "./StripeClient";
+import StripeClient from "../../actions/StripeClient";
 
 const testApiKey = "sk_test_EW9RoFD5mICzwKzurlmRNJL600L0ux2kul";
 

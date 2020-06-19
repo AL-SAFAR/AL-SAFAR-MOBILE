@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const app = express();
 const socket_io = require("socket.io");
 const io = socket_io();
-
+const chat = require("./routes/chat");
 //Connect Database
 connectDB();
 
@@ -63,4 +63,17 @@ io.listen(
 app.io = io.on("connection", (socket) => {
   console.log("Socket connected:" + socket.id);
   // io.emit("ping", { data: new Date() / 1 });
+  socket.on("action", async (action) => {
+    if (action.type === "server/chat") {
+      const { reciever, sender } = action.data;
+      const response = await chat.findOrCreateConversation(sender, reciever);
+      // console.log(response);
+      socket.emit("action", { type: "GOT_MESSAGES", payload: response });
+    } else if (action.type === "server/message") {
+      const { reciever, sender, text, type } = action.data;
+      const response = await chat.addMessage(text, sender, reciever, type);
+      // console.log(response);
+      socket.emit("action", { type: "GOT_NEW_MESSAGE", payload: response });
+    }
+  });
 });

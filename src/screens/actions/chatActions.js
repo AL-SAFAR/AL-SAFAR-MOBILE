@@ -3,17 +3,25 @@ import axios from "axios";
 import { GOT_MESSAGES, GOT_NEW_MESSAGE } from "./types";
 import { BASE_URL } from "../../../key.json";
 import store from "../../../store";
-import setAuthToken from "../utils/setAuthToken";
-import { AsyncStorage } from "react-native";
+// import setAuthToken from "../utils/setAuthToken";
+// import { AsyncStorage } from "react-native";
 
 export const openChat = (users) => {
-  console.log(users);
-  //   socket.emit("chat", users);
+  // console.log(users);
+  store.dispatch({ type: "server/chat", data: users });
 };
 
-export const sendMessage = (text, sender, receiver) => {
-  console.log("Text: " + text);
-  console.log(sender);
-  console.log("Reciever: " + receiver);
-  //   socket.emit("message", { text, sender, receiver });
+export const sendMessage = (text, sender, reciever) => {
+  // console.log("Text: " + text);
+  // console.log(sender);
+  // console.log("Reciever: " + reciever);
+  const data = {
+    sender,
+    reciever,
+    text,
+    type: "0",
+  };
+  store.dispatch({ type: "server/message", data });
+
+  // socket.emit("message", { text, sender, receiver });
 };

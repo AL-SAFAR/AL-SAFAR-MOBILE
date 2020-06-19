@@ -144,8 +144,17 @@ router.get("/carBooking", async (req, res) => {
 // @access   Public
 // @desc     create booking
 router.post("/carBooking", async (req, res) => {
-  const { userName, pickUp, dropOff, isPending, fare, nearByDriver } = req.body;
+  const {
+    customerId,
+    userName,
+    pickUp,
+    dropOff,
+    isPending,
+    fare,
+    nearByDriver,
+  } = req.body;
   const io = req.app.io;
+  console.log(customerId);
   try {
     if (!userName) {
       res.status(400);
@@ -154,6 +163,7 @@ router.post("/carBooking", async (req, res) => {
       });
     } else {
       let booking = new CarBooking({
+        customerId,
         userName,
         pickUp,
         dropOff,

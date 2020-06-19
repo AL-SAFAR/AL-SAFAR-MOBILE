@@ -5,11 +5,10 @@ const CarBookingSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "driver",
   },
-  // customerId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "customer",
-  //   default: 1,
-  // },
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "customer",
+  },
   userName: {
     type: String,
   },

@@ -6,7 +6,7 @@ export const getGuides = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`${BASE_URL}/guides`);
+    const res = await fetch(`${BASE_URL}/guide/guidedetails`);
     const data = await res.json();
     dispatch({
       type: GET_GUIDES,
@@ -21,6 +21,7 @@ export const getGuides = () => async (dispatch) => {
   }
 };
 
+export const ChargeCustomer = (data) => async (dispatch) => {};
 //set laoding true
 export const setLoading = () => {
   return {

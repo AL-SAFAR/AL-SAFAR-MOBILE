@@ -43,7 +43,7 @@ const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
           {guides.map((guide) => {
             return (
               <TravelGuide
-                key={guide.id}
+                key={guide._id}
                 navigation={navigation}
                 guide={guide}
               />
@@ -60,7 +60,7 @@ const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
           {filterByCity.map((guide) => {
             return (
               <TravelGuide
-                key={guide.id}
+                key={guide._id}
                 navigation={navigation}
                 guide={guide}
               />

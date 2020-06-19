@@ -4,7 +4,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 const TravelGuide = ({ guide, navigation }) => {
-  const { profileImage, name, city, serviceCharges, places } = guide;
+  const { UserProfile, name } = guide;
+  const profileImage = guide.Image;
+  const { city, serviceCharges, places } = UserProfile[0];
   const placeUri = { uri: places[0].placeImage };
   return (
     <TouchableOpacity

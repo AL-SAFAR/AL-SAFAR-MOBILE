@@ -4,15 +4,21 @@ const initialState = {
   messages: [],
 };
 
-export default function (state = initialState, action) {
-  const { type, payload } = action;
-
-  switch (type) {
+export default (state = initialState, action) => {
+  // console.log(action);
+  switch (action.type) {
     case GOT_MESSAGES:
-      return action.messages ? action.messages : [];
+      console.log(action.payload);
+      return {
+        messages: action.payload.messages,
+      };
     case GOT_NEW_MESSAGE:
-      return [action.message, ...state];
+      console.log("sample");
+      return {
+        messages: action.payload.messages,
+      };
+    // return [action.message, ...state];
     default:
       return state;
   }
-}
+};

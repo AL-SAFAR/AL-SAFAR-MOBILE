@@ -124,7 +124,7 @@ const RootNavigator = createAnimatedSwitchNavigator(
 // let token = AsyncStorage.getItem("token");
 const Main = createAppContainer(RootNavigator);
 const App = () => {
-  console.disableYellowBox = true;
+  // console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <Main />

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const { ObjectId } = require("mongodb");
 const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
 
@@ -11,6 +12,9 @@ const Hotel = require("../models/HotelManagment/Hotel");
 const HotelBooking = require("../models/HotelManagment/HotelBooking");
 const Room = require("../models/HotelManagment/Room");
 
+const GuideBooking = require("../models/Booking/GuideBooking");
+const { response } = require("express");
+const chat = require("./chat");
 // @route    POST api/customers
 // @desc     Register customer
 // @access   Public
@@ -299,5 +303,66 @@ router.post("/uniqueroomshotel", async (req, res) => {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
+});
+
+// @route   Get api/users/GuideBookings
+// @desc     Viiew Guide Bookings
+// @access   Public
+router.get("/guideBookings", auth, async (req, res) => {
+  try {
+    let user = req.user.id;
+
+    await GuideBooking.aggregate(
+      [
+        {
+          $match: {
+            customerId: ObjectId(user),
+          },
+        },
+        {
+          $lookup: {
+            from: "payments",
+            localField: "paymentId",
+            foreignField: "_id",
+            as: "payment",
+          },
+        },
+        {
+          $unwind: "$payment",
+        },
+        {
+          $lookup: {
+            from: "guides",
+            localField: "payment.SPEmail",
+            foreignField: "email",
+            as: "guide",
+          },
+        },
+        {
+          $unwind: "$guide",
+        },
+      ],
+      (error, response) => {
+        if (error) res.status(500).send("Server Error");
+        console.log(response);
+        res.json(response);
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.post("/conversation", async (req, res) => {
+  const { sender, reciever } = req.body;
+  const response = await chat.findOrCreateConversation(sender, reciever);
+  res.send(response);
+});
+
+router.post("/addMessage", async (req, res) => {
+  const { sender, reciever, text, type } = req.body;
+  const response = await chat.addMessage(text, sender, reciever, type);
+  res.send(response);
 });
 module.exports = router;

@@ -54,7 +54,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, mobile, cnic } = req.body;
+    const { name, email, password, mobile, cnic, connectid } = req.body;
 
     try {
       let hotelRep = await HotelRep.findOne({ email });
@@ -71,6 +71,7 @@ router.post(
         password,
         mobile,
         cnic,
+        connectid,
       });
 
       const salt = await bcrypt.genSalt(10);

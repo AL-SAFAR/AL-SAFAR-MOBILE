@@ -1,8 +1,8 @@
 {
-  "API_KEY": "AIzaSyD6o3b8zQGfxexHtSSKClVViv9_ZK - BvbE",
+  "API_KEY": "AIzaSyAkQaUZXVpa7nwKcpdrH42VWifnZaC9wcs",
   "DISTANCE_DIRECTION_KEY": "AIzaSyAkQaUZXVpa7nwKcpdrH42VWifnZaC9wcs",
   "Stripe": "a#127gh_6p",
-  // "BASE_URL": "https://fefc64e5d622.ngrok.io/api",
-  "BASE_URL": "https://fefc64e5d622.ngrok.io",
-  "HOME_BASE_URL": "https://fefc64e5d622.ngrok.io/"
+  "BASE_URL": "https://58d5c567eaa5.ngrok.io/api",
+  // "BASE_URL": "https://fefc64e5d622.ngrok.io",
+  "HOME_BASE_URL": "https://58d5c567eaa5.ngrok.io"
 }

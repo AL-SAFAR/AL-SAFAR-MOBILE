@@ -15,7 +15,7 @@ import {
   CLEAR_STATE,
   CALCULATE_FARE,
 } from "./types";
-import { Dimensions } from "react-native";
+import { AsyncStorage, Dimensions } from "react-native";
 
 import { DISTANCE_DIRECTION_KEY, BASE_URL } from "../../../key.json";
 import store from "../../../store";
@@ -246,9 +246,13 @@ export const bookCar = () => async (dispatch) => {
   // const nearByDrivers= store().getState().transport.nearByDrivers
   // const nearByDriver =
   //   nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+  let cust = await AsyncStorage.getItem("user");
+  cust = JSON.parse(cust);
+
   const nearByDriver = nearByDrivers[0];
   const payload = {
-    userName: "Ali",
+    customerId: cust._id,
+    userName: cust.name,
     pickUp: {
       address: selectedPickUp.formatted_address,
       name: selectedPickUp.name,

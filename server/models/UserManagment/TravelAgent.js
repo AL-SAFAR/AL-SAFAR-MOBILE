@@ -3,40 +3,43 @@ const mongoose = require("mongoose");
 const TravelAgentSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   mobile: {
     type: String,
-    required: true
+    required: true,
   },
   cnic: {
     type: String,
-    required: true
+    required: true,
   },
   agentID: {
     type: String,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   serviceCharges: {
     type: Number,
   },
   starRating: {
     type: Number,
-    default: 0
+    default: 0,
+  },
+  connectid: {
+    type: String,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("travelAgent", TravelAgentSchema);

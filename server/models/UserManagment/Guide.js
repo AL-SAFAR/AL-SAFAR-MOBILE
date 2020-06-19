@@ -30,6 +30,9 @@ const GuideSchema = mongoose.Schema({
   Image: {
     type: String,
   },
+  connectid: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,
