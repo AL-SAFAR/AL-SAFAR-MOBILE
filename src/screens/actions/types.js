@@ -6,6 +6,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const GET_GUIDES = "GET_GUIDES";
+export const GUIDE_BOOKING_CONFIRMED = "GUIDE_BOOKING_CONFIRMED";
 export const GET_HOTELS = "GET_HOTELS";
 export const SEARCH_HOTELS = "GET_HOTELS";
 export const SET_LOADING = "SET_LOADING";
@@ -29,5 +30,6 @@ export const GET_DISTANCE_FROM_DRIVER = "GET_DISTANCE_FROM_DRIVER";
 export const CLEAR_STATE = "CLEAR_STATE";
 export const GOT_MESSAGES = "GOT_MESSAGES";
 export const GOT_NEW_MESSAGE = "GOT_NEW_MESSAGE";
+export const CLEAR_CHAT = "CLEAR_CHAT";
 
 export const TRANSPORT_ERROR = "TRANSPORT_ERROR";

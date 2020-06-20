@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { setAlert } from "./alert";
-import { GOT_MESSAGES, GOT_NEW_MESSAGE } from "./types";
+import { GOT_MESSAGES, GOT_NEW_MESSAGE, CLEAR_CHAT } from "./types";
 import { BASE_URL } from "../../../key.json";
 import store from "../../../store";
 // import setAuthToken from "../utils/setAuthToken";
@@ -24,4 +24,12 @@ export const sendMessage = (text, sender, reciever) => {
   store.dispatch({ type: "server/message", data });
 
   // socket.emit("message", { text, sender, receiver });
+};
+//CLEARCHAT
+export const clearChat = (navigation) => async (dispatch) => {
+  // dispatch({ type: CLEAR_PROFILE });
+  // console.log("loging out");
+  console.log("clearing");
+  dispatch({ type: CLEAR_CHAT });
+  return navigation.goBack();
 };

@@ -36,7 +36,11 @@ const addMessage = async (text, sender, reciever, type) => {
           customerId: sender,
           SPID: reciever,
         },
-        { $push: { messages: { user: sender, text } } }
+        {
+          $push: {
+            messages: { user: { _id: sender._id, name: sender.name }, text },
+          },
+        }
       );
       if (!conversation) {
         return "Convo not found";
@@ -52,7 +56,11 @@ const addMessage = async (text, sender, reciever, type) => {
           customerId: reciever,
           SPID: sender,
         },
-        { $push: { messages: { user: sender, text } } }
+        {
+          $push: {
+            messages: { user: { _id: sender._id, name: sender.name }, text },
+          },
+        }
       );
       if (!conversation) {
         return "Convo not found";

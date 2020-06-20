@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  AsyncStorage,
   Dimensions,
   StyleSheet,
 } from "react-native";
@@ -49,7 +50,15 @@ const Profile = ({ navigation }) => {
   //   profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
   // }
   const [modalOpen, setModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    AsyncStorage.getItem("user").then((res) => {
+      let tempuser = JSON.parse(res);
+      // console.log(tempuser);
+      setUser({ _id: tempuser._id, name: tempuser.name, avatar: "" });
+    });
+  }, []);
   return (
     <SafeAreaView style={{ ...styles.container, ...globalStyles.container }}>
       <Modal visible={modalOpen} animationType="slide">
@@ -60,7 +69,11 @@ const Profile = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
-          <GuideBookingForm setModalOpen={setModalOpen} />
+          <GuideBookingForm
+            setModalOpen={setModalOpen}
+            serviceCharges={serviceCharges}
+            currentGuide={guide}
+          />
         </View>
       </Modal>
 
@@ -89,7 +102,7 @@ const Profile = ({ navigation }) => {
           <TouchableOpacity
             style={styles.dm}
             onPress={() => {
-              navigation.navigate("Chat", { receivingUser: guide._id });
+              navigation.navigate("Chat", { receivingUser: guide._id, user });
             }}
           >
             <MaterialIcons

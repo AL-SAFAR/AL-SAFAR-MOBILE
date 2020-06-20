@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Picker,
-  ScrollView,
-  Button,
-  TouchableOpacity,
-  TextInput,
-  View,
-  Text,
-} from "react-native";
-// import moment from "moment";
+import { ScrollView, TouchableOpacity, View, Text } from "react-native";
+import moment from "moment";
 // import NumericInput from "react-native-numeric-input";
 import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 import { globalStyles } from "../../../../styles/global";
 import { DatePicker } from "native-base";
 import { CreditCardInput } from "react-native-credit-card-input";
-const GuideBookingForm = ({ setModalOpen }) => {
+import { connect } from "react-redux";
+import { chargeCustomer } from "../../actions/guideActions";
+import PropTypes from "prop-types";
+
+const GuideBookingForm = ({
+  setModalOpen,
+  serviceCharges,
+  chargeCustomer,
+  guide,
+  currentGuide,
+}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [paymentDetails, setPaymentDetails] = useState(null);
@@ -42,26 +43,19 @@ const GuideBookingForm = ({ setModalOpen }) => {
     },
     cvc: { maxLength: 3 },
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // console.log();
     if (startDate && endDate && paymentDetails) {
       let bookdetails = {
         startDate,
         endDate,
         paymentDetails,
+        serviceCharges,
+        guide: currentGuide,
       };
-      console.log(bookdetails);
-      Popup.show({
-        type: "Success",
-        title: "Booking Completed",
-        button: false,
-        textBody: "Congrats! Booking successfully done",
-        buttontext: "Ok",
-        callback: () => {
-          Popup.hide();
-          setModalOpen(false);
-        },
-      });
+      // console.log(bookdetails);
+      let showPop = await chargeCustomer(bookdetails);
+      console.log(showPop);
     } else if (startDate || endDate || paymentDetails) {
       Popup.show({
         type: "Warning",
@@ -171,4 +165,14 @@ const GuideBookingForm = ({ setModalOpen }) => {
   );
 };
 
-export default GuideBookingForm;
+GuideBookingForm.propTypes = {
+  chargeCustomer: PropTypes.func.isRequired,
+  guide: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  guide: state.guide,
+  //   receiver: navigation.getParam("receivingUser"),
+});
+
+export default connect(mapStateToProps, { chargeCustomer })(GuideBookingForm);

@@ -304,6 +304,7 @@ router.post("/guideBooking", auth, async (req, res) => {
     console.log(date);
     console.log(BookingResp._id);
     let Guideres = await Guide.findById(ObjectId(GuideID));
+    console.log(Guideres);
     let paymentRes = await Payment.findById(ObjectId(PaymentID));
     console.log(paymentRes);
     let amount = paymentRes.amount;

@@ -27,7 +27,6 @@ const SearchResults = ({ predictions, fetchDetails, getSelectedAddress }) => {
                   key={el.id}
                   onPress={() => {
                     handleSelectedAddress(el.place_id);
-                    console.log(el);
                   }}
                   button
                   avatar

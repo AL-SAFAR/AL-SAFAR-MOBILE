@@ -130,29 +130,6 @@ router.put("/:id", auth, async (req, res) => {
 router.get("/viewHotels", async (req, res) => {
   try {
     Hotel.aggregate([
-      // {
-      //   $lookup: {
-      //     from: "rooms", // collection name in db
-      //     localField: "_id",
-      //     foreignField: "hotelId",
-      //     as: "rooms",
-      //   },
-      // },
-      // { $match: { "rooms.roomType": "economy" } },
-      // { $project: { "rooms.rent": 1 } },
-
-      // {
-      //   $lookup: {
-      //     from: "rooms",
-      //     pipeline: [
-      //       { $match: { roomType: "economy" } },
-
-      //       { $project: { date: { rent: "$rent" } } },
-      //       { $replaceRoot: { newRoot: "$date" } },
-      //     ],
-      //     as: "rooms",
-      //   },
-      // },
       {
         $lookup: {
           from: "rooms", // collection name in db

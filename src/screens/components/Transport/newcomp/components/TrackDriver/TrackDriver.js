@@ -83,7 +83,7 @@ const TrackDriver = ({
         driverInfo={driverInfo}
         distanceFromDriver={distanceFromDriver}
       />
-      <DriverFooterProfile driverInfo={driverInfo} />
+      <DriverFooterProfile navigation={navigation} driverInfo={driverInfo} />
 
       {showDriverFound && (
         <DriverFound
