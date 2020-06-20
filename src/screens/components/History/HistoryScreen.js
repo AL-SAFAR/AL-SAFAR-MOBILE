@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { globalStyles } from "../../../../styles/global";
+import Loader from "../layout/Loader";
+import PropTypes from "prop-types";
+import { getGuideBookings } from "../../actions/guideActions";
+// import { openChat, sendMessage, clearChat } from "../../actions/transportActions";
+// import { openChat, sendMessage, clearChat } from "../../actions/hotelActions";
+import { connect } from "react-redux";
+
 import { Ionicons } from "@expo/vector-icons";
 import CarCard from "./Car/CarCard";
 import HotelCard from "./Hotel/HotelCard";
@@ -53,33 +60,37 @@ const hotelbookings = [
     charges: 9000,
   },
 ];
-const guidebooking = [
-  {
-    id: 1,
-    startDate: new Date("2020/01/20"),
-    endDate: new Date("2020/02/10"),
-    charges: 9000,
-    profileImage:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    id: 2,
-    startDate: new Date("2020/01/20"),
-    endDate: new Date("2020/02/10"),
-    charges: 9000,
-    profileImage:
-      "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  },
-  {
-    id: 3,
-    startDate: new Date("2020/01/20"),
-    endDate: new Date("2020/02/10"),
-    charges: 9000,
-    profileImage:
-      "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  },
-];
-const HistoryScreen = ({ navigation }) => {
+// const guidebooking = [
+//   {
+//     id: 1,
+//     startDate: new Date("2020/01/20"),
+//     endDate: new Date("2020/02/10"),
+//     charges: 9000,
+//     profileImage:
+//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+//   },
+//   {
+//     id: 2,
+//     startDate: new Date("2020/01/20"),
+//     endDate: new Date("2020/02/10"),
+//     charges: 9000,
+//     profileImage:
+//       "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+//   },
+//   {
+//     id: 3,
+//     startDate: new Date("2020/01/20"),
+//     endDate: new Date("2020/02/10"),
+//     charges: 9000,
+//     profileImage:
+//       "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+//   },
+// ];
+const HistoryScreen = ({
+  navigation,
+  getGuideBookings,
+  guide: guideBookings,
+}) => {
   const type = navigation.getParam("type");
   const renderCards = (type) => {
     if (type === "car") {
@@ -91,11 +102,15 @@ const HistoryScreen = ({ navigation }) => {
         return <HotelCard key={hotel.id} hotel={hotel} />;
       });
     } else if (type === "guide") {
-      return guidebooking.map((guide) => {
+      return guideBookings.map((guideBooking) => {
         return <GuideCard guide={guide} key={guide.id} />;
       });
     }
   };
+  useEffect(async () => {
+    await getGuideBookings();
+    console.log(guideBookings);
+  }, []);
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -125,11 +140,22 @@ const HistoryScreen = ({ navigation }) => {
             marginTop: 10,
           }}
         >
-          {renderCards(type)}
+          {guideBookings !== {} ? renderCards(type) : <Loader />}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default HistoryScreen;
+HistoryScreen.propTypes = {
+  guide: PropTypes.object.isRequired,
+  getGuideBookings: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  guide: state.guide,
+  //   receiver: navigation.getParam("receivingUser"),
+});
+
+// export default connect(mapState)(Chat);
+export default connect(mapStateToProps, { getGuideBookings })(HistoryScreen);

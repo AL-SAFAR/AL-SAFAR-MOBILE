@@ -14,10 +14,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import GuideModal from "./GuideModal";
 const GuideCard = ({
-  guide: { startDate, endDate, profileImage, charges, id },
+  guideBooking,
+  // : { startDate, endDate, profileImage, charges, id },
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  let { _id, startDate, endDate, guide, payment } = guideBooking;
+  let profileImage = guide.Image;
+  let { amount } = payment;
+  let { name } = guide;
   const gradients = [
     ["#1131FF", "#AFBAFF"],
     ["#FF0011", "#FFAAAB"],
@@ -59,7 +63,7 @@ const GuideCard = ({
               }}
             >
               <Text style={{ marginBottom: 20, fontSize: 20, color: "#fff" }}>
-                Jamshed Akhtar
+                {name}
               </Text>
               <View style={{ alignItems: "flex-start", marginBottom: 20 }}>
                 <Text style={styles.heading}>Start Date</Text>
@@ -90,7 +94,7 @@ const GuideCard = ({
               </View>
               <View style={{ marginVertical: 10, alignItems: "center" }}>
                 <Text style={styles.heading}>Charges</Text>
-                <Text style={styles.data}>{charges} PKR</Text>
+                <Text style={styles.data}>{amount} PKR</Text>
               </View>
             </View>
             {/* <View

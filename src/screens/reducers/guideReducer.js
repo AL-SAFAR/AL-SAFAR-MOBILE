@@ -2,14 +2,14 @@ import {
   GET_GUIDES,
   SET_LOADING,
   GUIDES_ERROR,
-  GUIDE_BOOKING_CONFIRMED,
+  GET_GUIDE_BOOKINGS,
 } from "../actions/types";
 
 const initialState = {
   guides: null,
   loading: false,
   error: null,
-  guideBookingConfirmed: false,
+  guideBookings: false,
 };
 
 export default (state = initialState, action) => {
@@ -25,17 +25,17 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
       };
+    case GET_GUIDE_BOOKINGS:
+      // console.error(action.payload);
+      return {
+        ...state,
+        guideBookings: action.payload,
+      };
     case GUIDES_ERROR:
       console.error(action.payload);
       return {
         ...state,
         error: action.payload,
-      };
-    case GUIDE_BOOKING_CONFIRMED:
-      // console.error(action.payload);
-      return {
-        ...state,
-        guideBookingConfirmed: action.payload,
       };
     default:
       return state;

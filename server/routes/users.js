@@ -139,7 +139,16 @@ router.get("/viewHotels", async (req, res) => {
         },
       },
       { $unwind: "$rooms" },
-      { $match: { "rooms.roomType": "economy" } },
+      {
+        $match: {
+          $or: [
+            { "rooms.roomType": "Economy" },
+            { "rooms.roomType": "Luxury" },
+            { "rooms.roomType": "Deluxe" },
+          ],
+        },
+      },
+      // $match: { "rooms.roomType": "economy" } },
       {
         $project: {
           id: 1,
