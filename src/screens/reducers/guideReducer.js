@@ -9,7 +9,7 @@ const initialState = {
   guides: null,
   loading: false,
   error: null,
-  guideBookings: false,
+  guideBookings: null,
 };
 
 export default (state = initialState, action) => {
@@ -26,7 +26,6 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case GET_GUIDE_BOOKINGS:
-      // console.error(action.payload);
       return {
         ...state,
         guideBookings: action.payload,

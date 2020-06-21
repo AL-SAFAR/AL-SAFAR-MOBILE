@@ -129,54 +129,112 @@ router.put("/:id", auth, async (req, res) => {
 // @access   Public
 router.get("/viewHotels", async (req, res) => {
   try {
-    Hotel.aggregate([
-      {
-        $lookup: {
-          from: "rooms", // collection name in db
-          localField: "_id",
-          foreignField: "hotelId",
-          as: "rooms",
+    await Hotel.aggregate(
+      [
+        {
+          $lookup: {
+            from: "hotelreps",
+            localField: "hotelRep",
+            foreignField: "_id",
+            as: "HotelRep",
+          },
         },
-      },
-      { $unwind: "$rooms" },
-      {
-        $match: {
-          $or: [
-            { "rooms.roomType": "Economy" },
-            { "rooms.roomType": "Luxury" },
-            { "rooms.roomType": "Deluxe" },
-          ],
+        {
+          $lookup: {
+            from: "rooms",
+            as: "Room",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
+              {
+                $facet: {
+                  Economy: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Economy"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                  Delexue: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Deluxe"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                  Luxury: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Luxury"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                },
+              },
+              {
+                $project: {
+                  activity: {
+                    $setUnion: ["$Economy", "$Luxury", "$Delexue"],
+                  },
+                },
+              },
+              {
+                $unwind: "$activity",
+              },
+              {
+                $replaceRoot: {
+                  newRoot: "$activity",
+                },
+              },
+            ],
+          },
         },
-      },
-      // $match: { "rooms.roomType": "economy" } },
-      {
-        $project: {
-          id: 1,
-          hotelRep: 1,
-          hotelName: 1,
-          address: 1,
-          starRating: 1,
-          description: 1,
-          hotelImages: 1,
-          extras: 1,
-          city: 1,
-          houseRules: 1,
-          roomType: "$rooms.roomType",
-          rent: "$rooms.rent",
-        },
-      },
-    ]).exec(function (err, hotel) {
-      // students contain WorksnapsTimeEntries
-      // console.log(students);
-      // var ecorooms = rooms.filter((room) => {
-      //   return room.roomType == "economy";
-      // });
-      // console.log(rooms);
-      res.json(hotel);
-    });
-    // const hotels = await Hotel.find();
-    // res.json(hotels);
+      ],
+      (err, response) => {
+        if (err) res.status(400).json({ err });
+        console.log(response);
+        res.json(response);
+      }
+    );
   } catch (err) {
+    console.log("ERROR MESSAGE=");
     console.error(err.message);
     res.status(500).send("Server Error");
   }

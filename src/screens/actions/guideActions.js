@@ -162,6 +162,8 @@ export const chargeCustomer = (payload) => async (dispatch) => {
 
 //get Guide Bookings
 export const getGuideBookings = () => async (dispatch) => {
+  setLoading();
+
   let usertoken = await AsyncStorage.getItem("token");
 
   const config = {
@@ -175,8 +177,10 @@ export const getGuideBookings = () => async (dispatch) => {
   axios.get(`${BASE_URL}/users/guidebookings`, config).then((payload) => {
     dispatch({
       type: GET_GUIDE_BOOKINGS,
-      payload: payload,
+      payload: payload.data,
     });
+
+    // console.log(payload);
   });
 };
 //set laoding true

@@ -1,8 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons as Icon } from "@expo/vector-icons";
+import moment from "moment";
 
-const GuideModal = ({ setModalOpen }) => {
+const GuideModal = ({ setModalOpen, guideBooking }) => {
+  let { _id, startDate, endDate, guide, payment } = guideBooking;
+  // let profileImage = guide.Image;
+  let { amount } = payment;
+  // let { name } = guide;
+
+  startDate = moment(startDate).format("DD MMM YYYY");
+  endDate = moment(endDate).format("DD MMM YYYY");
+  let paymentDate = moment(payment.date).format("DD MMM YYYY");
   return (
     <View
       style={{
@@ -13,18 +22,7 @@ const GuideModal = ({ setModalOpen }) => {
         height: 393,
         borderRadius: 21,
         borderWidth: null,
-        // borderColor: "rgba(112, 112, 112, 255)",
         backgroundColor: "rgba(255, 255, 255, 255)",
-
-        // alignItems: "flex-start",
-        // paddingStart: 13,
-        // paddingTop: 34,
-        // width: 321,
-        // height: 393,
-        // borderRadius: 21,
-        // borderWidth: 1,
-        // borderColor: "rgba(112, 112, 112, 255)",
-        // backgroundColor: "rgba(255, 255, 255, 255)",
       }}
     >
       <Text
@@ -70,7 +68,7 @@ const GuideModal = ({ setModalOpen }) => {
               marginStart: 10,
             }}
           >
-            12342212
+            {_id}
           </Text>
         </View>
         <View
@@ -96,7 +94,7 @@ const GuideModal = ({ setModalOpen }) => {
               marginTop: 7,
             }}
           >
-            5 Jan 2020
+            {paymentDate}
           </Text>
         </View>
         <View
@@ -168,7 +166,7 @@ const GuideModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                12 Jan 2020
+                {startDate}
               </Text>
               <Text
                 style={{
@@ -178,7 +176,7 @@ const GuideModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                17 Jan 2020
+                {endDate}
               </Text>
             </View>
           </View>
@@ -230,7 +228,7 @@ const GuideModal = ({ setModalOpen }) => {
               marginStart: 9,
             }}
           >
-            1234323
+            {payment._id}
           </Text>
         </View>
         <View
@@ -257,7 +255,7 @@ const GuideModal = ({ setModalOpen }) => {
               marginTop: 7,
             }}
           >
-            5 Jan 2020
+            {paymentDate}
           </Text>
         </View>
         <View
@@ -274,7 +272,7 @@ const GuideModal = ({ setModalOpen }) => {
               marginTop: 21,
             }}
           >
-            10000 PKR
+            {payment.amount} PKR
           </Text>
           <Text
             style={{

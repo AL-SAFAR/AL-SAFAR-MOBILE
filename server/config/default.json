@@ -1,5 +1,6 @@
 {
   // "mongoURI": "mongodb://127.0.0.1:27017/ALSafar",
-  "mongoURI": "mongodb://alsafar:RqUtRW87g6TLnVsPVUGREEcjU2nWVgY0sJ9FP9GcamyATdNvhGEFbG3URusfBzcpThjAQA0YbTc4QvJYVQZnwQ==@alsafar.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@alsafar@",
+  // "mongoURI": "mongodb://alsafar:RqUtRW87g6TLnVsPVUGREEcjU2nWVgY0sJ9FP9GcamyATdNvhGEFbG3URusfBzcpThjAQA0YbTc4QvJYVQZnwQ==@alsafar.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@alsafar@",
+  "mongoURI": "mongodb+srv://alsafar435:2k4knaruto@alsafar.cegcf.mongodb.net/alsafar?retryWrites=true&w=majority",
   "jwtSecret": "secret"
 }

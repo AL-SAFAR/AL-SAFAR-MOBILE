@@ -89,7 +89,7 @@ const hotelbookings = [
 const HistoryScreen = ({
   navigation,
   getGuideBookings,
-  guide: guideBookings,
+  guide: { guideBookings, loading },
 }) => {
   const type = navigation.getParam("type");
   const renderCards = (type) => {
@@ -103,14 +103,19 @@ const HistoryScreen = ({
       });
     } else if (type === "guide") {
       return guideBookings.map((guideBooking) => {
-        return <GuideCard guide={guide} key={guide.id} />;
+        return <GuideCard guideBooking={guideBooking} key={guideBooking._id} />;
       });
     }
   };
-  useEffect(async () => {
-    await getGuideBookings();
-    console.log(guideBookings);
+  useEffect(() => {
+    getGuideBookings();
+    // .then(() => {
+    // console.log(guideBookings);
+    // });
   }, []);
+  if (loading || guideBookings === null) {
+    return <Loader />;
+  }
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -140,7 +145,7 @@ const HistoryScreen = ({
             marginTop: 10,
           }}
         >
-          {guideBookings !== {} ? renderCards(type) : <Loader />}
+          {renderCards(type)}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -352,34 +352,141 @@ router.post("/addNewRoom", auth, async (req, res) => {
 // @access   Private
 router.post("/uniquerooms", auth, async (req, res) => {
   try {
-    // let { id } = req.body;
-    console.log("req.user.id=");
-    console.log(req.user.id);
-    let uniquerooms = [];
-    let hotel = await Hotel.findOne({ hotelRep: req.user.id });
-    if (!hotel) return res.status(401).json({ msg: "Hotel Not Found" });
-    console.log(hotel._id);
-    let Economy = await Room.findOne({
-      hotelId: hotel._id,
-      roomType: "Economy",
-    });
-    console.log(Economy);
-    if (Economy) {
-      console.log("Economy=");
-      console.log(Economy);
-      uniquerooms.push(Economy);
-    }
-    let Luxury = await Room.findOne({ hotelId: hotel._id, roomType: "Luxury" });
-    console.log(Luxury);
-    if (Luxury) uniquerooms.push(Luxury);
-    let Deluxe = await Room.findOne({
-      hotelId: hotel._id,
-      roomType: "Delexue",
-    });
-    console.log(Deluxe);
-    if (Deluxe) uniquerooms.push(Deluxe);
-    res.json(uniquerooms);
+    let HotelRepId = ObjectId(req.user.id);
+
+    await Hotel.aggregate(
+      [
+        {
+          $match: {
+            hotelRep: HotelRepId,
+          },
+        },
+        {
+          $lookup: {
+            from: "hotelreps",
+            as: "HotelRep",
+            let: {
+              hotelRep: "$hotelRep",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: ["$_id", HotelRepId],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: "rooms",
+            as: "Room",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
+              {
+                $facet: {
+                  Economy: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Economy"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                  Delexue: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Deluxe"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                  Luxury: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            {
+                              $eq: ["$roomType", "Luxury"],
+                            },
+                            {
+                              $eq: ["$hotelId", "$$id"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                    {
+                      $limit: 1,
+                    },
+                  ],
+                },
+              },
+              {
+                $project: {
+                  activity: {
+                    $setUnion: ["$Economy", "$Luxury", "$Delexue"],
+                  },
+                },
+              },
+              {
+                $unwind: "$activity",
+              },
+              {
+                $replaceRoot: {
+                  newRoot: "$activity",
+                },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: "$Room",
+        },
+        {
+          $replaceRoot: {
+            newRoot: "$Room",
+          },
+        },
+      ],
+      (err, response) => {
+        if (err) res.status(400).json({ err });
+        console.log(response);
+        res.json(response);
+      }
+    );
   } catch (err) {
+    console.log("ERROR MESSAGE=");
     console.error(err.message);
     res.status(500).send("Server Error");
   }

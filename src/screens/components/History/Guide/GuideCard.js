@@ -49,7 +49,10 @@ const GuideCard = ({
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           /> */}
-              <GuideModal setModalOpen={setModalOpen} />
+              <GuideModal
+                guideBooking={guideBooking}
+                setModalOpen={setModalOpen}
+              />
             </View>
           </View>
         </Modal>
