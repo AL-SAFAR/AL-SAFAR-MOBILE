@@ -26,7 +26,6 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
-
 //Get USERS current location
 export const getCurrentLocation = () => async (dispatch) => {
   try {
@@ -131,19 +130,6 @@ export const getSelectedAddress = (payload) => async (dispatch) => {
       payload: payload,
     });
     const { selectedAddress } = store.getState().transport;
-    // if (selectedAddress.selectedPickUp && selectedAddress.selectedDropOff) {
-    //   const pickup = `${selectedAddress.selectedPickUp.geometry.location.lat},${selectedAddress.selectedPickUp.geometry.location.lng}`;
-    //   const dropoff = `${selectedAddress.selectedDropOff.geometry.location.lat},${selectedAddress.selectedDropOff.geometry.location.lng}`;
-    //   console.log(selectedAddress.selectedPickUp.name);
-    //   console.log("++++++++++++++++++++++");
-    //   console.log(selectedAddress.selectedDropOff.name);
-    //   const DistTime = getDistanceAndTime(pickup, dropoff);
-    //   dispatch({
-    //     type: GET_DISTANCE_MATRIX,
-    //     payload: DistTime,
-    //   });
-    //   console.log(DistTime);
-    // }
   } catch (err) {
     dispatch({
       type: TRANSPORT_ERROR,
@@ -317,6 +303,12 @@ export const getNearByDrivers = () => async (dispatch) => {
 export const clearDriverState = () => async (dispatch) => {
   dispatch({
     type: CLEAR_STATE,
+  });
+  let cust = await AsyncStorage.getItem("user");
+  cust = JSON.parse(cust);
+
+  axios.delete(`${BASE_URL}/driver/deleteBooking/${cust._id}`).then((res) => {
+    console.log(res);
   });
 };
 

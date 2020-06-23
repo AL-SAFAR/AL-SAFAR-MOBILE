@@ -128,11 +128,11 @@ const Transport = ({
   // });
 
   useEffect(() => {
-    setTimeout(() => {
-      getCurrentLocation();
-      getNearByDrivers();
-    }, 5000);
-  }, []);
+    // setTimeout(() => {
+    // getCurrentLocation();
+    getNearByDrivers();
+    // }, 5000);
+  }, [region]);
 
   centerMap = () => {
     const { latitude, longitude, latitudeDelta, longitudeDelta } = region;

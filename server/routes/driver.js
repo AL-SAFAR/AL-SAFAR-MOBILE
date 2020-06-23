@@ -113,6 +113,7 @@ router.post(
     }
   }
 );
+
 // @route    Get api/Driver/:id
 // @desc     get driver by id
 // @access   Public
@@ -173,7 +174,10 @@ router.post("/carBooking", async (req, res) => {
       await booking.save();
       res.send(booking);
       if (nearByDriver.socketId) {
+        console.log(nearByDriver.socketId);
+
         io.emit(nearByDriver.socketId + "driverRequest", booking);
+        // io.emit("DRIVER_REQUEST", booking);
         // console.log(nearByDriver.socketId);
       } else {
         console.log("Driver not connected");
@@ -387,4 +391,22 @@ router.get("/driverLocationSocket/", async (req, res) => {
   }
 });
 
+//delete cancelled booking
+router.delete("/deleteBooking/:id", async (req, res) => {
+  // console.log(req.query);
+  try {
+    const carBooking = await CarBooking.find({
+      customerId: req.params.id,
+    })
+      .sort({ _id: -1 })
+      .limit(1);
+    if (!carBooking)
+      return res.status(404).json({ msg: "Car Booking not found" });
+    // res.json(carBooking);
+    await CarBooking.findByIdAndRemove(carBooking._id);
+    res.json({ msg: "carBooking removed" });
+  } catch (error) {
+    res.send("Server error");
+  }
+});
 module.exports = router;

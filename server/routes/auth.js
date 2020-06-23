@@ -27,6 +27,9 @@ router.get("/", auth, async (req, res) => {
     } else if (req.user.userType === "2") {
       const guide = await Guide.findById(req.user.id).select("-password");
       res.json(guide);
+    } else if (req.user.userType === "3") {
+      const driver = await Driver.findById(req.user.id).select("-password");
+      res.json(driver);
     }
     // else if (req.type === "2") {
     //   const guide = await HotelRep.findById(req.Guide.id).select(
@@ -69,8 +72,8 @@ router.post(
       if (type === "0") user = await Customer.findOne({ email });
       else if (type === "1") user = await HotelRep.findOne({ email });
       else if (type === "2") user = await Guide.findOne({ email });
-      else if (type === "3") user = await TravelAgent.findOne({ email });
-      else if (type === "4") user = await Driver.findOne({ email });
+      else if (type === "3") user = await Driver.findOne({ email });
+      else if (type === "4") user = await TravelAgent.findOne({ email });
       else if (type === "5") user = await Admin.findOne({ email });
       else if (type === "6") user = await SupportAssistant.findOne({ email });
 
