@@ -9,7 +9,7 @@ const DriverFound = ({ driverInfo, getDriverLocation }) => {
   return (
     <View style={styles.findDriverContainer}>
       <View style={styles.content}>
-        <Text>YAY Driver Found!</Text>
+        <Text style={{ color: "#fff" }}>YAY Driver Found!</Text>
         <Image
           resizeMode="cover"
           style={styles.driverPic}
