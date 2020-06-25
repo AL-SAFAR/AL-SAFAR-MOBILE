@@ -3,7 +3,7 @@
   "DISTANCE_DIRECTION_KEY": "AIzaSyAkQaUZXVpa7nwKcpdrH42VWifnZaC9wcs",
   "Stripe": "a#127gh_6p",
   "APP_COMMISSION": 5,
-  "BASE_URL": "https://130668c6d32f.ngrok.io/api",
+  "BASE_URL": "https://b67ff6fca2e2.ngrok.io/api",
   // "BASE_URL": "https://fefc64e5d622.ngrok.io",
-  "HOME_BASE_URL": "https://130668c6d32f.ngrok.io"
+  "HOME_BASE_URL": "https://b67ff6fca2e2.ngrok.io"
 }
