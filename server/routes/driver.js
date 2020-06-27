@@ -173,10 +173,13 @@ router.post("/carBooking", async (req, res) => {
       });
       await booking.save();
       res.send(booking);
-      if (nearByDriver.socketId) {
-        console.log(nearByDriver.socketId);
+      let driver = await DriverLocation.findOne({
+        customerId: nearByDriver.customerId,
+      });
+      if (driver.socketId) {
+        console.log(driver.socketId);
 
-        io.emit(nearByDriver.socketId + "driverRequest", booking);
+        io.emit(driver.socketId + "driverRequest", booking);
         // io.emit("DRIVER_REQUEST", booking);
         // console.log(nearByDriver.socketId);
       } else {

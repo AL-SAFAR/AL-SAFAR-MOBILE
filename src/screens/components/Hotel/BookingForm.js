@@ -15,9 +15,18 @@ import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form
 import { globalStyles } from "../../../../styles/global";
 import { DatePicker } from "native-base";
 import { CreditCardInput } from "react-native-credit-card-input";
-const BookingForm = ({ setModalOpen }) => {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
+import { connect } from "react-redux";
+import { chargeCustomer, checkAvailability } from "../../actions/hotelActions";
+import PropTypes from "prop-types";
+
+const BookingForm = ({
+  setModalOpen,
+  chargeCustomer,
+  hotel,
+  checkAvailability,
+}) => {
+  const [startDate, setstartDate] = useState(null);
+  const [endDate, setendDate] = useState(null);
   const [adults, setAdults] = useState(1);
   const [childs, setChilds] = useState(0);
   const [roomType, setRoomType] = useState(null);
@@ -47,21 +56,21 @@ const BookingForm = ({ setModalOpen }) => {
     },
     cvc: { maxLength: 3 },
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // console.log();
     let person = adults + Math.ceil(childs / 2);
     // person = 0;
     if (
-      fromDate &&
-      toDate &&
+      startDate &&
+      endDate &&
       person > 0 &&
       roomType &&
       noOfRooms > 0 &&
       paymentDetails
     ) {
       let bookdetails = {
-        fromDate,
-        toDate,
+        startDate,
+        endDate,
         person,
         noOfRooms,
         roomType,
@@ -69,18 +78,22 @@ const BookingForm = ({ setModalOpen }) => {
       };
 
       console.log(bookdetails);
-      Popup.show({
-        type: "Success",
-        title: "Booking Completed",
-        button: false,
-        textBody: "Congrats! Booking successfully done",
-        buttontext: "Ok",
-        callback: () => {
-          Popup.hide();
-          setModalOpen(false);
-        },
+      const room = hotel.Room.filter((el) => {
+        return el.roomType === roomType;
       });
-    } else if (fromDate || toDate || roomType || paymentDetails) {
+      checkAvailability();
+      // Popup.show({
+      //   type: "Success",
+      //   title: "Booking Completed",
+      //   button: false,
+      //   textBody: "Congrats! Booking successfully done",
+      //   buttontext: "Ok",
+      //   callback: () => {
+      //     Popup.hide();
+      //     setModalOpen(false);
+      //   },
+      // });
+    } else if (startDate || endDate || roomType || paymentDetails) {
       Popup.show({
         type: "Warning",
         title: "Fields Incomplete",
@@ -196,7 +209,7 @@ const BookingForm = ({ setModalOpen }) => {
                 minimumDate={Date.now()}
                 maximumDate={maxDate}
                 locale={"en"}
-                // onChangeText={handleChange("fromDate")}
+                // onChangeText={handleChange("startDate")}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
                 animationType={"fade"}
@@ -205,7 +218,7 @@ const BookingForm = ({ setModalOpen }) => {
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
-                  setFromDate(date);
+                  setstartDate(date);
                   console.log(date);
                 }}
                 disabled={false}
@@ -214,10 +227,10 @@ const BookingForm = ({ setModalOpen }) => {
             <View style={globalStyles.input}>
               <DatePicker
                 defaultDate={Date.now()}
-                minimumDate={fromDate ? fromDate : Date.now()}
+                minimumDate={startDate ? startDate : Date.now()}
                 maximumDate={maxDate}
                 locale={"en"}
-                // onChangeText={handleChange("fromDate")}
+                // onChangeText={handleChange("startDate")}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
                 animationType={"fade"}
@@ -226,7 +239,7 @@ const BookingForm = ({ setModalOpen }) => {
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
-                  setToDate(date);
+                  setendDate(date);
                   console.log(date);
                 }}
                 disabled={false}
@@ -262,4 +275,15 @@ const BookingForm = ({ setModalOpen }) => {
   );
 };
 
-export default BookingForm;
+BookingForm.propTypes = {
+  chargeCustomer: PropTypes.func.isRequired,
+  checkAvailability: PropTypes.func.isRequired,
+  hotel: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  hotel: state.hotel,
+  //   receiver: navigation.getParam("receivingUser"),
+});
+
+export default connect(mapStateToProps, { chargeCustomer })(BookingForm);

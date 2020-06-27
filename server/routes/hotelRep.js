@@ -9,8 +9,13 @@ const auth = require("../middleware/auth");
 const Hotel = require("../models/HotelManagment/Hotel");
 const Room = require("../models/HotelManagment/Room");
 const HotelRep = require("../models/UserManagment/HotelRep");
-
+const { ObjectId } = require("mongodb");
 const async = require("async");
+const HotelBooking = require("../models/HotelManagment/HotelBooking");
+const Payment = require("../models/Payment/Payment");
+const schedule = require("node-schedule");
+const Stripe = require("stripe");
+const stripe = new Stripe("sk_test_hqcxEpMNto862mGujgGpONho004USKiy2K");
 
 router.get("/", async (req, res) => {
   try {
@@ -103,7 +108,7 @@ router.post(
   }
 );
 
-//@route    put api/hotelRep/:id
+//@route    PUT api/hotelRep/:id
 //@desc     update HotelReps
 //@access   Private
 router.put("/:id", auth, async (req, res) => {
@@ -149,7 +154,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// @route    post api/hotelRep/createHotelProfile
+// @route    POST api/hotelRep/createHotelProfile
 // @desc     Create Hotel Profile
 // @access   Private
 router.post("/createHotelProfile", auth, async (req, res) => {
@@ -173,12 +178,11 @@ router.post("/createHotelProfile", auth, async (req, res) => {
     GeneralFacilities,
     CheckInTime,
     CheckOutTime,
+    HotelImages,
   } = req.body;
 
   // console.log("Body=");
-  // console.log(req.body);
-  // console.log("File=");
-  // console.log(req.files);
+  console.log(req.body);
   // Build contact object
   const hotelFields = {};
   if (name) hotelFields.hotelName = name;
@@ -215,26 +219,18 @@ router.post("/createHotelProfile", auth, async (req, res) => {
   console.log("hotelFields=");
   console.log(hotelFields);
 
-  if (req.files) {
-    var fileNamesArray = [];
-    var fileKeys = Object.keys(req.files);
+  let HotelProfileImages = [];
+  let HotelImagesArray = [];
+  HotelImagesArray = HotelImages.split(",");
 
-    fileKeys.forEach(function (key) {
-      // fileNames.push(req.files[key]);
-
-      let file = req.files[key];
-      fileName =
-        file.name.split(".")[0] + req.user.id + "." + file.name.split(".")[1];
-      fileNamesArray.push(fileName);
-      file.mv("client/src/images/HotelProfile/" + fileName, (err) => {
-        if (err) {
-          // res.send(err);
-          console.error(err);
-        }
-      });
+  if (HotelImagesArray.length > 0) {
+    HotelImagesArray.forEach((HotelImage) => {
+      HotelProfileImages.push(HotelImage);
     });
-    hotelFields.hotelImages = fileNamesArray;
   }
+
+  hotelFields.hotelImages = HotelProfileImages;
+
   try {
     let hotelRep = await HotelRep.findById(req.user.id);
     if (!hotelRep) return res.status(401).json({ msg: "Not authorized" });
@@ -250,105 +246,44 @@ router.post("/createHotelProfile", auth, async (req, res) => {
   }
 });
 
-// @route    post api/hotelRep/addNewRoom
+// @route    POST api/hotelRep/addNewRoom
 // @desc     Add New Room
 // @access   Private
 router.post("/addNewRoom", auth, async (req, res) => {
-  const { roomType, roomMaxOccupancy, isAvailable, NoOfRooms, rent } = req.body;
+  const { roomType, roomMaxOccupancy, NoOfRooms, rent } = req.body;
 
   try {
     // Using upsert option (creates new doc if no match is found):
 
     //find the hotel against the hotelRep ID
     let hotel = await Hotel.findOne({ hotelRep: req.user.id });
-    if (!hotel) return res.status(401).json({ msg: "Not authorized" });
+    if (!hotel) return res.json({ msg: "Not authorized" });
 
-    let roomObj = await Room.findOne({ hotelId: hotel.id, roomType });
-    if (!roomObj) {
-      for (let i = 0; i < NoOfRooms; i++) {
-        let room = new Room({
-          hotelId: hotel.id,
-          rent,
-          roomType,
-          NoOfRooms,
-          roomMaxOccupancy,
-          ...(isAvailable && isAvailable),
-        });
-        await room.save();
-        //
-      }
-      res.json({
-        hotelId: hotel.id,
-        rent,
-        roomType,
-        NoOfRooms,
-        roomMaxOccupancy,
-        ...(isAvailable && isAvailable),
-      });
-      return;
-    }
-
-    if (roomObj.NoOfRooms <= NoOfRooms) {
-      let RoomToAdd = roomObj.NoOfRooms - NoOfRooms;
-      for (let i = 0; i < RoomToAdd; i++) {
-        let room = new Room({
-          hotelId: hotel.id,
-          rent,
-          roomType,
-          NoOfRooms,
-          roomMaxOccupancy,
-          ...(isAvailable && isAvailable),
-        });
-
-        await room.save();
-      }
-      await Room.updateMany(
-        { hotelId: hotel.id, roomType },
-        {
-          $set: {
-            hotelId: hotel.id,
-            rent,
-            roomType,
-            NoOfRooms,
-            roomMaxOccupancy,
-            ...(isAvailable && isAvailable),
-          },
-        },
-        { new: true }
-      );
-      res.json({
-        hotelId: hotel.id,
-        rent,
-        roomType,
-        NoOfRooms,
-        roomMaxOccupancy,
-        ...(isAvailable && isAvailable),
-      });
-      return;
-    } else {
-      let NoOfRoomToDelete = NoOfRooms - roomObj.NoOfRooms;
-      let ListOfRoom = await Room.find({ hotelId: hotel.id, roomType });
-      var RoomToDelete = ListOfRoom.slice(NoOfRoomToDelete);
-      RoomToDelete.forEach(async function (room) {
-        await Room.findByIdAndDelete(room._id);
-      });
-      res.json({
-        hotelId: hotel.id,
-        rent,
-        roomType,
-        NoOfRooms,
-        roomMaxOccupancy,
-        ...(isAvailable && isAvailable),
-      });
-    }
+    let RoomFields = {};
+    console.log(
+      roomType + " " + roomMaxOccupancy + " " + NoOfRooms + " " + rent
+    );
+    RoomFields.hotelId = ObjectId(hotel.id);
+    RoomFields.roomType = roomType;
+    RoomFields.rent = rent;
+    RoomFields.roomMaxOccupancy = roomMaxOccupancy;
+    RoomFields.NoOfRooms = NoOfRooms;
+    console.log("RoomFields");
+    console.log(RoomFields);
+    let roomObj = await Room.findOneAndUpdate(
+      { hotelId: ObjectId(hotel.id), roomType: roomType },
+      { $set: RoomFields },
+      { upsert: true, new: true }
+    );
+    res.json(roomObj);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
 
-// @route    get api/hotelRep/uniquerooms
-// @desc     Get Unique Rooms
+// @route    POST api/hotelRep/uniquerooms
+// @desc     Get Unique Rooms of a Hotel
 // @access   Private
 router.post("/uniquerooms", auth, async (req, res) => {
   try {
@@ -470,6 +405,7 @@ router.post("/uniquerooms", auth, async (req, res) => {
             ],
           },
         },
+
         {
           $unwind: "$Room",
         },
@@ -488,6 +424,304 @@ router.post("/uniquerooms", auth, async (req, res) => {
   } catch (err) {
     console.log("ERROR MESSAGE=");
     console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/hotelRep/saveHotelBooking
+// @desc     Save a Hotel Booking of Rooms
+// @access   Private
+router.post("/saveHotelBooking", auth, async (req, res) => {
+  try {
+    const {
+      PaymentID,
+      HotelID,
+      Adult,
+      Children,
+      NoOfRoom,
+      RoomType,
+      fromDate,
+      toDate,
+      hotelRep,
+      RoomId,
+      NoOfRooms,
+    } = req.body;
+    console.log(RoomId);
+    let NewhotelBooking = new HotelBooking({
+      paymentId: ObjectId(PaymentID),
+      RoomId: ObjectId(RoomId.toString().trim()),
+      hotelId: ObjectId(HotelID),
+      customerId: ObjectId(req.user.id),
+      NoOfRooms: NoOfRooms,
+      fromDate: new Date(fromDate),
+      toDate: new Date(toDate),
+      status: "active",
+    });
+    let hotelbooking = await NewhotelBooking.save();
+    // var date = new Date(2020, 5, 23, 00, 30, 0);
+    var date = new Date(toDate);
+    console.log(date);
+    console.log(hotelbooking._id);
+    let HotelRepres = await HotelRep.findById(ObjectId(hotelRep));
+    let paymentRes = await Payment.findById(ObjectId(PaymentID));
+    let amount = paymentRes.amount;
+    let comission = paymentRes.commission;
+    let amountToTransfer = amount - comission;
+    amountToTransfer = Math.ceil((amountToTransfer / 160) * 100); //Convert to USD
+    let connectid = HotelRepres.connectid;
+    let BookingId = hotelbooking._id.toString();
+
+    var j = schedule.scheduleJob(BookingId, date, async function () {
+      const transfer = await stripe.transfers.create({
+        amount: amountToTransfer,
+        currency: "USD",
+        destination: connectid,
+      });
+      console.log(transfer);
+      const updateFields = {};
+      updateFields.status = "completed";
+      console.log(updateFields);
+      let booking = await HotelBooking.findByIdAndUpdate(
+        ObjectId(BookingId),
+        {
+          $set: updateFields,
+        },
+        { new: true }
+      );
+      console.log("Stripe PAyment hit");
+      console.log(booking);
+    });
+
+    res.json({ hotelbooking });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/hotelRep/cancelBooking
+// @desc     Cancel a Hotel Booking of Rooms
+// @access   Private
+router.post("/cancelBooking", auth, async (req, res) => {
+  const { bookingId } = req.body;
+  // let bookingId = data.bookingId;
+  const updateFields = {};
+  updateFields.status = "cancelled";
+  updateFields.cancelDate = new Date();
+  let booking = await HotelBooking.findByIdAndUpdate(ObjectId(bookingId), {
+    $set: updateFields,
+  });
+  res.json({ booking });
+});
+
+// @route    POST api/hotelRep/addFeedback
+// @desc     Customer Gives Feedback to a Hotel
+// @access   Private
+router.post("/addFeedback", auth, async (req, res) => {
+  try {
+    const { HotelId, BookingId, starRating, feedback } = req.body;
+    let HotelResp = await HotelBooking.findByIdAndUpdate(
+      ObjectId(BookingId),
+      {
+        $set: {
+          ...(starRating && { starRating: parseInt(starRating) }),
+          ...(feedback && { feedback }),
+        },
+      },
+      { new: true }
+    );
+    let ratingAverage = await HotelBooking.aggregate(
+      [
+        {
+          $match: {
+            hotelId: ObjectId(HotelId),
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            starRatingAverage: {
+              $avg: "$starRating",
+            },
+          },
+        },
+      ],
+      async (err, AverageResponse) => {
+        console.log(AverageResponse);
+        let HotelRatingAverage = AverageResponse[0].starRatingAverage;
+        let HotelRatingResp = await Hotel.findByIdAndUpdate(ObjectId(HotelId), {
+          $set: {
+            starRating: HotelRatingAverage,
+          },
+        });
+        res.json({ HotelResp, AverageResponse, HotelRatingResp });
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+// @route    POST api/hotelRep/hotelBooking
+// @desc     List of Customers who have made Booking to a Hotel
+// @access   Private
+router.get("/hotelBooking", auth, async (req, res) => {
+  try {
+    await HotelRep.aggregate(
+      [
+        {
+          $match: {
+            _id: ObjectId(req.user.id),
+          },
+        },
+        {
+          $lookup: {
+            from: "hotels",
+            localField: "_id",
+            foreignField: "hotelRep",
+            as: "Hotel",
+          },
+        },
+        {
+          $lookup: {
+            from: "hotelbookings",
+            localField: "Hotel._id",
+            foreignField: "hotelId",
+            as: "HotelBooking",
+          },
+        },
+        {
+          $lookup: {
+            from: "rooms",
+            localField: "HotelBooking.RoomId",
+            foreignField: "_id",
+            as: "Rooms",
+          },
+        },
+        {
+          $lookup: {
+            from: "customers",
+            localField: "HotelBooking.customerId",
+            foreignField: "_id",
+            as: "Customer",
+          },
+        },
+        {
+          $lookup: {
+            from: "payments",
+            localField: "HotelBooking.paymentId",
+            foreignField: "_id",
+            as: "Payment",
+          },
+        },
+        {
+          $project: {
+            Booking: {
+              $map: {
+                input: {
+                  $zip: {
+                    inputs: [
+                      "$HotelBooking",
+                      "$Customer",
+                      "$Payment",
+                      "$Rooms",
+                    ],
+                  },
+                },
+                as: "el",
+                in: {
+                  HotelBooking: {
+                    $arrayElemAt: ["$$el", 0],
+                  },
+                  Customer: {
+                    $arrayElemAt: ["$$el", 1],
+                  },
+                  Payment: {
+                    $arrayElemAt: ["$$el", 2],
+                  },
+                  Rooms: {
+                    $arrayElemAt: ["$$el", 3],
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          $unwind: "$Booking",
+        },
+      ],
+      (error, response) => {
+        if (error) res.status(500).send("Server Error");
+        res.json(response);
+        console.log(response);
+      }
+    );
+  } catch (error) {
+    res.status(500).send("Server Erorr");
+    console.log(error);
+  }
+});
+
+router.post("/roomAvailability", async (req, res) => {
+  try {
+    let { RoomId, startDate, endDate, roomType } = req.body;
+    console.log(RoomId + " " + startDate + " " + endDate + " " + roomType);
+    await HotelBooking.aggregate(
+      [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                {
+                  $eq: ["$RoomId", ObjectId(RoomId)],
+                },
+                {
+                  $gte: ["$fromDate", new Date(startDate)],
+                },
+                {
+                  $lte: ["$toDate", new Date(endDate)],
+                },
+              ],
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "rooms",
+            as: "Room",
+            let: {},
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: ["$roomType", roomType],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            total: {
+              $sum: "$NoOfRooms",
+            },
+          },
+        },
+      ],
+      (err, response) => {
+        if (err) res.status(400).json({ err });
+        res.json({ response });
+      }
+    );
+  } catch (error) {
+    console.log(error);
     res.status(500).send("Server Error");
   }
 });
