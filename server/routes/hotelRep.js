@@ -677,6 +677,9 @@ router.post("/roomAvailability", async (req, res) => {
                   $eq: ["$RoomId", ObjectId(RoomId)],
                 },
                 {
+                  $eq: ["$status", "active"],
+                },
+                {
                   $gte: ["$fromDate", new Date(startDate)],
                 },
                 {
@@ -725,5 +728,4 @@ router.post("/roomAvailability", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
 module.exports = router;

@@ -69,7 +69,7 @@ const HotelProfile = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
-          <BookingForm setModalOpen={setModalOpen} />
+          <BookingForm setModalOpen={setModalOpen} hotel={hotel}/>
         </View>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -5,8 +5,7 @@ const Stripe = require("stripe");
 const fs = require("fs");
 const Guide = require("../models/UserManagment/Guide");
 const HotelRep = require("../models/UserManagment/HotelRep");
-// const stripe = new Stripe("sk_test_hqcxEpMNto862mGujgGpONho004USKiy2K");
-const stripe = new Stripe("sk_test_EW9RoFD5mICzwKzurlmRNJL600L0ux2kul");
+const stripe = new Stripe("sk_test_hqcxEpMNto862mGujgGpONho004USKiy2K");
 const auth = require("../middleware/auth");
 const TravelAgent = require("../models/UserManagment/TravelAgent");
 const Payment = require("../models/Payment/Payment");
@@ -353,12 +352,10 @@ router.post("/checkEmail", async (req, res) => {
 });
 
 router.post("/savePayment", auth, async (req, res) => {
-  const { Comission, TrasactionID, amount, GuideEmail } = req.body;
+  const { Comission, TrasactionID, amount, Email, typeOfSP } = req.body;
   let user = req.user.id;
   console.log(req.body);
-  let SPEmail = GuideEmail;
-  let typeOfSP = "Guide";
-
+  let SPEmail = Email;
   try {
     let PaymentObj = {
       customerId: user,

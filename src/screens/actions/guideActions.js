@@ -64,96 +64,95 @@ export const chargeCustomer = (payload) => async (dispatch) => {
     });
     const cardTokenId = token.id;
     // console.log(cardTokenId);
-    return AsyncStorage.getItem("user")
-      .then((res) => {
-        let LoggedInUser = JSON.parse(res);
-        // console.log(LoggedInUser);
-        console.log(LoggedInUser.email);
-        let serverResponse = axios
-          .post(
-            `${BASE_URL}/payment/checkcustomer`,
-            { CustomerEmail: LoggedInUser.email },
-            config
-          )
-          .then(async (CustomerExists) => {
-            let Customer = null;
-            let CustomerID = null;
-            // console.log("CHECKED CUSTOMER=");
-            // console.log(CustomerExists.data);
-            CustomerExists = CustomerExists.data;
-            if (CustomerExists.hasOwnProperty("NOTFOUND")) {
-              // Create a Customer
-              Customer = await axios.post(
-                `${BASE_URL}/payment/createCustomer`,
-                {
-                  name: LoggedInUser.name,
-                  email: LoggedInUser.email,
-                  description: "Customer" + LoggedInUser.name + "was Created",
-                },
-                config
-              );
-              CustomerID = Customer.data;
-            } else {
-              CustomerID;
-              // Customer Exits
-              Customer = CustomerExists;
-              // console.log("THE CURRENT CUSTOMER=");
-              // console.log(Customer.id);
-              CustomerID = Customer.id;
-            }
-            // console.log("CUSTOMERS ID=");
-            // console.log(CustomerID);
-            // Charge Customer
-            const res = await axios.post(
-              `${BASE_URL}/payment/charge`,
+    return AsyncStorage.getItem("user").then((res) => {
+      let LoggedInUser = JSON.parse(res);
+      // console.log(LoggedInUser);
+      console.log(LoggedInUser.email);
+      let serverResponse = axios
+        .post(
+          `${BASE_URL}/payment/checkcustomer`,
+          { CustomerEmail: LoggedInUser.email },
+          config
+        )
+        .then(async (CustomerExists) => {
+          let Customer = null;
+          let CustomerID = null;
+          // console.log("CHECKED CUSTOMER=");
+          // console.log(CustomerExists.data);
+          CustomerExists = CustomerExists.data;
+          if (CustomerExists.hasOwnProperty("NOTFOUND")) {
+            // Create a Customer
+            Customer = await axios.post(
+              `${BASE_URL}/payment/createCustomer`,
               {
-                TokenID: cardTokenId,
-                CustomerID,
-                Amount: USDamount,
+                name: LoggedInUser.name,
+                email: LoggedInUser.email,
+                description: "Customer" + LoggedInUser.name + "was Created",
               },
               config
             );
-            // console.log(res.data);
-            let TrasactionID = res.data.confirm.id;
-            let ComissionPercentage = APP_COMMISSION;
-            let Comission = PKRamount * (ComissionPercentage / 100);
-            // console.log("GuideProfile=");
-            // console.log(GuideProfile);
-            let savePaymentData = {
-              Comission: Comission,
-              TrasactionID: TrasactionID,
-              amount: PKRamount,
-              GuideEmail: GuideProfile.email,
-            };
-            let savePaymentResp = await axios.post(
-              `${BASE_URL}/payment/savePayment`,
-              savePaymentData,
-              config
-            );
-            // console.log(savePaymentResp);
-            let PaymentID = savePaymentResp.data.resp._id;
-            // console.log("GuideID: " + GuideProfile._id);
-            let BookingData = {
-              GuideID: GuideProfile._id,
-              PaymentID: PaymentID,
-              startDate: payload.startDate,
-              endDate: payload.endDate,
-            };
-            let BookingResp = await axios.post(
-              `${BASE_URL}/guide/guideBooking`,
-              BookingData,
-              config
-            );
-            // console.log(BookingResp);
-            return true;
-          })
-          .catch((error) => {
-            console.error(error);
-            return false;
-          });
-        return serverResponse;
-      })
-      .then();
+            CustomerID = Customer.data;
+          } else {
+            CustomerID;
+            // Customer Exits
+            Customer = CustomerExists;
+            // console.log("THE CURRENT CUSTOMER=");
+            // console.log(Customer.id);
+            CustomerID = Customer.id;
+          }
+          // console.log("CUSTOMERS ID=");
+          // console.log(CustomerID);
+          // Charge Customer
+          const res = await axios.post(
+            `${BASE_URL}/payment/charge`,
+            {
+              TokenID: cardTokenId,
+              CustomerID,
+              Amount: USDamount,
+            },
+            config
+          );
+          // console.log(res.data);
+          let TrasactionID = res.data.confirm.id;
+          let ComissionPercentage = APP_COMMISSION;
+          let Comission = PKRamount * (ComissionPercentage / 100);
+          // console.log("GuideProfile=");
+          // console.log(GuideProfile);
+          let savePaymentData = {
+            Comission: Comission,
+            TrasactionID: TrasactionID,
+            amount: PKRamount,
+            Email: GuideProfile.email,
+            typeOfSP: "guide",
+          };
+          let savePaymentResp = await axios.post(
+            `${BASE_URL}/payment/savePayment`,
+            savePaymentData,
+            config
+          );
+          // console.log(savePaymentResp);
+          let PaymentID = savePaymentResp.data.resp._id;
+          // console.log("GuideID: " + GuideProfile._id);
+          let BookingData = {
+            GuideID: GuideProfile._id,
+            PaymentID: PaymentID,
+            startDate: payload.startDate,
+            endDate: payload.endDate,
+          };
+          let BookingResp = await axios.post(
+            `${BASE_URL}/guide/guideBooking`,
+            BookingData,
+            config
+          );
+          // console.log(BookingResp);
+          return true;
+        })
+        .catch((error) => {
+          console.error(error);
+          return false;
+        });
+      return serverResponse;
+    });
   } catch (error) {
     console.log("Error Occured");
     console.log(error);

@@ -47,7 +47,7 @@ const BookingForm = ({
       setPaymentDetails(payment);
       // console.log(form);
     } else {
-      console.log(form);
+      // console.log(form);
     }
   };
   const addtionalInputsProps = {
@@ -68,6 +68,9 @@ const BookingForm = ({
       noOfRooms > 0 &&
       paymentDetails
     ) {
+      const room = hotel.Room.filter((el) => {
+        return el.roomType === roomType;
+      });
       let bookdetails = {
         startDate,
         endDate,
@@ -75,13 +78,51 @@ const BookingForm = ({
         noOfRooms,
         roomType,
         paymentDetails,
+        room: room[0],
+        hotel,
       };
-
-      console.log(bookdetails);
-      const room = hotel.Room.filter((el) => {
-        return el.roomType === roomType;
+      // console.log(bookdetails);
+      // console.log(hotel.Room);
+      // console.log(room);
+      let available = {
+        room: room[0],
+        roomType,
+        startDate,
+        endDate,
+        noOfRooms,
+      };
+      checkAvailability(available).then((res) => {
+        if (res.status) {
+          chargeCustomer(bookdetails).then((res) => {
+            // console.log(res);
+            //   setProcessing(false);
+            //   if (res === true) {
+            //     Popup.show({
+            //       type: "Success",
+            //       title: "Booking Completed",
+            //       button: false,
+            //       textBody: "Congrats! Booking successfully done",
+            //       buttontext: "Ok",
+            //       callback: () => {
+            //         Popup.hide();
+            //         setModalOpen(false);
+            //       },
+            //     });
+            //   } else {
+            //   }
+          });
+          console.log("hello");
+        } else {
+          Popup.show({
+            type: "Danger",
+            title: "Booking failed",
+            textBody: res.msg,
+            buttontext: "Try again",
+            callback: () => Popup.hide(),
+          });
+        }
+        // console.log(res);
       });
-      checkAvailability();
       // Popup.show({
       //   type: "Success",
       //   title: "Booking Completed",
@@ -181,9 +222,9 @@ const BookingForm = ({
                   value={null}
                   key={0}
                 />
-                <Picker.Item label="Economy" value={"economy"} key={1} />
-                <Picker.Item label="Deluxe" value={"deluxe"} key={2} />
-                <Picker.Item label="Luxury" value={"luxury"} key={3} />
+                <Picker.Item label="Economy" value={"Economy"} key={1} />
+                <Picker.Item label="Deluxe" value={"Deluxe"} key={2} />
+                <Picker.Item label="Luxury" value={"Luxury"} key={3} />
               </Picker>
             </View>
             <View style={globalStyles.input}>
@@ -218,6 +259,10 @@ const BookingForm = ({
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
+                  // date.setTime(
+                  //   date.getTime() - new Date().getTimezoneOffset() * 60 * 1000
+                  // );
+
                   setstartDate(date);
                   console.log(date);
                 }}
@@ -239,6 +284,10 @@ const BookingForm = ({
                 textStyle={{ color: "green" }}
                 placeHolderTextStyle={{ color: "black" }}
                 onDateChange={(date) => {
+                  // date.setTime(
+                  //   date.getTime() - new Date().getTimezoneOffset() * 60 * 1000
+                  // );
+
                   setendDate(date);
                   console.log(date);
                 }}
@@ -278,12 +327,14 @@ const BookingForm = ({
 BookingForm.propTypes = {
   chargeCustomer: PropTypes.func.isRequired,
   checkAvailability: PropTypes.func.isRequired,
-  hotel: PropTypes.object.isRequired,
+  hotels: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  hotel: state.hotel,
+  hotels: state.hotel,
   //   receiver: navigation.getParam("receivingUser"),
 });
 
-export default connect(mapStateToProps, { chargeCustomer })(BookingForm);
+export default connect(mapStateToProps, { chargeCustomer, checkAvailability })(
+  BookingForm
+);
