@@ -4,7 +4,7 @@ import { AsyncStorage } from "react-native";
 import moment from "moment";
 import StripeClient from "./StripeClient";
 import axios from "axios";
-const testApiKey = "sk_test_EW9RoFD5mICzwKzurlmRNJL600L0ux2kul";
+const testApiKey = "pk_test_E4kJlHrPZzpKcJzBXxf1KywE00ItkELuMe";
 
 //Get hotels from server
 export const getHotels = () => async (dispatch) => {
@@ -68,7 +68,7 @@ export const chargeCustomer = (payload) => async (dispatch) => {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    const { paymentDetails, hotel, room } = payload;
+    const { paymentDetails, hotel, room, noOfRooms } = payload;
     const { expiry, cvc, number } = paymentDetails;
     let startDate = moment(payload.startDate, "DD-MM-YYYY");
     let endDate = moment(payload.endDate, "DD-MM-YYYY");
@@ -84,7 +84,8 @@ export const chargeCustomer = (payload) => async (dispatch) => {
     let exp_month = parseInt(Expires[0]);
     let exp_year = parseInt(Expires[1]);
     console.log("month: " + exp_month + " year: " + exp_year);
-    let HotelProfile = hotel;
+    let HotelProfile = hotel.HotelRep[0];
+    // console.log(hotel);
     // console.log(hotel);
     let stripe = new StripeClient(testApiKey);
     const token = await stripe.tokenizeCard({
@@ -93,8 +94,10 @@ export const chargeCustomer = (payload) => async (dispatch) => {
       expYear: exp_year,
       cvc: cvc,
     });
+    // console.log(token);
+
     const cardTokenId = token.id;
-    console.log(cardTokenId);
+    // console.log(cardTokenId);
     return AsyncStorage.getItem("user").then((res) => {
       let LoggedInUser = JSON.parse(res);
       // console.log(LoggedInUser);
@@ -124,15 +127,15 @@ export const chargeCustomer = (payload) => async (dispatch) => {
             );
             CustomerID = Customer.data;
           } else {
-            CustomerID;
+            // CustomerID;
             // Customer Exits
             Customer = CustomerExists;
-            // console.log("THE CURRENT CUSTOMER=");
-            // console.log(Customer.id);
+            console.log("THE CURRENT CUSTOMER=");
+            console.log(Customer.id);
             CustomerID = Customer.id;
           }
-          // console.log("CUSTOMERS ID=");
-          // console.log(CustomerID);
+          console.log("CUSTOMERS ID=");
+          console.log(CustomerID);
           // Charge Customer
           const res = await axios.post(
             `${BASE_URL}/payment/charge`,
@@ -147,6 +150,7 @@ export const chargeCustomer = (payload) => async (dispatch) => {
           let TrasactionID = res.data.confirm.id;
           let ComissionPercentage = APP_COMMISSION;
           let Comission = PKRamount * (ComissionPercentage / 100);
+          console.log(HotelProfile.email);
           // console.log("GuideProfile=");
           // console.log(GuideProfile);
           let savePaymentData = {
@@ -156,29 +160,33 @@ export const chargeCustomer = (payload) => async (dispatch) => {
             Email: HotelProfile.email,
             typeOfSP: "hotel",
           };
+          // console.log(usertoken);
           let savePaymentResp = await axios.post(
             `${BASE_URL}/payment/savePayment`,
             savePaymentData,
             config
           );
+          // let Adult = 1;
+          // let Children = 1;
           // console.log(savePaymentResp);
           let PaymentID = savePaymentResp.data.resp._id;
-          // console.log("GuideID: " + GuideProfile._id);
+          console.log("paymentID:: " + PaymentID);
           let BookingData = {
             HotelID: hotel._id,
             PaymentID: PaymentID,
             fromDate: payload.startDate,
             toDate: payload.endDate,
-            hotelRep: hotel.HotelRep,
+            hotelRep: HotelProfile._id,
             RoomId: room._id,
             NoOfRooms: noOfRooms,
           };
+          console.log(BookingData);
           let BookingResp = await axios.post(
             `${BASE_URL}/hotelRep/saveHotelBooking`,
             BookingData,
             config
           );
-          console.log(BookingResp);
+          console.log(BookingResp.data);
           return true;
         })
         .catch((error) => {

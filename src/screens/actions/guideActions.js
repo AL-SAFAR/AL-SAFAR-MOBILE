@@ -9,7 +9,7 @@ import { AsyncStorage } from "react-native";
 import moment from "moment";
 import StripeClient from "./StripeClient";
 import axios from "axios";
-const testApiKey = "sk_test_EW9RoFD5mICzwKzurlmRNJL600L0ux2kul";
+const testApiKey = "pk_test_E4kJlHrPZzpKcJzBXxf1KywE00ItkELuMe";
 //Get techs from server
 export const getGuides = () => async (dispatch) => {
   try {

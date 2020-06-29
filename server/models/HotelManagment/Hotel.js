@@ -4,77 +4,77 @@ const HotelSchema = mongoose.Schema({
   hotelRep: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "hotelRep",
-    unique: true
+    unique: true,
   },
   hotelName: {
     type: String,
-    required: true
+    required: true,
   },
   address: {
     type: String,
-    required: true
+    required: true,
   },
   city: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
   },
   hotelImages: {
-    type: [String]
+    type: [String],
   },
   starRating: {
     type: Number,
-    default: 0
+    default: 0,
   },
   extras: {
     foods: {
       type: [String],
-      default: undefined
+      default: undefined,
     },
     facilities: {
       Activities: {
         type: [String],
-        default: undefined
+        default: undefined,
       },
       Cleaning: {
         type: [String],
-        default: undefined
+        default: undefined,
       },
       general: {
         type: [String],
-        default: undefined
-      }
+        default: undefined,
+      },
     },
     wifi: {
       type: Boolean,
-      default: false
+      default: false,
     },
     parking: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   houseRules: {
     checkIn: {
       type: String,
-      required: true
+      required: true,
     },
     checkOut: {
       type: String,
-      required: true
+      required: true,
     },
     Smoking: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("hotel", HotelSchema);

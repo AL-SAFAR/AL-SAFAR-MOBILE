@@ -1,31 +1,47 @@
 const mongoose = require("mongoose");
 
 const HotelBookingSchema = mongoose.Schema({
-  roomId: {
+  RoomId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "room"
+    ref: "room",
   },
   hotelId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "hotel"
+    ref: "hotel",
   },
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "customer"
+    ref: "customer",
+  },
+  paymentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "payment",
+  },
+  NoOfRooms: {
+    type: Number,
+    required: true,
   },
   fromDate: {
     type: Date,
-    required: true
+    required: true,
   },
   toDate: {
     type: Date,
-    required: true
+    required: true,
   },
-  isPending: {
-    type: Boolean,
-    default: false,
-    required: true
-  }
+  status: {
+    type: String,
+  },
+
+  cancelDate: {
+    type: Date,
+  },
+  starRating: {
+    type: Number,
+  },
+  feedback: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("hotelBooking", HotelBookingSchema);

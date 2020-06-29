@@ -25,6 +25,7 @@ export default class StripeClient {
       body: formBody(params),
     });
     const json = await res.json();
+    console.log(json);
     return json;
   }
 
@@ -39,6 +40,7 @@ export default class StripeClient {
       body: formBody(params),
     });
     const json = await res.json();
+    console.log(json);
     return json;
   }
 
@@ -58,6 +60,7 @@ export default class StripeClient {
       }),
     });
     const json = await res.json();
+    console.log(json);
     return json;
   }
 }

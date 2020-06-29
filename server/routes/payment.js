@@ -51,7 +51,7 @@ router.post("/checkcustomer", async (req, res) => {
 router.post("/charge", async (req, res) => {
   const { TokenID, CustomerID, Amount } = req.body;
   console.log(req.body);
-  let PaymentAmount = Amount * 100;
+  let PaymentAmount = Math.floor(Amount * 100);
   try {
     const payment = await stripe.paymentIntents.create({
       amount: PaymentAmount,

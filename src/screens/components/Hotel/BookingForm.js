@@ -96,20 +96,20 @@ const BookingForm = ({
           chargeCustomer(bookdetails).then((res) => {
             // console.log(res);
             //   setProcessing(false);
-            //   if (res === true) {
-            //     Popup.show({
-            //       type: "Success",
-            //       title: "Booking Completed",
-            //       button: false,
-            //       textBody: "Congrats! Booking successfully done",
-            //       buttontext: "Ok",
-            //       callback: () => {
-            //         Popup.hide();
-            //         setModalOpen(false);
-            //       },
-            //     });
-            //   } else {
-            //   }
+              if (res === true) {
+                Popup.show({
+                  type: "Success",
+                  title: "Booking Completed",
+                  button: false,
+                  textBody: "Congrats! Booking successfully done",
+                  buttontext: "Ok",
+                  callback: () => {
+                    Popup.hide();
+                    setModalOpen(false);
+                  },
+                });
+              } else {
+              }
           });
           console.log("hello");
         } else {
