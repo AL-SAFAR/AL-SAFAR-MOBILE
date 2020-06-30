@@ -235,162 +235,163 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
 
   return (
     <Root>
-      {/* //   <KeyboardAvoidingView
-    //     style={{
-    //       flex: 1,
-    //       backgroundColor: "white",
-    //       justifyContent: "flex-end",
-    //     }}
-    //     behavior="padding"
-    //     enabled
-    //   >
-    //   </KeyboardAvoidingView> */}
-
-      <View
+      <KeyboardAvoidingView
         style={{
           flex: 1,
           backgroundColor: "white",
           justifyContent: "flex-end",
         }}
+        behavior="padding"
+        enabled
       >
-        <Animated.View
-          style={{
-            ...StyleSheet.absoluteFill,
-            transform: [{ translateY: bgY }],
-          }}
-        >
-          <Svg height={height + 50} width={width}>
-            <ClipPath id="clip">
-              <Circle r={height + 50} cx={width / 2}></Circle>
-            </ClipPath>
-            <Image
-              href={require("../../../../assets/patterns/background.jpg")}
-              height={height + 50}
-              width={width}
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#clip)"
-            />
-          </Svg>
-        </Animated.View>
         <View
           style={{
             flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "white",
+            justifyContent: "flex-end",
           }}
         >
-          <Text
-            style={{ color: "white", fontSize: 40, fontFamily: "sans-serif" }}
-          >
-            AL-SAFAR
-          </Text>
-        </View>
-        <View style={{ height: height / 3, justifyContent: "center" }}>
-          <TapGestureHandler onHandlerStateChange={onStateChange}>
-            <Animated.View
-              style={{
-                ...styles.button,
-
-                opacity: buttonOpacity,
-                transform: [{ translateY: buttonY }],
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
-            </Animated.View>
-          </TapGestureHandler>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Animated.View
-              style={{
-                ...styles.button,
-                backgroundColor: "#0099FF",
-                opacity: buttonOpacity,
-                transform: [{ translateY: buttonY }],
-              }}
-            >
-              <Text
-                style={{ fontSize: 20, fontWeight: "bold", color: "white" }}
-              >
-                SIGN UP
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Animated.View
-              style={{
-                alignItems: "center",
-                opacity: buttonOpacity,
-                transform: [{ translateY: buttonY }],
-              }}
-            >
-              <Text
-                style={{ fontSize: 15, fontWeight: "bold", color: "white" }}
-              >
-                Join As a <Text style={{ color: "#0099ff" }}>Partner</Text>
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-
           <Animated.View
             style={{
-              zIndex: textInputZindex,
-              opacity: textInputOpacity,
-              transform: [{ translateY: textInputY }],
-              backgroundColor: "#fff",
-              borderTopLeftRadius: 30,
-              borderTopRightRadius: 30,
-              height: height / 3,
               ...StyleSheet.absoluteFill,
-              top: null,
-              justifyContent: "center",
+              transform: [{ translateY: bgY }],
             }}
           >
-            <TapGestureHandler onHandlerStateChange={onCloseState}>
-              <Animated.View style={styles.closeButton}>
-                <TouchableOpacity onPress={clearFields}>
-                  <Animated.Text
-                    style={{
-                      fontSize: 15,
-                      transform: [{ rotate: concat(rotateCross, "deg") }],
-                    }}
-                  >
-                    X
-                  </Animated.Text>
-                </TouchableOpacity>
-              </Animated.View>
-            </TapGestureHandler>
-            <TextInput
-              placeholder="EMAIL"
-              style={styles.textInput}
-              keyboardType="email-address"
-              value={email}
-              placeholderTextColor="black"
-              onChangeText={(text) => setemail(text)}
-            />
-            <TextInput
-              placeholder="PASSWORD"
-              value={password}
-              secureTextEntry={true}
-              style={styles.textInput}
-              onChangeText={(text) => setpassword(text)}
-              placeholderTextColor="black"
-            />
+            <Svg height={height + 50} width={width}>
+              <ClipPath id="clip">
+                <Circle r={height + 50} cx={width / 2}></Circle>
+              </ClipPath>
+              <Image
+                href={require("../../../../assets/patterns/background.jpg")}
+                height={height + 50}
+                width={width}
+                preserveAspectRatio="xMidYMid slice"
+                clipPath="url(#clip)"
+              />
+            </Svg>
+          </Animated.View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ color: "white", fontSize: 40, fontFamily: "sans-serif" }}
+            >
+              AL-SAFAR
+            </Text>
+          </View>
+          <View style={{ height: height / 3, justifyContent: "center" }}>
+            <TapGestureHandler onHandlerStateChange={onStateChange}>
+              <Animated.View
+                style={{
+                  ...styles.button,
 
-            <TouchableOpacity onPress={SignIn}>
-              <Animated.View style={styles.innerButton}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#0099ff",
-                  }}
-                >
+                  opacity: buttonOpacity,
+                  transform: [{ translateY: buttonY }],
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                   SIGN IN
                 </Text>
               </Animated.View>
+            </TapGestureHandler>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Animated.View
+                style={{
+                  ...styles.button,
+                  backgroundColor: "#0099FF",
+                  opacity: buttonOpacity,
+                  transform: [{ translateY: buttonY }],
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "white" }}
+                >
+                  SIGN UP
+                </Text>
+              </Animated.View>
             </TouchableOpacity>
-          </Animated.View>
+            <TouchableOpacity>
+              <Animated.View
+                style={{
+                  alignItems: "center",
+                  opacity: buttonOpacity,
+                  transform: [{ translateY: buttonY }],
+                }}
+              >
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "white" }}
+                >
+                  Join As a <Text style={{ color: "#0099ff" }}>Partner</Text>
+                </Text>
+              </Animated.View>
+            </TouchableOpacity>
+
+            <Animated.View
+              style={{
+                zIndex: textInputZindex,
+                opacity: textInputOpacity,
+                transform: [{ translateY: textInputY }],
+                backgroundColor: "#fff",
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30,
+                height: height / 3,
+                ...StyleSheet.absoluteFill,
+                top: null,
+                justifyContent: "center",
+              }}
+            >
+              <TapGestureHandler onHandlerStateChange={onCloseState}>
+                <Animated.View style={styles.closeButton}>
+                  <TouchableOpacity onPress={clearFields}>
+                    <Animated.Text
+                      style={{
+                        fontSize: 15,
+                        transform: [{ rotate: concat(rotateCross, "deg") }],
+                      }}
+                    >
+                      X
+                    </Animated.Text>
+                  </TouchableOpacity>
+                </Animated.View>
+              </TapGestureHandler>
+              <TextInput
+                placeholder="EMAIL"
+                style={styles.textInput}
+                keyboardType="email-address"
+                value={email}
+                placeholderTextColor="black"
+                onChangeText={(text) => setemail(text)}
+              />
+              <TextInput
+                placeholder="PASSWORD"
+                value={password}
+                secureTextEntry={true}
+                style={styles.textInput}
+                onChangeText={(text) => setpassword(text)}
+                placeholderTextColor="black"
+              />
+
+              <TouchableOpacity onPress={SignIn}>
+                <Animated.View style={styles.innerButton}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#0099ff",
+                    }}
+                  >
+                    SIGN IN
+                  </Text>
+                </Animated.View>
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Root>
   );
 };

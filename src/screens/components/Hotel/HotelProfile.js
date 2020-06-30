@@ -39,7 +39,7 @@ const HotelProfile = ({ navigation }) => {
 
   const { foods, facilities, wifi, parking } = extras;
   const { checkIn, checkOut, Smoking } = houseRules;
-  const { Activities } = facilities;
+  const { Activities, general } = facilities;
   const [modalOpen, setModalOpen] = useState(false);
   _renderTruncatedFooter = (handlePress) => {
     return (
@@ -69,7 +69,7 @@ const HotelProfile = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
-          <BookingForm setModalOpen={setModalOpen} hotel={hotel}/>
+          <BookingForm setModalOpen={setModalOpen} hotel={hotel} />
         </View>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -98,7 +98,17 @@ const HotelProfile = ({ navigation }) => {
           />
           {/* Name and Address */}
           <View style={styles.infoContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+            <Text
+              style={[
+                styles.text,
+                {
+                  fontWeight: "200",
+                  fontSize: 36,
+                  textAlign: "center",
+                  flexWrap: "wrap",
+                },
+              ]}
+            >
               {hotelName}
             </Text>
             <Text
@@ -263,28 +273,46 @@ const HotelProfile = ({ navigation }) => {
               }}
             >
               <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-                Activities
+                {Activities ? "Activities" : "Services"}
               </Text>
               <View style={{ alignItems: "center" }}>
                 <View style={styles.recentItem}>
                   <View style={{ flexDirection: "column", marginTop: 5 }}>
-                    {Activities.map((activity, key) => {
-                      return (
-                        <View key={key} style={styles.recentItem}>
-                          <View style={styles.activityIndicator}></View>
-                          <View>
-                            <Text
-                              style={[
-                                styles.text,
-                                { color: "#41444B", fontWeight: "300" },
-                              ]}
-                            >
-                              {activity}
-                            </Text>
-                          </View>
-                        </View>
-                      );
-                    })}
+                    {Activities
+                      ? Activities.map((activity, key) => {
+                          return (
+                            <View key={key} style={styles.recentItem}>
+                              <View style={styles.activityIndicator}></View>
+                              <View>
+                                <Text
+                                  style={[
+                                    styles.text,
+                                    { color: "#41444B", fontWeight: "300" },
+                                  ]}
+                                >
+                                  {activity}
+                                </Text>
+                              </View>
+                            </View>
+                          );
+                        })
+                      : general.map((service, key) => {
+                          return (
+                            <View key={key} style={styles.recentItem}>
+                              <View style={styles.activityIndicator}></View>
+                              <View>
+                                <Text
+                                  style={[
+                                    styles.text,
+                                    { color: "#41444B", fontWeight: "300" },
+                                  ]}
+                                >
+                                  {service}
+                                </Text>
+                              </View>
+                            </View>
+                          );
+                        })}
                   </View>
                 </View>
               </View>

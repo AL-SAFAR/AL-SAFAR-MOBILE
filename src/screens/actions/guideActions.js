@@ -43,8 +43,12 @@ export const chargeCustomer = (payload) => async (dispatch) => {
     };
     const { paymentDetails, guide } = payload;
     const { expiry, cvc, number } = paymentDetails;
+    payload.startDate.setDate(payload.startDate.getDate() + 1);
+    payload.endDate.setDate(payload.endDate.getDate() + 1);
+
     let startDate = moment(payload.startDate, "DD-MM-YYYY");
     let endDate = moment(payload.endDate, "DD-MM-YYYY");
+
     let dateDiff = endDate.diff(startDate, "days");
     let totolCharges = payload.serviceCharges * dateDiff;
     let USDamount = totolCharges / 160;
