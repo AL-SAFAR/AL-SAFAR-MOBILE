@@ -22,6 +22,8 @@ const Chat = ({ navigation, chat: { messages } }) => {
   // let userId = null;
   const reciever = navigation.getParam("receivingUser");
   const user = navigation.getParam("user");
+  const socket = store.getSocket();
+
   useEffect(() => {
     // AsyncStorage.getItem("user").then((res) => {
     //   let tempuser = JSON.parse(res);
@@ -33,7 +35,10 @@ const Chat = ({ navigation, chat: { messages } }) => {
     // console.log(res);
     // });
   }, []);
-
+  // useEffect(() => {
+  //  socket.on("")
+  //   // openChat({ sender: user._id, reciever: reciever });
+  // });
   const send = (message) => {
     // console.log(userId);
     sendMessage(message.text, user, reciever);
@@ -46,28 +51,38 @@ const Chat = ({ navigation, chat: { messages } }) => {
   };
   return (
     <SafeAreaView style={globalStyles.container}>
-      <View style={globalStyles.titleBar}>
-        <TouchableOpacity
-          onPress={() => {
-            clearTheChat();
-          }}
-        >
-          <View>
-            <Ionicons
-              name="ios-arrow-back"
-              size={24}
-              color="#52575D"
-            ></Ionicons>
-          </View>
-        </TouchableOpacity>
-        <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
-      </View>
-      <GiftedChat
-        messages={messages}
-        user={{ user }}
-        onSend={(message) => send(message[0])}
-      />
-      {/* {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />} */}
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          justifyContent: "flex-end",
+        }}
+        enabled
+        behavior="padding"
+      >
+        <View style={globalStyles.titleBar}>
+          <TouchableOpacity
+            onPress={() => {
+              clearTheChat();
+            }}
+          >
+            <View>
+              <Ionicons
+                name="ios-arrow-back"
+                size={24}
+                color="#52575D"
+              ></Ionicons>
+            </View>
+          </TouchableOpacity>
+          <Ionicons name="md-more" size={24} color="#52575D"></Ionicons>
+        </View>
+        <GiftedChat
+          messages={messages}
+          user={{ user }}
+          onSend={(message) => send(message[0])}
+        />
+        {/* {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />} */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

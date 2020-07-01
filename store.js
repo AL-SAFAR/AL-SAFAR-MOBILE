@@ -21,5 +21,6 @@ const store = createStore(
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+store.getSocket = () => socket;
 
 export default store;

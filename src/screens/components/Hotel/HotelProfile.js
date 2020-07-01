@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AwesomeButton from "react-native-really-awesome-button";
 import {
   View,
   Text,
@@ -345,7 +346,7 @@ const HotelProfile = ({ navigation }) => {
             </View>
           </View>
           {/* book now button */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => setModalOpen(true)}
             // style={{
             //   ...styles.statsContainer,
@@ -356,16 +357,43 @@ const HotelProfile = ({ navigation }) => {
             //   padding: 5,
             //   backgroundColor: "#0099ff",
             // }}
-          >
-            {/* <View style={styles.statsBox}>
+          > */}
+          {/* <View style={styles.statsBox}>
               <Text style={{ color: "white", fontWeight: "200", fontSize: 26 }}>
                 BOOK NOW
               </Text>
             </View> */}
-            <View style={globalStyles.button}>
+          {/* <View style={globalStyles.button}>
               <Text style={globalStyles.buttonText}>BOOK NOW</Text>
-            </View>
-          </TouchableOpacity>
+            </View> */}
+          {/* </TouchableOpacity> */}
+          <View
+            style={{
+              marginVertical: 10,
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <AwesomeButton
+              raiseLevel={4}
+              backgroundColor="#FFF"
+              textColor="#0099ff"
+              backgroundDarker="#1073CE"
+              borderColor="#1073CE"
+              borderWidth={2}
+              borderRadius={5}
+              width={width - 50}
+              textSize={24}
+              onPress={(next) => {
+                setModalOpen(true);
+                /** Do Something **/
+                next();
+              }}
+            >
+              BOOK NOW
+            </AwesomeButton>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

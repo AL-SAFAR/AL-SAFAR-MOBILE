@@ -6,10 +6,13 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  Dimensions,
   View,
   Text,
 } from "react-native";
+const { width, height } = Dimensions.get("window");
 import moment from "moment";
+import AwesomeButton from "react-native-really-awesome-button";
 import NumericInput from "react-native-numeric-input";
 import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 import { globalStyles } from "../../../../styles/global";
@@ -56,7 +59,7 @@ const BookingForm = ({
     },
     cvc: { maxLength: 3 },
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (next) => {
     // console.log();
     let person = adults + Math.ceil(childs / 2);
     // person = 0;
@@ -96,20 +99,21 @@ const BookingForm = ({
           chargeCustomer(bookdetails).then((res) => {
             // console.log(res);
             //   setProcessing(false);
-              if (res === true) {
-                Popup.show({
-                  type: "Success",
-                  title: "Booking Completed",
-                  button: false,
-                  textBody: "Congrats! Booking successfully done",
-                  buttontext: "Ok",
-                  callback: () => {
-                    Popup.hide();
-                    setModalOpen(false);
-                  },
-                });
-              } else {
-              }
+            if (res === true) {
+              next();
+              Popup.show({
+                type: "Success",
+                title: "Booking Completed",
+                button: false,
+                textBody: "Congrats! Booking successfully done",
+                buttontext: "Ok",
+                callback: () => {
+                  Popup.hide();
+                  setModalOpen(false);
+                },
+              });
+            } else {
+            }
           });
           console.log("hello");
         } else {
@@ -311,12 +315,38 @@ const BookingForm = ({
               onChange={_onChange}
               validColor="#7CFC00"
             />
-
-            <TouchableOpacity onPress={handleSubmit}>
+            <AwesomeButton
+              style={{
+                marginVertical: 10,
+                alignSelf: "center",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              progress
+              raiseLevel={4}
+              backgroundColor="#FFF"
+              textColor="#0099ff"
+              backgroundDarker="#1073CE"
+              backgroundProgress="#b3e0ff"
+              backgroundPlaceholder="#fff"
+              borderColor="#1073CE"
+              borderWidth={2}
+              borderRadius={100}
+              width={width - 50}
+              textSize={24}
+              progressLoadingTime={10000}
+              onPress={(next) => {
+                handleSubmit(next);
+                /** Do Something **/
+              }}
+            >
+              Confirm Booking
+            </AwesomeButton>
+            {/* <TouchableOpacity onPress={handleSubmit}>
               <View style={globalStyles.button}>
                 <Text style={globalStyles.buttonText}>Confirm Booking</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </ScrollView>

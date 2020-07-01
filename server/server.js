@@ -53,9 +53,9 @@ app.use("/api/payment", require("./routes/payment"));
 const PORT = process.env.PORT || 5000;
 
 //Views
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.engine("html", require("ejs").renderFile);
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
+// app.engine("html", require("ejs").renderFile);
 io.listen(
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
 );
@@ -68,12 +68,15 @@ app.io = io.on("connection", (socket) => {
       const { reciever, sender } = action.data;
       const response = await chat.findOrCreateConversation(sender, reciever);
       // console.log(response);
-      socket.emit("action", { type: "GOT_MESSAGES", payload: response });
+      // socket.emit("action", { type: "GOT_MESSAGES", payload: response });
+      io.emit("action", { type: "GOT_MESSAGES", payload: response });
     } else if (action.type === "server/message") {
+      console.log("msg");
       const { reciever, sender, text, type } = action.data;
       const response = await chat.addMessage(text, sender, reciever, type);
       // console.log(response);
-      socket.emit("action", { type: "GOT_NEW_MESSAGE", payload: response });
+      // socket.emit("action", { type: "GOT_NEW_MESSAGE", payload: response });
+      io.emit("action", { type: "GOT_NEW_MESSAGE", payload: response });
     }
   });
 });
