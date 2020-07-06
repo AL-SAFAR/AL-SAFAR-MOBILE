@@ -27,6 +27,7 @@ const initialState = {
   selectedAddress: {},
   distanceMatrix: {},
   fare: 0,
+  distance: 0,
   booking: {},
   loading: false,
   error: null,
@@ -89,7 +90,8 @@ export default (state = initialState, action) => {
     case CALCULATE_FARE:
       return {
         ...state,
-        fare: action.payload,
+        fare: action.payload.fare,
+        distance: action.payload.distance,
         predictions: [],
       };
     case GET_NEARBY_DRIVERS:

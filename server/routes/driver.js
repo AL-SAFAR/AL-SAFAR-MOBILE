@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
+const { ObjectId } = require("mongodb");
 
 const Driver = require("../models/UserManagment/Driver");
 const CarBooking = require("../models/Booking/CarBooking");
@@ -132,11 +133,33 @@ router.get("/driver/:id", async (req, res) => {
 // @desc     get bookings for customer
 // @access   Public
 router.get("/carBooking", auth, async (req, res) => {
-  CarBooking.find({ customerId: req.user.id, isPending: false }).then(
-    (bookings) => {
+  try {
+    CarBooking.aggregate([
+      {
+        $match: {
+          customerId: ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: "drivers",
+          localField: "driverId",
+          foreignField: "_id",
+          as: "driver",
+        },
+      },
+    ]).then((booking) => {
+      let bookings = booking.filter((book) => {
+        return book.isPending === false;
+      });
       res.send(bookings);
-    }
-  );
+    });
+  } catch (error) {}
+  // CarBooking.find({ customerId: req.user.id, isPending: false }).then(
+  //   (bookings) => {
+  //     res.send(bookings);
+  //   }
+  // );
 });
 // @route    Get api/Driver/driverBooking
 // @desc     get bookings for driver
@@ -160,6 +183,7 @@ router.post("/carBooking", async (req, res) => {
     dropOff,
     isPending,
     fare,
+    distance,
     nearByDriver,
   } = req.body;
   const io = req.app.io;
@@ -178,6 +202,7 @@ router.post("/carBooking", async (req, res) => {
         dropOff,
         isPending,
         fare,
+        distance,
       });
       await booking.save();
       res.send(booking);

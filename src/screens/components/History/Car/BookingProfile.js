@@ -16,13 +16,13 @@ import StarRating from "react-native-star-rating";
 
 export const BookingProfile = ({ navigation }) => {
   const book = navigation.getParam("book");
-  const { pickUp, dropOff } = book;
+  const { pickUp, dropOff, driver, fare, distance } = book;
+  const { name, vehicle } = driver[0];
   const center = navigation.getParam("center");
   const mapUri = `https://maps.googleapis.com/maps/api/staticmap?center=${center.latitude},${center.longitude}&zoom=13&size=340x640&maptype=roadmap&markers=color:blue%7C${pickUp.latitude},${pickUp.longitude}&markers=color:green%7C${dropOff.latitude},${dropOff.longitude}&key=${DISTANCE_DIRECTION_KEY}`;
   const [stars, setstars] = useState(0);
   const updateRating = (rating) => {
     setstars(rating);
-    
   };
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -61,16 +61,16 @@ export const BookingProfile = ({ navigation }) => {
                   // justifyContent: "cente",
                 }}
               >
-                <Text style={{ fontSize: 24, color: "#0099ff" }}>
-                  Jamal Akhtar
+                <Text style={{ fontSize: 24, color: "#0099ff" }}>{name}</Text>
+                <Text style={{ fontSize: 12, color: "#B2B2B2" }}>
+                  {vehicle.plateNumber}
                 </Text>
-                <Text style={{ fontSize: 12, color: "#B2B2B2" }}>BLE 2345</Text>
               </View>
               <View
                 style={{ flexGrow: 1, marginRight: 20, alignItems: "flex-end" }}
               >
                 <Text style={{ fontSize: 16, color: "#B2B2B2" }}>
-                  Honda Civic
+                  {vehicle.model}
                 </Text>
                 <StarRating
                   animation="flash"
@@ -92,7 +92,7 @@ export const BookingProfile = ({ navigation }) => {
                 </Text>
                 <View style={styles.tripDetails}>
                   <Text style={styles.addressName}>FARE</Text>
-                  <Text style={{ fontSize: 12 }}>170 PKR</Text>
+                  <Text style={{ fontSize: 12 }}>{fare} PKR</Text>
                 </View>
               </View>
               <View style={styles.details}>
@@ -102,7 +102,7 @@ export const BookingProfile = ({ navigation }) => {
                 </Text>
                 <View style={styles.tripDetails}>
                   <Text style={styles.addressName}>DISTANCE</Text>
-                  <Text style={{ fontSize: 12 }}>1.2 KM</Text>
+                  <Text style={{ fontSize: 12 }}>{distance} KM</Text>
                 </View>
               </View>
             </View>

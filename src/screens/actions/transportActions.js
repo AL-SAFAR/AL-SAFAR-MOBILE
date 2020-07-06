@@ -213,10 +213,13 @@ export const calculateFare = (payload) => async (dispatch) => {
   const pricePerMinute = fare.timeRate * timeInMin;
   // console.log(pricePerMinute);
   const totalFare = Math.ceil(fare.baseFare + pricePerKm + pricePerMinute);
-
+  const data = {
+    fare: totalFare,
+    distance,
+  };
   dispatch({
     type: CALCULATE_FARE,
-    payload: totalFare,
+    payload: data,
   });
 };
 
@@ -226,6 +229,7 @@ export const bookCar = () => async (dispatch) => {
     carType,
     selectedAddress,
     fare,
+    distance,
     nearByDrivers,
   } = store.getState().transport;
   const { selectedPickUp, selectedDropOff } = selectedAddress;
@@ -253,6 +257,7 @@ export const bookCar = () => async (dispatch) => {
       longitude: selectedDropOff.geometry.location.lng,
     },
     fare,
+    distance,
     isPending: true,
     nearByDriver: {
       socketId: nearByDriver.socketId,
