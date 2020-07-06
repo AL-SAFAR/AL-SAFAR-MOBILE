@@ -10,7 +10,7 @@ import { globalStyles } from "../../../../styles/global";
 import Loader from "../layout/Loader";
 import PropTypes from "prop-types";
 import { getGuideBookings } from "../../actions/guideActions";
-// import { openChat, sendMessage, clearChat } from "../../actions/transportActions";
+import { getCarBookings } from "../../actions/transportActions";
 // import { openChat, sendMessage, clearChat } from "../../actions/hotelActions";
 import { connect } from "react-redux";
 
@@ -18,34 +18,34 @@ import { Ionicons } from "@expo/vector-icons";
 import CarCard from "./Car/CarCard";
 import HotelCard from "./Hotel/HotelCard";
 import GuideCard from "./Guide/GuideCard";
-const carbookings = [
-  {
-    id: 1,
-    pickUp: {
-      name: "Kohati Bazar",
-      latitude: 33.62193060000001,
-      longitude: 73.0645363,
-    },
-    dropOff: {
-      name: "Satellite Town",
-      latitude: 33.6412348,
-      longitude: 73.0634749,
-    },
-  },
-  {
-    id: 2,
-    pickUp: {
-      name: "Kohati Bazar",
-      latitude: 33.62193060000001,
-      longitude: 73.0645363,
-    },
-    dropOff: {
-      name: "Satellite Town",
-      latitude: 33.6412348,
-      longitude: 73.0634749,
-    },
-  },
-];
+// const carbookings = [
+//   {
+//     id: 1,
+//     pickUp: {
+//       name: "Kohati Bazar",
+//       latitude: 33.62193060000001,
+//       longitude: 73.0645363,
+//     },
+//     dropOff: {
+//       name: "Satellite Town",
+//       latitude: 33.6412348,
+//       longitude: 73.0634749,
+//     },
+//   },
+//   {
+//     id: 2,
+//     pickUp: {
+//       name: "Kohati Bazar",
+//       latitude: 33.62193060000001,
+//       longitude: 73.0645363,
+//     },
+//     dropOff: {
+//       name: "Satellite Town",
+//       latitude: 33.6412348,
+//       longitude: 73.0634749,
+//     },
+//   },
+// ];
 const hotelbookings = [
   {
     id: 1,
@@ -89,13 +89,15 @@ const hotelbookings = [
 const HistoryScreen = ({
   navigation,
   getGuideBookings,
+  getCarBookings,
   guide: { guideBookings, loading },
+  transport: { carBookings },
 }) => {
   const type = navigation.getParam("type");
   const renderCards = (type) => {
     if (type === "car") {
-      return carbookings.map((book) => {
-        return <CarCard navigation={navigation} key={book.id} book={book} />;
+      return carBookings.map((book) => {
+        return <CarCard navigation={navigation} key={book._id} book={book} />;
       });
     } else if (type === "hotel") {
       return hotelbookings.map((hotel) => {
@@ -108,14 +110,22 @@ const HistoryScreen = ({
     }
   };
   useEffect(() => {
-    getGuideBookings();
-    // .then(() => {
-    // console.log(guideBookings);
-    // });
+    if (type === "car") {
+      getCarBookings();
+    } else if (type === "guide") {
+      getGuideBookings();
+    } else if (type === "hotel") {
+    }
   }, []);
-  if (loading || guideBookings === null) {
+  if (loading || (guideBookings === null && type === "guide")) {
     return <Loader />;
   }
+  if (loading || (carBookings === null && type === "car")) {
+    return <Loader />;
+  }
+  // if (loading || (guideBookings === null && type === "guide")) {
+  //   return <Loader />;
+  // }
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -154,13 +164,18 @@ const HistoryScreen = ({
 
 HistoryScreen.propTypes = {
   guide: PropTypes.object.isRequired,
+  transport: PropTypes.object.isRequired,
   getGuideBookings: PropTypes.func.isRequired,
+  getCarBookings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   guide: state.guide,
+  transport: state.transport,
   //   receiver: navigation.getParam("receivingUser"),
 });
 
 // export default connect(mapState)(Chat);
-export default connect(mapStateToProps, { getGuideBookings })(HistoryScreen);
+export default connect(mapStateToProps, { getGuideBookings, getCarBookings })(
+  HistoryScreen
+);

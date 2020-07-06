@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import HomeNavigation from "../HomeNavigation";
+import DrawerNavigation from "../DrawerNavigation";
 import Profile from "../../components/Guide/Profile";
 import Chat from "../../components/Chat/Chat";
 // import TravelGuide from "../../components/Guide/TravelGuide";
 const screens = {
-  HomeNavigation: {
-    screen: HomeNavigation,
+  DrawerNavigation: {
+    screen: DrawerNavigation,
     navigationOptions: {
       headerShown: false,
     },

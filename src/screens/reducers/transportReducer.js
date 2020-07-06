@@ -9,6 +9,7 @@ import {
   CALCULATE_FARE,
   GET_SELECTED_ADDRESS,
   UPDATE_CAR,
+  GET_CAR_BOOKINGS,
   BOOK_CAR,
   BOOKING_CONFIRMED,
   CLEAR_STATE,
@@ -29,6 +30,7 @@ const initialState = {
   booking: {},
   loading: false,
   error: null,
+  carBookings: null,
   nearByDrivers: [],
 };
 
@@ -106,6 +108,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         booking: action.payload,
+      };
+
+    case GET_CAR_BOOKINGS:
+      // console.log(action.payload);
+      return {
+        ...state,
+        carBookings: action.payload,
       };
 
     case CLEAR_STATE:

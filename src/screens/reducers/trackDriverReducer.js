@@ -4,6 +4,7 @@ import {
   UPDATE_DRIVER_LOCATION,
   GET_DRIVER_LOCATION,
   GET_DISTANCE_FROM_DRIVER,
+  RESET_PASSENGER,
   TRANSPORT_ERROR,
 } from "../actions/types";
 
@@ -16,6 +17,7 @@ const initialState = {
   showDriverFound: true,
   showCarMarker: false,
   distanceFromDriver: {},
+  // reset: false,
   error: {},
 };
 
@@ -49,6 +51,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         distanceFromDriver: action.payload,
+      };
+    case RESET_PASSENGER:
+      // console.log(action.payload);
+      return {
+        // reset: true,
+        region: {},
+        driverInfo: {},
+        driverLocation: {},
+        showDriverFound: true,
+        showCarMarker: false,
+        distanceFromDriver: {},
+        error: {},
       };
     case TRANSPORT_ERROR:
       console.error(action.payload);

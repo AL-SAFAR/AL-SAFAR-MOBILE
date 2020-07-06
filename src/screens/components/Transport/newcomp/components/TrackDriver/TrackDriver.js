@@ -3,7 +3,7 @@ import { View, Text, Dimensions, Platform } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Constants from "expo-constants";
-
+import store from "../../../../../../../store";
 import {
   getCurrentLocation,
   getDriverInfo,
@@ -17,6 +17,7 @@ import DriverOnTheWayFooter from "./DriverOnTheWayFooter";
 const carMarker = require("../../../../../../../assets/car.png");
 var width = Dimensions.get("window").width; //full width
 var height = Dimensions.get("window").height; //full width
+const socket = store.getSocket();
 
 const TrackDriver = ({
   navigation,
@@ -51,6 +52,14 @@ const TrackDriver = ({
   const [durationDistance, setDurationDistance] = useState({
     duration: 0,
     distance: 0,
+  });
+  useEffect(() => {
+    socket.on("resetPassenger", (reset) => {
+      console.log(reset);
+      store.dispatch({ type: "RESET_PASSENGER" });
+      store.dispatch({ type: "CLEAR_STATE" });
+      navigation.navigate("DrawerNavigation");
+    });
   });
 
   useEffect(() => {

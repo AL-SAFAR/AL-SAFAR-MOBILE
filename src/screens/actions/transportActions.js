@@ -9,6 +9,7 @@ import {
   TRANSPORT_ERROR,
   SEARCH_HOTELS,
   UPDATE_CAR,
+  GET_CAR_BOOKINGS,
   BOOK_CAR,
   BOOKING_CONFIRMED,
   GET_NEARBY_DRIVERS,
@@ -309,6 +310,26 @@ export const clearDriverState = () => async (dispatch) => {
 
   axios.delete(`${BASE_URL}/driver/deleteBooking/${cust._id}`).then((res) => {
     console.log(res);
+  });
+};
+
+export const getCarBookings = () => async (dispatch) => {
+  setLoading();
+
+  let usertoken = await AsyncStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": usertoken,
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+  await axios.get(`${BASE_URL}/driver/carBooking`, config).then((response) => {
+    dispatch({
+      type: GET_CAR_BOOKINGS,
+      payload: response.data,
+    });
   });
 };
 
