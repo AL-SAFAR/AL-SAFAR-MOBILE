@@ -23,6 +23,7 @@ export const BookingProfile = ({ navigation }) => {
   const [stars, setstars] = useState(0);
   const updateRating = (rating) => {
     setstars(rating);
+    // console.log();
   };
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -61,7 +62,9 @@ export const BookingProfile = ({ navigation }) => {
                   // justifyContent: "cente",
                 }}
               >
-                <Text style={{ fontSize: 24, color: "#0099ff" }}>{name}</Text>
+                <Text style={{ fontSize: 24, color: "#0099ff" }}>
+                  {name[0].toUpperCase() + name.slice(1)}
+                </Text>
                 <Text style={{ fontSize: 12, color: "#B2B2B2" }}>
                   {vehicle.plateNumber}
                 </Text>
@@ -102,7 +105,9 @@ export const BookingProfile = ({ navigation }) => {
                 </Text>
                 <View style={styles.tripDetails}>
                   <Text style={styles.addressName}>DISTANCE</Text>
-                  <Text style={{ fontSize: 12 }}>{distance} KM</Text>
+                  <Text style={{ fontSize: 12 }}>
+                    {Object.values(distance)[0]} KM
+                  </Text>
                 </View>
               </View>
             </View>

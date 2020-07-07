@@ -72,8 +72,8 @@ router.post(
       if (type === "0") user = await Customer.findOne({ email });
       else if (type === "1") user = await HotelRep.findOne({ email });
       else if (type === "2") user = await Guide.findOne({ email });
-      else if (type === "3") user = await Driver.findOne({ email });
-      else if (type === "4") user = await TravelAgent.findOne({ email });
+      else if (type === "3") user = await TravelAgent.findOne({ email });
+      else if (type === "4") user = await Driver.findOne({ email });
       else if (type === "5") user = await Admin.findOne({ email });
       else if (type === "6") user = await SupportAssistant.findOne({ email });
 
@@ -88,25 +88,45 @@ router.post(
       if (!isMatch) {
         return res.status(400).json({ msg: "Invalid Credentials" });
       }
-      // const type=req.type;
-      const payload = {
-        user: {
-          id: user.id,
-          userType: type,
-        },
-      };
+      if (type !== "3") {
+        const payload = {
+          user: {
+            id: user.id,
+            userType: type,
+          },
+        };
 
-      jwt.sign(
-        payload,
-        config.get("jwtSecret"),
-        {
-          expiresIn: "9999 years",
-        },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+        jwt.sign(
+          payload,
+          config.get("jwtSecret"),
+          {
+            expiresIn: 360000,
+          },
+          (err, token) => {
+            if (err) throw err;
+            if (token) res.json({ token });
+          }
+        );
+      } else {
+        const payload = {
+          user: {
+            AgentId: user.id,
+            userType: type,
+          },
+        };
+
+        jwt.sign(
+          payload,
+          config.get("jwtSecret"),
+          {
+            expiresIn: 360000,
+          },
+          (err, token) => {
+            if (err) throw err;
+            if (token) res.json({ token });
+          }
+        );
+      }
     } catch (err) {
       console.error(err.mesaage);
       res.status(500).send("Server error");

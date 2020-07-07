@@ -14,7 +14,7 @@ const Room = require("../models/HotelManagment/Room");
 
 const GuideBooking = require("../models/Booking/GuideBooking");
 const { response } = require("express");
-const chat = require("./chat");
+
 // @route    POST api/customers
 // @desc     Register customer
 // @access   Public
@@ -133,6 +133,42 @@ router.get("/viewHotels", async (req, res) => {
       [
         {
           $lookup: {
+            from: "hotelbookings",
+            as: "HotelBooking",
+            let: {
+              hotelId: "$_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: ["$hotelId", "$$hotelId"],
+                      },
+                      {
+                        $eq: ["$status", "completed"],
+                      },
+                    ],
+                  },
+                  feedback: {
+                    $exists: true,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: "customers",
+            localField: "HotelBooking.customerId",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $lookup: {
             from: "hotelreps",
             localField: "hotelRep",
             foreignField: "_id",
@@ -225,6 +261,51 @@ router.get("/viewHotels", async (req, res) => {
               },
             ],
           },
+        },
+        {
+          $project: {
+            Feedback: {
+              $map: {
+                input: {
+                  $zip: {
+                    inputs: ["$HotelBooking", "$customer"],
+                  },
+                },
+                as: "el",
+                in: {
+                  HotelBooking: {
+                    $arrayElemAt: ["$$el", 0],
+                  },
+                  Customer: {
+                    $arrayElemAt: ["$$el", 1],
+                  },
+                },
+              },
+            },
+            Room: "$Room",
+            HotelRep: "$HotelRep",
+          },
+        },
+        {
+          $lookup: {
+            from: "hotels",
+            localField: "_id",
+            foreignField: "_id",
+            as: "Hotel",
+          },
+        },
+        {
+          $unwind: "$Hotel",
+        },
+        {
+          $set: {
+            "Hotel.Room": "$Room",
+            "Hotel.Feedback": "$Feedback",
+            "Hotel.HotelRep": "$HotelRep",
+          },
+        },
+        {
+          $replaceWith: "$Hotel",
         },
       ],
       (err, response) => {
@@ -350,8 +431,8 @@ router.post("/uniqueroomshotel", async (req, res) => {
 });
 
 // @route   Get api/users/GuideBookings
-// @desc     Viiew Guide Bookings
-// @access   Public
+// @desc     Get Guide Bookings of a customer
+// @access   Private
 router.get("/guideBookings", auth, async (req, res) => {
   try {
     let user = req.user.id;
@@ -397,16 +478,162 @@ router.get("/guideBookings", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
-router.post("/conversation", async (req, res) => {
-  const { sender, reciever } = req.body;
-  const response = await chat.findOrCreateConversation(sender, reciever);
-  res.send(response);
+// @route   Get api/users/hotelBookings
+// @desc     Get Hotel Bookings of a customer
+// @access   Private
+router.get("/hotelBookings", auth, async (req, res) => {
+  try {
+    let hotelBookingResp = await HotelBooking.aggregate([
+      {
+        $match: {
+          customerId: ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: "payments",
+          localField: "paymentId",
+          foreignField: "_id",
+          as: "payment",
+        },
+      },
+      {
+        $unwind: "$payment",
+      },
+      {
+        $lookup: {
+          from: "hotels",
+          localField: "hotelId",
+          foreignField: "_id",
+          as: "Hotel",
+        },
+      },
+      {
+        $lookup: {
+          from: "rooms",
+          localField: "RoomId",
+          foreignField: "_id",
+          as: "Rooms",
+        },
+      },
+      {
+        $unwind: "$Hotel",
+      },
+    ]);
+    res.json({ hotelBookingResp });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
 });
 
-router.post("/addMessage", async (req, res) => {
-  const { sender, reciever, text, type } = req.body;
-  const response = await chat.addMessage(text, sender, reciever, type);
-  res.send(response);
+// @route   Get api/users/agentBookings
+// @desc     Get Agent Bookings of a customer
+// @access   Private
+router.get("/agentBookings", auth, async (req, res) => {
+  try {
+    let customerId = ObjectId(req.user.id);
+    await Customer.aggregate(
+      [
+        {
+          $match: {
+            _id: customerId,
+          },
+        },
+        {
+          $lookup: {
+            from: "agentbookings",
+            localField: "_id",
+            foreignField: "customerId",
+            as: "AgentBooking",
+          },
+        },
+        {
+          $unwind: "$AgentBooking",
+        },
+        {
+          $lookup: {
+            from: "agentprofiles",
+            localField: "AgentBooking.agentProfileId",
+            foreignField: "_id",
+            as: "AgentProfile",
+          },
+        },
+        {
+          $unwind: "$AgentProfile",
+        },
+        {
+          $lookup: {
+            from: "payments",
+            localField: "AgentBooking.paymentId",
+            foreignField: "_id",
+            as: "Payment",
+          },
+        },
+        {
+          $unwind: "$Payment",
+        },
+        {
+          $lookup: {
+            from: "hotels",
+            localField: "AgentBooking.HotelBooking.HotelId",
+            foreignField: "_id",
+            as: "Hotel",
+          },
+        },
+        {
+          $lookup: {
+            from: "hotelreps",
+            localField: "Hotel.hotelRep",
+            foreignField: "_id",
+            as: "HotelRep",
+          },
+        },
+        // {
+        //   $unwind: "$Hotel"
+        // },
+        {
+          $lookup: {
+            from: "rooms",
+            localField: "AgentBooking.HotelBooking.reserveRoomId",
+            foreignField: "_id",
+            as: "Room",
+          },
+        },
+        // {
+        //   $unwind: "$Room"
+        // },
+        {
+          $lookup: {
+            from: "guides",
+            localField: "AgentBooking.GuideBooking.GuideId",
+            foreignField: "_id",
+            as: "Guide",
+          },
+        },
+        // {
+        //   $unwind: "$Guide"
+        // },
+        {
+          $lookup: {
+            from: "guideprofiles",
+            localField: "Guide._id",
+            foreignField: "guide",
+            as: "GuideProfile",
+          },
+        },
+        // {
+        //   $unwind: "$GuideProfile"
+        // }
+      ],
+      (err, AgentResponse) => {
+        if (err) res.status(400).json(err);
+        res.json(AgentResponse);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
 });
 module.exports = router;

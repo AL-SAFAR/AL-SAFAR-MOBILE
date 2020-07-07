@@ -15,7 +15,7 @@ import { DISTANCE_DIRECTION_KEY } from "../../../../../key.json";
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 const CarCard = ({ book, navigation }) => {
-  const { pickUp, dropOff } = book;
+  const { pickUp, dropOff, distance, fare } = book;
   //   const pickUp = {
   //     name: "Kohati Bazar",
   //     latitude: 33.62193060000001,
@@ -53,7 +53,7 @@ const CarCard = ({ book, navigation }) => {
           </Text>
           <View style={styles.tripDetails}>
             <Text style={styles.addressName}>FARE</Text>
-            <Text style={{ fontSize: 12 }}>170 PKR</Text>
+            <Text style={{ fontSize: 12 }}>{fare} PKR</Text>
           </View>
         </View>
         <View style={styles.details}>
@@ -63,7 +63,9 @@ const CarCard = ({ book, navigation }) => {
           </Text>
           <View style={styles.tripDetails}>
             <Text style={styles.addressName}>DISTANCE</Text>
-            <Text style={{ fontSize: 12 }}>1.2 KM</Text>
+            <Text style={{ fontSize: 12 }}>
+              {Object.values(distance)[0]} KM
+            </Text>
           </View>
         </View>
       </View>

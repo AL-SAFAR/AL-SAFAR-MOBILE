@@ -95,7 +95,7 @@ router.post(
       const payload = {
         user: {
           id: driver.id,
-          userType: "3",
+          userType: "4",
         },
       };
 
@@ -161,6 +161,7 @@ router.get("/carBooking", auth, async (req, res) => {
   //   }
   // );
 });
+
 // @route    Get api/Driver/driverBooking
 // @desc     get bookings for driver
 // @access   Public
@@ -170,6 +171,31 @@ router.get("/driverBooking", auth, async (req, res) => {
       res.send(bookings);
     }
   );
+});
+
+// @route    Get api/Driver/driverBooking
+// @desc     get bookings for driver
+// @access   Public
+router.get("/getDriverStats", auth, async (req, res) => {
+  CarBooking.find(
+    { driverId: req.user.id, isPending: false },
+    { fare: 1, _id: 0, distance: 1 }
+  ).then((bookings) => {
+    // res.send(bookings);
+    let totalfare = bookings.reduce(function (a, b) {
+      return { fare: a.fare + b.fare }; // returns object with property x
+    });
+    let totaldistance = bookings.reduce(function (a, b) {
+      return { distance: a.distance + b.distance }; // returns object with property x
+    });
+    console.log(bookings.length);
+    let stats = {
+      tripsMade: bookings.length,
+      fare: totalfare.fare,
+      distance: totaldistance.distance,
+    };
+    res.send(stats);
+  });
 });
 
 // @route    POST api/Driver/carBooking
@@ -381,12 +407,14 @@ router.put("/driverLocationSocket/:id", async (req, res) => {
     );
   }
 });
+
 //reseting passenger
 router.get("/resetPassenger", async (req, res) => {
   let io = req.app.io;
   let reset = true;
   io.emit("resetPassenger", reset);
 });
+
 //get nearby Driver
 router.get("/driverLocationSocket/", async (req, res) => {
   // console.log(req.query);

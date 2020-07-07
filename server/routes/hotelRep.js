@@ -667,6 +667,7 @@ router.post("/roomAvailability", async (req, res) => {
   try {
     let { RoomId, startDate, endDate, roomType } = req.body;
     console.log(RoomId + " " + startDate + " " + endDate + " " + roomType);
+    console.log(RoomId);
     await HotelBooking.aggregate(
       [
         {
@@ -728,4 +729,5 @@ router.post("/roomAvailability", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 module.exports = router;
