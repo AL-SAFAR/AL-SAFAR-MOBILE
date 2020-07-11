@@ -75,6 +75,13 @@ const BookingHistory = ({ navigation }) => {
             gradient={["#283c86", "#45a247"]}
             navigation={navigation}
           />
+          <HistoryCard
+            icon="user-tie"
+            type="agent"
+            heading="Agent Bookings"
+            gradient={["#333333", "#e9d362"]}
+            navigation={navigation}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

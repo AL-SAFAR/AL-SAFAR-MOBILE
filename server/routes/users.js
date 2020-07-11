@@ -11,7 +11,7 @@ const Customer = require("../models/UserManagment/Customer");
 const Hotel = require("../models/HotelManagment/Hotel");
 const HotelBooking = require("../models/HotelManagment/HotelBooking");
 const Room = require("../models/HotelManagment/Room");
-
+const Chat = require("./chat");
 const GuideBooking = require("../models/Booking/GuideBooking");
 const { response } = require("express");
 
@@ -636,4 +636,20 @@ router.get("/agentBookings", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+router.post("/conversation", async (req, res) => {
+  const { sender, reciever } = req.body;
+  const resp = await Chat.findOrCreateConversation(sender, reciever);
+  res.send(resp);
+});
+router.post("/conversation", async (req, res) => {
+  const { sender, reciever } = req.body;
+  const resp = await Chat.findOrCreateConversation(sender, reciever);
+  res.send(resp);
+});
+router.post("/addMessage", async (req, res) => {
+  const { text, sender, reciever, type } = req.body;
+  const resp = await Chat.addMessage(text, sender, reciever, type);
+  res.send(resp);
+});
+
 module.exports = router;

@@ -6,6 +6,7 @@ import transportReducer from "./transportReducer";
 import trackDriverReducer from "./trackDriverReducer";
 import authReducer from "./authReducer";
 import chatReducer from "./chatReducer";
+import agentReducer from "./agentReducer";
 export default combineReducers({
   guide: guideReducer,
   hotel: hotelReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   trackDriver: trackDriverReducer,
   auth: authReducer,
   chat: chatReducer,
+  agent: agentReducer,
 });

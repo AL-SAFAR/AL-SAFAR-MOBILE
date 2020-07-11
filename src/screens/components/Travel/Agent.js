@@ -18,14 +18,17 @@ import {
 const { width, height } = Dimensions.get("window");
 import { Entypo } from "@expo/vector-icons";
 
-const Agent = ({ agent, navigation }) => {
+const Agent = ({ agent, navigation, chargeCustomer }) => {
   // console.log(agent);
-  const { companyUri, Location, companyName, intro } = agent;
+  const { AgencyLogo, AgencyLocation, AgencyName, AgencyDescription } = agent;
   return (
     <TouchableOpacity
       style={styles.card}
       onPress={() => {
-        navigation.navigate("AgentProfile", { agent: agent });
+        navigation.navigate("AgentProfile", {
+          agent: agent,
+          chargeCustomer: chargeCustomer,
+        });
       }}
     >
       <View
@@ -40,10 +43,10 @@ const Agent = ({ agent, navigation }) => {
         <View style={styles.profileImage}>
           <Image
             source={{
-              uri: companyUri,
+              uri: AgencyLogo,
             }}
             style={styles.image}
-            // resizeMode="cover"
+            resizeMode="contain"
           ></Image>
         </View>
         <View
@@ -54,9 +57,9 @@ const Agent = ({ agent, navigation }) => {
           }}
         >
           <Text style={{ ...styles.data, flexWrap: "wrap", fontSize: 14 }}>
-            {companyName}
+            {AgencyName}
           </Text>
-          <Text style={styles.heading}>{Location}</Text>
+          <Text style={styles.heading}>{AgencyLocation}</Text>
         </View>
       </View>
       <View
@@ -71,67 +74,11 @@ const Agent = ({ agent, navigation }) => {
           overflow: "hidden",
         }}
       >
-        <Text numberOfLines={10}>{intro} </Text>
+        <Text numberOfLines={8}>{AgencyDescription} </Text>
       </View>
     </TouchableOpacity>
   );
 };
-
-// const Agent = () => {
-//   return (
-//     <TouchableOpacity style={styles.card}>
-//       <View style={{ flex: 1, flexDirection: "row" }}>
-//         <View style={{ ...styles.details, flex: 1 }}>
-//           <View
-//             style={{
-//               alignSelf: "flex-end",
-//               marginVertical: 20,
-
-//               // marginRight: 20,
-//             }}
-//           >
-//             <View style={styles.profileImage}>
-//               <Image
-//                 source={{
-//                   uri:
-//                     "https://images.unsplash.com/photo-1588783948922-d2f155b13c89?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-//                 }}
-//                 style={styles.image}
-//                 // resizeMode="cover"
-//               ></Image>
-//             </View>
-//             <View style={{ marginVertical: 10, alignItems: "center" }}>
-//               <Text style={styles.heading}>AirLift</Text>
-//               <Text style={styles.data}>Islamabad</Text>
-//             </View>
-//           </View>
-//         </View>
-//         <View style={{ ...styles.details, flex: 2 }}>
-//           <View
-//             style={{
-//               flexDirection: "row",
-//               justifyContent: "center",
-//               alignItems: "center",
-//             }}
-//           >
-//             <View
-//               style={{
-//                 // flexDirection: "row",
-//                 flex: 0,
-//                 backgroundColor: "#eeff96",
-//               }}
-//             >
-//               <Text>
-//                 Hello this is a long bit of text that will fill up the entire
-//                 column to see how the text will wrap
-//               </Text>
-//             </View>
-//           </View>
-//         </View>
-//       </View>
-//     </TouchableOpacity>
-//   );
-// };
 
 export default Agent;
 
@@ -142,7 +89,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 10,
     height: 200,
-    // backgroundColor: "#000",
+    backgroundColor: "#fff",
     width: width * 0.9,
     borderRadius: 25,
     borderWidth: null,
@@ -166,7 +113,7 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#000",
+    // borderColor: "#000",
     borderRadius: 180,
     height: undefined,
     width: undefined,

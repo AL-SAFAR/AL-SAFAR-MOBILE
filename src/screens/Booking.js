@@ -17,13 +17,13 @@ import PropTypes from "prop-types";
 import Loader from "./components/layout/Loader";
 import SearchBar from "./components/layout/SearchBar";
 
-import { getHotels, searchHotels } from "./actions/hotelActions";
+import { getHotels, filterHotels } from "./actions/hotelActions";
 const { height, width } = Dimensions.get("window");
 const Booking = ({
   navigation,
-  hotel: { hotels, loading },
+  hotel: { hotels, loading, filtered },
   getHotels,
-  searchHotels,
+  filterHotels,
 }) => {
   useEffect(() => {
     getHotels();
@@ -35,7 +35,7 @@ const Booking = ({
   }
   // constonChange = text => {
   //   console.log(text);
-  //   searchHotels(text);
+  //   filterHotels(text);
   // };
   return (
     <ScrollView
@@ -46,27 +46,27 @@ const Booking = ({
       <Text style={{ fontSize: 24, fontWeight: "700", paddingHorizontal: 20 }}>
         Looking For An Hotel?
       </Text>
-      <SearchBar search={searchHotels} />
+      <SearchBar search={filterHotels} />
       <View style={{ height: 130, marginTop: 20 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <Category
             imageUri={require("../../assets/home.jpg")}
             Name="Islamabad"
-            searchHotels={searchHotels}
+            searchHotels={filterHotels}
           />
           <Category
             imageUri={require("../../assets/restaurant.jpg")}
             Name="Karachi"
-            searchHotels={searchHotels}
+            searchHotels={filterHotels}
 
-            // onPress={searchHotels("Karachi")}
+            // onPress={filterHotels("Karachi")}
           />
           <Category
             imageUri={require("../../assets/experiences.jpg")}
             Name="Gilgit"
-            searchHotels={searchHotels}
+            searchHotels={filterHotels}
 
-            // onPress={searchHotels("Gilgit")}
+            // onPress={filterHotels("Gilgit")}
           />
           <Category
             imageUri={{
@@ -74,9 +74,9 @@ const Booking = ({
                 "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
             }}
             Name="Kashmir"
-            searchHotels={searchHotels}
+            searchHotels={filterHotels}
 
-            // onPress={searchHotels("Kashmir")}
+            // onPress={filterHotels("Kashmir")}
           />
         </ScrollView>
       </View>
@@ -102,31 +102,52 @@ const Booking = ({
           marginBottom: 10,
         }}
       >
-        {hotels.length === 0 ? (
+        {/* {filtered !== null && filtered === [] ? (
           <Text style={{ color: "red", justifyContent: "center" }}>
             No Hotels To Show
           </Text>
-        ) : null}
-        {hotels.map((hotel) => {
-          let image = hotel.hotelImages[0];
-          {
-            /* console.log(hotel.hotelImages[0]); */
-          }
-          return (
-            <Hotel
-              key={hotel._id}
-              navigation={navigation}
-              width={width}
-              hotelName={hotel.hotelName}
-              hotel={hotel}
-              city={hotel.city}
-              rent={hotel.Room[0].rent}
-              starRating={parseInt(hotel.starRating)}
-              imageUri={hotel.hotelImages[0]}
-              // imageUri={hotel.hotelImages[0]}
-            />
-          );
-        })}
+        ) : null} */}
+        {filtered !== null
+          ? filtered.map((hotel) => {
+              let image = hotel.hotelImages[0];
+              {
+                /* console.log(hotel.hotelImages[0]); */
+              }
+              return (
+                <Hotel
+                  key={hotel._id}
+                  navigation={navigation}
+                  width={width}
+                  hotelName={hotel.hotelName}
+                  hotel={hotel}
+                  city={hotel.city}
+                  rent={hotel.Room[0].rent}
+                  starRating={parseInt(hotel.starRating)}
+                  imageUri={hotel.hotelImages[0]}
+                  // imageUri={hotel.hotelImages[0]}
+                />
+              );
+            })
+          : hotels.map((hotel) => {
+              let image = hotel.hotelImages[0];
+              {
+                /* console.log(hotel.hotelImages[0]); */
+              }
+              return (
+                <Hotel
+                  key={hotel._id}
+                  navigation={navigation}
+                  width={width}
+                  hotelName={hotel.hotelName}
+                  hotel={hotel}
+                  city={hotel.city}
+                  rent={hotel.Room[0].rent}
+                  starRating={parseInt(hotel.starRating)}
+                  imageUri={hotel.hotelImages[0]}
+                  // imageUri={hotel.hotelImages[0]}
+                />
+              );
+            })}
       </View>
 
       {/* <Hotel
@@ -184,11 +205,11 @@ const Booking = ({
 Booking.propTypes = {
   hotel: PropTypes.object.isRequired,
   getHotels: PropTypes.func.isRequired,
-  // searchHotels: PropTypes.func.isRequired
+  filterHotels: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   hotel: state.hotel,
 });
 
-export default connect(mapStateToProps, { getHotels, searchHotels })(Booking);
+export default connect(mapStateToProps, { getHotels, filterHotels })(Booking);

@@ -5,7 +5,7 @@ import { Ionicons as Icons } from "@expo/vector-icons";
 const SearchBar = ({ search }) => {
   const text = useRef("maskd");
   const [value, setValue] = useState("");
-  const onChange = t => {
+  const onChange = (t) => {
     // setValue(t.nativeEvent.text);
     // console.log(t.nativeEvent.text);
     search(t);
@@ -22,7 +22,7 @@ const SearchBar = ({ search }) => {
         shadowOffset: { width: 0, height: 0 },
         shadowColor: "black",
         shadowOpacity: 0.2,
-        elevation: 4
+        elevation: 4,
         // marginTop: 30
       }}
     >
@@ -36,8 +36,9 @@ const SearchBar = ({ search }) => {
         placeholder="Try Islamabad"
         ref={text}
         value={value}
-        onChange={t => {
+        onChange={(t) => {
           setValue(t.nativeEvent.text);
+          // console.log(value);
           onChange(t.nativeEvent.text);
         }}
         placeholderTextColor="grey"
@@ -45,14 +46,14 @@ const SearchBar = ({ search }) => {
           flex: 1,
           fontWeight: "700",
           backgroundColor: "white",
-          alignSelf: "center"
+          alignSelf: "center",
         }}
       />
     </View>
   );
 };
 SearchBar.propTypes = {
-  search: PropTypes.func.isRequired
+  search: PropTypes.func.isRequired,
 };
 // connect(null, { searchHotels })(
 export default SearchBar;

@@ -1,8 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons as Icon } from "@expo/vector-icons";
+import moment from "moment";
 
-const HotelModal = ({ setModalOpen }) => {
+const HotelModal = ({ setModalOpen, hotel }) => {
+  let { fromDate, toDate, payment, _id, NoOfRooms, Rooms, paymentId } = hotel;
+  let { amount, date } = payment;
+  let { roomType } = Rooms[0];
+  date = moment(date).subtract(1, "days").format("DD MMM YYYY");
+  fromDate = moment(fromDate).subtract(1, "days").format("DD MMM YYYY");
+  // fromDate = fromDate.subtract(1, "days");
+  toDate = moment(toDate).subtract(1, "days").format("DD MMM YYYY");
   return (
     <View
       style={{
@@ -60,7 +68,7 @@ const HotelModal = ({ setModalOpen }) => {
               marginStart: 10,
             }}
           >
-            12342212
+            {_id}
           </Text>
         </View>
         <View
@@ -86,7 +94,7 @@ const HotelModal = ({ setModalOpen }) => {
               marginTop: 7,
             }}
           >
-            5 Jan 2020
+            {date}
           </Text>
         </View>
         <View
@@ -158,7 +166,7 @@ const HotelModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                12 Jan 2020
+                {fromDate}
               </Text>
               <Text
                 style={{
@@ -168,7 +176,7 @@ const HotelModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                17 Jan 2020
+                {toDate}
               </Text>
             </View>
             <View
@@ -227,7 +235,7 @@ const HotelModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                Luxury
+                {roomType}
               </Text>
               <Text
                 style={{
@@ -237,7 +245,7 @@ const HotelModal = ({ setModalOpen }) => {
                   //   marginTop: -1,
                 }}
               >
-                2
+                {NoOfRooms}
               </Text>
             </View>
           </View>
@@ -289,7 +297,7 @@ const HotelModal = ({ setModalOpen }) => {
               marginStart: 9,
             }}
           >
-            1234323
+            {paymentId}
           </Text>
         </View>
         <View
@@ -316,7 +324,7 @@ const HotelModal = ({ setModalOpen }) => {
               marginTop: 7,
             }}
           >
-            5 Jan 2020
+            {date}
           </Text>
         </View>
         <View
@@ -333,7 +341,7 @@ const HotelModal = ({ setModalOpen }) => {
               marginTop: 21,
             }}
           >
-            10000 PKR
+            {amount} PKR
           </Text>
           <Text
             style={{

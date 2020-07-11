@@ -13,15 +13,19 @@ import { Entypo } from "@expo/vector-icons";
 import StarRating from "react-native-star-rating";
 import HotelModal from "./HotelModal";
 import moment from "moment";
-const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
+const HotelCard = ({ hotel }) => {
   const [stars, setstars] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-
+  let { fromDate, toDate, payment, id } = hotel;
+  let { amount } = payment;
   const updateRating = (rating) => {
     setstars(rating);
   };
-  fromDate = moment(fromDate).format("DD MMM YYYY");
-  toDate = moment(toDate).format("DD MMM YYYY");
+  fromDate = moment(fromDate).subtract(1, "days").format("DD MMM YYYY");
+  // fromDate = fromDate.subtract(1, "days");
+  toDate = moment(toDate).subtract(1, "days").format("DD MMM YYYY");
+  // toDate = toDate.subtract(1, "days");
+
   const hotelImage = `https://source.unsplash.com/1600x900/?hotel/${id}`;
 
   return (
@@ -35,7 +39,7 @@ const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           /> */}
-            <HotelModal setModalOpen={setModalOpen} />
+            <HotelModal setModalOpen={setModalOpen} hotel={hotel} />
           </View>
         </View>
       </Modal>
@@ -79,7 +83,7 @@ const HotelCard = ({ hotel: { fromDate, toDate, charges, id } }) => {
             <Text
               style={{ fontSize: 16, fontWeight: "bold", color: "#0099ff" }}
             >
-              {charges} PKR
+              {amount} PKR
             </Text>
           </View>
         </View>

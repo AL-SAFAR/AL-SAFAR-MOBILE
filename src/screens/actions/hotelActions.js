@@ -1,10 +1,18 @@
-import { GET_HOTELS, SET_LOADING, HOTELS_ERROR, SEARCH_HOTELS } from "./types";
+import {
+  GET_HOTELS,
+  SET_LOADING,
+  GET_HOTEL_BOOKINGS,
+  HOTELS_ERROR,
+  FILTER_HOTELS,
+  CLEAR_FILTER,
+} from "./types";
 import { BASE_URL, APP_COMMISSION } from "../../../key.json";
 import { AsyncStorage } from "react-native";
 import moment from "moment";
 import StripeClient from "./StripeClient";
 import axios from "axios";
 const testApiKey = "pk_test_E4kJlHrPZzpKcJzBXxf1KywE00ItkELuMe";
+import store from "../../../store";
 
 //Get hotels from server
 export const getHotels = () => async (dispatch) => {
@@ -36,24 +44,48 @@ export const getHotels = () => async (dispatch) => {
   }
 };
 // Search Hotels
-export const searchHotels = (text) => async (dispatch) => {
-  try {
-    setLoading();
-    // console.log(text);
-    text = text.toLowerCase();
-    const res = await fetch(`${BASE_URL}/hotels?city_like=${text}`);
-    const data = await res.json();
+// export const searchHotels = (text) => async (dispatch) => {
+//   try {
+//     // setLoading();
+//     // console.log(text);
 
-    dispatch({
-      type: SEARCH_HOTELS,
-      payload: data,
-    });
-  } catch (err) {
-    dispatch({
-      type: HOTELS_ERROR,
-      payload: err,
-    });
-  }
+//     text = text.toLowerCase();
+//     console.log(text);
+//     const hotels = store.getState().hotel.hotels;
+//     // const hotel = hotels[0].city.toLowerCase();
+
+//     // console.log(hotel.includes(`${text}`));
+//     if (text === "") {
+//       const searchHotels = hotels.filter((hotel) => {
+//         return hotel.city.toLowerCase().includes(`${text}`);
+//       });
+//     } else {
+//       hotels;
+//     }
+//     // const res = await fetch(`${BASE_URL}/hotels?city_like=${text}`);
+//     // const data = await res.json();
+
+//     dispatch({
+//       type: FILTER_HOTELS,
+//       // payload: searchHotels,
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: HOTELS_ERROR,
+//       payload: err,
+//     });
+//   }
+// };
+
+//FILTER HOTELS
+export const filterHotels = (text) => async (dispatch) => {
+  dispatch({ type: FILTER_HOTELS, payload: text });
+};
+
+//Clear Filter
+
+export const clearFilter = () => async (dispatch) => {
+  dispatch({ type: CLEAR_FILTER });
 };
 
 //charging customer
@@ -267,6 +299,30 @@ export const checkAvailability = (data) => async (dispatch) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getHotelBookings = () => async (dispatch) => {
+  setLoading();
+
+  let usertoken = await AsyncStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": usertoken,
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+
+  axios.get(`${BASE_URL}/users/hotelBookings`, config).then((payload) => {
+    console.log(payload.data.hotelBookingResp);
+    dispatch({
+      type: GET_HOTEL_BOOKINGS,
+      payload: payload.data.hotelBookingResp,
+    });
+
+    // console.log(payload);
+  });
 };
 
 //set laoding true

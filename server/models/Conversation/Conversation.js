@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const ConversationSchema = mongoose.Schema({
-  customerId: {
-    type: String,
-    required: true,
-  },
+  customerId: { type: mongoose.Schema.Types.ObjectId, ref: "customer" },
   SPID: {
     type: String,
     required: true,

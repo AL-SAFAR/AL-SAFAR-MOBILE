@@ -11,14 +11,22 @@ const findOrCreateConversation = async (sender, reciever) => {
     if (conversation) {
       return conversation;
     }
+    if (!conversation) {
+      let conversation = await Conversation.findOne({
+        customerId: reciever,
+        SPID: sender,
+      });
+      if (conversation) {
+        return conversation;
+      }
+      conversation = new Conversation({
+        customerId: sender,
+        SPID: reciever,
+      });
 
-    conversation = new Conversation({
-      customerId: sender,
-      SPID: reciever,
-    });
-
-    await conversation.save();
-    return "convo created";
+      await conversation.save();
+      return "convo created";
+    }
   } catch (err) {
     console.log(err);
   }
@@ -33,7 +41,7 @@ const addMessage = async (text, sender, reciever, type) => {
     if (type == "0") {
       const conversation = await Conversation.findOneAndUpdate(
         {
-          customerId: sender,
+          customerId: sender._id,
           SPID: reciever,
         },
         {
