@@ -4,9 +4,11 @@ import {
   Text,
   StatusBar,
   Image,
+  StyleSheet,
   Dimensions,
   Animated,
 } from "react-native";
+import Slider from "react-native-slider";
 import { globalStyles } from "../../styles/global";
 import {
   Ionicons as Icons,
@@ -15,6 +17,7 @@ import {
 } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
+// import Slider from "@react-native-community/slider";
 import Category from "./components/Explore/Category";
 import Home from "./components/Explore/Home";
 import Tag from "./components/Explore/Tag";
@@ -24,6 +27,12 @@ import { Platform } from "@unimodules/core";
 const { height, width } = Dimensions.get("window");
 
 export default class Explore extends Component {
+  constructor() {
+    super();
+    this.state = {
+      value: 0,
+    };
+  }
   componentWillMount() {
     this.scrollY = new Animated.Value(0);
     this.startHeaderHeight = 80;
@@ -55,7 +64,7 @@ export default class Explore extends Component {
   render() {
     return (
       <View style={globalStyles.container}>
-        <Animated.View
+        {/* <Animated.View
           style={{
             height: this.animatedHeaderHeight,
             backgroundColor: "white",
@@ -108,7 +117,7 @@ export default class Explore extends Component {
             <Tag name="Guests" />
             <Tag name="Dates" />
           </Animated.View>
-        </Animated.View>
+        </Animated.View> */}
         <ScrollView
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -187,8 +196,44 @@ export default class Explore extends Component {
                   paddingHorizontal: 20,
                 }}
               >
-                Hot Offers!
+                Let Us Help You Out!
               </Text>
+              {/* <View style={{ justifyContent: "center", alignItems: "center" }}> */}
+              <View
+                style={{
+                  marginTop: 20,
+                  marginHorizontal: 20,
+                  alignContent: "center",
+                }}
+              >
+                <Text style={{ fontSize: 18, fontWeight: "500" }}>
+                  Share your Budget with us.
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.value} numberOfLines={1}>
+                    <Text style={{ fontWeight: "500" }}>Budget: </Text>
+                    Rs.{this.state.value}
+                  </Text>
+                </View>
+                <Slider
+                  minimumTrackTintColor="#13a9d6"
+                  minimumValue={1000}
+                  maximumValue={100000}
+                  step={500}
+                  value={this.state.value}
+                  onValueChange={(value) => this.setState({ value })}
+                  thumbImage={require("../../assets/dollar.png")}
+                  thumbStyle={styles.thumb}
+                  thumbTintColor="#F3CC2F"
+                />
+              </View>
+              {/* </View> */}
               {/* <Agent
                 placeUri={{
                   uri:
@@ -220,3 +265,22 @@ export default class Explore extends Component {
     );
   }
 }
+
+var styles = StyleSheet.create({
+  value: {
+    flex: 1,
+    textAlign: "right",
+    marginLeft: 10,
+    fontSize: 12,
+  },
+  thumb: {
+    width: 32,
+    height: 32,
+    shadowColor: "black",
+    borderRadius: 100,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+    shadowOpacity: 0.35,
+  },
+});

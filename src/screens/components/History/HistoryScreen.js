@@ -19,20 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import CarCard from "./Car/CarCard";
 import HotelCard from "./Hotel/HotelCard";
 import GuideCard from "./Guide/GuideCard";
-// const hotelbookings = [
-//   {
-//     id: 1,
-//     fromDate: new Date("2020/01/20"),
-//     toDate: new Date("2020/02/10"),
-//     charges: 9000,
-//   },
-//   {
-//     id: 2,
-//     fromDate: new Date("2020/01/20"),
-//     toDate: new Date("2020/02/10"),
-//     charges: 9000,
-//   },
-// ];
+import AgentCard from "./Agent/AgentCard";
 const agentBookings = [
   {
     id: 1,
@@ -85,7 +72,7 @@ const HistoryScreen = ({
       });
     } else if (type === "agent") {
       return agentBookings.map((agentBooking) => {
-        return <GuideCard agentBooking={agentBooking} key={agentBooking._id} />;
+        return <AgentCard agentBooking={agentBooking} key={agentBooking.id} />;
       });
     }
   };

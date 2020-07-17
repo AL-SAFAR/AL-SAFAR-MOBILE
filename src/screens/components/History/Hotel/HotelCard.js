@@ -16,8 +16,10 @@ import moment from "moment";
 const HotelCard = ({ hotel }) => {
   const [stars, setstars] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  let { fromDate, toDate, payment, id } = hotel;
+  let { fromDate, toDate, payment, id, Hotel } = hotel;
   let { amount } = payment;
+  let { hotelImages } = Hotel;
+
   const updateRating = (rating) => {
     setstars(rating);
   };
@@ -26,7 +28,7 @@ const HotelCard = ({ hotel }) => {
   toDate = moment(toDate).subtract(1, "days").format("DD MMM YYYY");
   // toDate = toDate.subtract(1, "days");
 
-  const hotelImage = `https://source.unsplash.com/1600x900/?hotel/${id}`;
+  // const hotelImage = `https://source.unsplash.com/1600x900/?hotel/${id}`;
 
   return (
     <TouchableOpacity style={styles.card} onPress={() => setModalOpen(true)}>
@@ -47,7 +49,7 @@ const HotelCard = ({ hotel }) => {
         <Image
           style={{ flex: 1, resizeMode: "cover" }}
           source={{
-            uri: hotelImage,
+            uri: hotelImages[0],
           }}
         />
       </View>

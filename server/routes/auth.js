@@ -134,4 +134,113 @@ router.post(
   }
 );
 
+//@route    POST api/auth/changePass
+//@desc     change password
+//@access   Private
+
+router.get(
+  "/changePass",
+  [
+    check(
+      "password",
+      "Please enter a password with 8 or more characters"
+    ).isLength({ min: 8 }),
+    check(
+      "password",
+      "Password should contain at least 8 characters which include uppercase,lowercase and a number"
+    ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
+  ],
+  auth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      let user;
+      let userFields = {};
+      let { password } = req.body;
+      let { id, userType } = req.user;
+
+      const salt = await bcrypt.genSalt(10);
+
+      // await agent.save();
+
+      if (userType === "0") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await Customer.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      }
+      if (userType === "1") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await HotelRep.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      } else if (userType === "2") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await Guide.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      } else if (userType === "3") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await TravelAgent.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      } else if (userType === "4") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await Driver.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      } else if (userType === "5") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await Admin.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      } else if (userType === "6") {
+        password = await bcrypt.hash(password, salt);
+        console.log(id);
+        console.log(password);
+        user = await SupportAssistant.findOneAndUpdate(
+          { _id: id },
+          { $set: { password } },
+          { new: true }
+        );
+        res.send("Password Updated");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 module.exports = router;

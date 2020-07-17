@@ -27,6 +27,10 @@ router.post(
       "password",
       "Please enter a password with 8 or more characters"
     ).isLength({ min: 8 }),
+    check(
+      "password",
+      "Password should contain at least 8 characters which include uppercase,lowercase and a number"
+    ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -636,11 +640,304 @@ router.get("/agentBookings", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-router.post("/conversation", async (req, res) => {
-  const { sender, reciever } = req.body;
-  const resp = await Chat.findOrCreateConversation(sender, reciever);
-  res.send(resp);
-});
+
+// const getHotels = async () => {
+//   try {
+//     // let hotels;
+//     let hotels = await Hotel.aggregate([
+//       {
+//         $lookup: {
+//           from: "hotelbookings",
+//           as: "HotelBooking",
+//           let: {
+//             hotelId: "$_id",
+//           },
+//           pipeline: [
+//             {
+//               $match: {
+//                 $expr: {
+//                   $and: [
+//                     {
+//                       $eq: ["$hotelId", "$$hotelId"],
+//                     },
+//                     {
+//                       $eq: ["$status", "completed"],
+//                     },
+//                   ],
+//                 },
+//                 feedback: {
+//                   $exists: true,
+//                 },
+//               },
+//             },
+//           ],
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "customers",
+//           localField: "HotelBooking.customerId",
+//           foreignField: "_id",
+//           as: "customer",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "hotelreps",
+//           localField: "hotelRep",
+//           foreignField: "_id",
+//           as: "HotelRep",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "rooms",
+//           as: "Room",
+//           let: {
+//             id: "$_id",
+//           },
+//           pipeline: [
+//             {
+//               $facet: {
+//                 Economy: [
+//                   {
+//                     $match: {
+//                       $expr: {
+//                         $and: [
+//                           {
+//                             $eq: ["$roomType", "Economy"],
+//                           },
+//                           {
+//                             $eq: ["$hotelId", "$$id"],
+//                           },
+//                         ],
+//                       },
+//                     },
+//                   },
+//                   {
+//                     $limit: 1,
+//                   },
+//                 ],
+//                 Delexue: [
+//                   {
+//                     $match: {
+//                       $expr: {
+//                         $and: [
+//                           {
+//                             $eq: ["$roomType", "Deluxe"],
+//                           },
+//                           {
+//                             $eq: ["$hotelId", "$$id"],
+//                           },
+//                         ],
+//                       },
+//                     },
+//                   },
+//                   {
+//                     $limit: 1,
+//                   },
+//                 ],
+//                 Luxury: [
+//                   {
+//                     $match: {
+//                       $expr: {
+//                         $and: [
+//                           {
+//                             $eq: ["$roomType", "Luxury"],
+//                           },
+//                           {
+//                             $eq: ["$hotelId", "$$id"],
+//                           },
+//                         ],
+//                       },
+//                     },
+//                   },
+//                   {
+//                     $limit: 1,
+//                   },
+//                 ],
+//               },
+//             },
+//             {
+//               $project: {
+//                 activity: {
+//                   $setUnion: ["$Economy", "$Luxury", "$Delexue"],
+//                 },
+//               },
+//             },
+//             {
+//               $unwind: "$activity",
+//             },
+//             {
+//               $replaceRoot: {
+//                 newRoot: "$activity",
+//               },
+//             },
+//           ],
+//         },
+//       },
+//       {
+//         $project: {
+//           Feedback: {
+//             $map: {
+//               input: {
+//                 $zip: {
+//                   inputs: ["$HotelBooking", "$customer"],
+//                 },
+//               },
+//               as: "el",
+//               in: {
+//                 HotelBooking: {
+//                   $arrayElemAt: ["$$el", 0],
+//                 },
+//                 Customer: {
+//                   $arrayElemAt: ["$$el", 1],
+//                 },
+//               },
+//             },
+//           },
+//           Room: "$Room",
+//           HotelRep: "$HotelRep",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "hotels",
+//           localField: "_id",
+//           foreignField: "_id",
+//           as: "Hotel",
+//         },
+//       },
+//       {
+//         $unwind: "$Hotel",
+//       },
+//       {
+//         $set: {
+//           "Hotel.Room": "$Room",
+//           "Hotel.Feedback": "$Feedback",
+//           "Hotel.HotelRep": "$HotelRep",
+//         },
+//       },
+//       {
+//         $replaceWith: "$Hotel",
+//       },
+//     ]);
+//     return hotels;
+//   } catch (err) {
+//     console.log("ERROR MESSAGE=");
+//     console.error(err.message);
+//     // res.status(500).send("Server Error");
+//   }
+// };
+// const getGuides = async () => {
+//   try {
+//     let guides = await Guide.aggregate([
+//       {
+//         $lookup: {
+//           from: "guideprofiles",
+//           localField: "_id",
+//           foreignField: "guide",
+//           as: "UserProfile",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "guidebookings",
+//           localField: "_id",
+//           foreignField: "guideId",
+//           as: "GuideBooking",
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "customers",
+//           localField: "GuideBooking.customerId",
+//           foreignField: "_id",
+//           as: "CustomerInfo",
+//         },
+//       },
+//     ]);
+//     return guides;
+//   } catch (error) {
+//     onsole.log("ERROR MESSAGE=");
+//     console.error(err.message);
+//   }
+// };
+
+// router.get("/recommendation", async (req, res) => {
+//   // const res
+//   try {
+//     const { budget, days, roomType, needHotel, needGuide } = req.body;
+//     let filteredHotels,
+//       hotels,
+//       budgetForHotelperDay,
+//       budgetForGuideperDay,
+//       filteredGuides,
+//       guides,
+//       filteredData;
+
+//     if (needHotel && !needGuide) {
+//       console.log("needHotel");
+//       budgetForHotelperDay = budget / days;
+//       hotels = await getHotels();
+
+//       filteredHotels = hotels.filter((hotel) =>
+//         hotel.Room.some(
+//           (room) =>
+//             room.roomType === roomType && room.rent <= budgetForHotelperDay
+//         )
+//       );
+//       console.log(filteredHotels);
+//       filteredData = {
+//         hotels: filteredHotels,
+//       };
+//       res.send(filteredData);
+//     } else if (needGuide && !needHotel) {
+//       budgetForGuideperDay = budget / days;
+//       filteredGuides = guides.filter((guide) =>
+//         guide.UserProfile.some(
+//           (UP) => UP.serviceCharges <= budgetForGuideperDay
+//         )
+//       );
+//       console.log(filteredGuides);
+//       filteredData = {
+//         guides: filteredGuides,
+//       };
+//       res.send(filteredData);
+//     } else if (needGuide && needHotel) {
+//       budgetForHotelperDay = (budget * 0.7) / days;
+//       budgetForGuideperDay = (budget * 0.3) / days;
+//       hotels = await getHotels();
+
+//       filteredHotels = hotels.filter((hotel) =>
+//         hotel.Room.some(
+//           (room) =>
+//             room.roomType === roomType && room.rent <= budgetForHotelperDay
+//         )
+//       );
+//       console.log(filteredHotels);
+//       guides = await getGuides();
+//       filteredGuides = guides.filter((guide) =>
+//         guide.UserProfile.some(
+//           (UP) => UP.serviceCharges <= budgetForGuideperDay
+//         )
+//       );
+//       console.log(filteredGuides);
+//       filteredData = {
+//         hotels: filteredHotels,
+//         guides: filteredGuides,
+//       };
+//       res.send(filteredData);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+// router.get("/getRecommendations", async (req, res) => {
+//   let { hotels, guide } = req.body;
+//   let trainingHotelData = hotels;
+// });
 router.post("/conversation", async (req, res) => {
   const { sender, reciever } = req.body;
   const resp = await Chat.findOrCreateConversation(sender, reciever);
