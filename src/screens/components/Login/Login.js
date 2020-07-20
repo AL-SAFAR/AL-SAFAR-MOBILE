@@ -314,7 +314,7 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
                 </Text>
               </Animated.View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Animated.View
                 style={{
                   alignItems: "center",
@@ -328,7 +328,7 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
                   Join As a <Text style={{ color: "#0099ff" }}>Partner</Text>
                 </Text>
               </Animated.View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <Animated.View
               style={{

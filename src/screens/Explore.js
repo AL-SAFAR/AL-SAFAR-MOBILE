@@ -132,7 +132,10 @@ const Explore = () => {
                   borderWidth: 1,
                   borderColor: "#dddddd",
                 }}
-                source={require("../../assets/home.jpg")}
+                source={{
+                  uri:
+                    "https://image.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg",
+                }}
               />
             </View>
           </View>
@@ -151,27 +154,30 @@ const Explore = () => {
                 <Category
                   imageUri={{
                     uri:
-                      "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80",
+                      "https://image.freepik.com/free-vector/hotel-suite-skyscraper-cartoon-vector-interior-illustration_33099-1838.jpg",
                   }}
                   Name="Hotels"
                 />
                 <Category
                   imageUri={{
                     uri:
-                      "https://images.unsplash.com/46/sh3y2u5PSaKq8c4LxB3B_submission-photo-4.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=755&q=80",
+                      "https://image.freepik.com/free-vector/relocation-another-city-truck-with-freight_107791-2720.jpg",
                   }}
-                  Name="Motels"
-                />
-                <Category
-                  imageUri={require("../../assets/restaurant.jpg")}
-                  Name="Restaurant"
+                  Name="Transport"
                 />
                 <Category
                   imageUri={{
                     uri:
-                      "https://images.unsplash.com/photo-1504971737233-9a29c29c17cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+                      "https://image.freepik.com/free-vector/tour-vacation-guide-illustration_1284-16528.jpg",
                   }}
-                  Name="Pick n Drop"
+                  Name="Guide"
+                />
+                <Category
+                  imageUri={{
+                    uri:
+                      "https://image.freepik.com/free-vector/worker-talking-phone-with-client_52683-13917.jpg",
+                  }}
+                  Name="Agent"
                 />
               </ScrollView>
             </View>
@@ -181,7 +187,11 @@ const Explore = () => {
               onPress={() => {
                 changeAccordian();
               }}
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                marginVertical: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
             >
               <Text
                 style={
@@ -202,9 +212,16 @@ const Explore = () => {
                 Let Us Help You Out!
               </Text>
               {expanded ? (
-                <AntDesign name="caretup" size={24} color="black" />
+                <Text>Click Here</Text>
               ) : (
-                <AntDesign name="caretdown" size={24} color="#0099ff" />
+                <AntDesign
+                  style={{
+                    paddingHorizontal: 20,
+                  }}
+                  name="caretdown"
+                  size={24}
+                  color="#0099ff"
+                />
               )}
             </TouchableOpacity>
             {expanded && (

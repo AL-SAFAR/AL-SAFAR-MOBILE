@@ -27,7 +27,7 @@ router.get("/", auth, async (req, res) => {
     } else if (req.user.userType === "2") {
       const guide = await Guide.findById(req.user.id).select("-password");
       res.json(guide);
-    } else if (req.user.userType === "3") {
+    } else if (req.user.userType === "4") {
       const driver = await Driver.findById(req.user.id).select("-password");
       res.json(driver);
     }

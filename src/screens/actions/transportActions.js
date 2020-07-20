@@ -32,9 +32,16 @@ export const getCurrentLocation = () => async (dispatch) => {
   try {
     await navigator.geolocation.getCurrentPosition(
       (position) => {
+        // const region = {
+        //   latitude: position.coords.latitude,
+        //   longitude: position.coords.longitude,
+        //   latitudeDelta: LATITUDE_DELTA,
+        //   longitudeDelta: LONGITUDE_DELTA,
+        // };
+        //my home
         const region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          latitude: 33.6219105,
+          longitude: 73.0621069,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         };
