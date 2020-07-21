@@ -113,6 +113,7 @@ const BookingForm = ({
                 },
               });
             } else {
+              next();
             }
           });
           console.log("hello");
@@ -124,6 +125,7 @@ const BookingForm = ({
             buttontext: "Try again",
             callback: () => Popup.hide(),
           });
+          next();
         }
         // console.log(res);
       });
@@ -146,6 +148,7 @@ const BookingForm = ({
         buttontext: "Continue",
         callback: () => Popup.hide(),
       });
+      next();
     } else {
       Popup.show({
         type: "Danger",
@@ -154,6 +157,7 @@ const BookingForm = ({
         buttontext: "Try again",
         callback: () => Popup.hide(),
       });
+      next();
     }
   };
   return (

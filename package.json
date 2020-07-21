@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.1.0",
     "@react-native-community/datetimepicker": "^2.2.2",
     "@react-native-community/slider": "^3.0.2",
     "axios": "^0.19.2",

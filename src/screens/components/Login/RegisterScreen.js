@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import {
-  Image,
+  // Image,
   Keyboard,
   Dimensions,
   TextInput,
@@ -14,14 +14,13 @@ import {
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-import {
-  Ionicons as Icons,
-  FontAwesome as FIcons,
-  Feather as FeatherIcon,
-} from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
+// import { Madoka } from "react-native-textinput-effects";
+import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
+import { ScrollView } from "react-native-gesture-handler";
 function cacheImages(images) {
   return images.map((image) => {
     if (typeof image === "string") {
@@ -44,7 +43,8 @@ const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [mobile, setMobile] = useState("");
   const [isReady, setisReady] = useState("");
   SignUp = () => {
     if (email === "") {
@@ -73,7 +73,7 @@ const RegisterScreen = ({ navigation }) => {
     );
   }
   return (
-    // <KeyboardAvoidingView
+    //   <KeyboardAvoidingView
     //   style={{
     //     flex: 1,
     //     backgroundColor: "white",
@@ -81,23 +81,135 @@ const RegisterScreen = ({ navigation }) => {
     //   }}
     //   behavior="padding"
     //   enabled
-    // ></KeyboardAvoidingView>
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../../../../assets/patterns/background.jpg")}
-        style={styles.cover}
-      ></ImageBackground>
-      <View style={styles.footer}>
+    // >
+    <KeyboardAvoidingView
+      // keyboardVerticalOffset={-64}
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "flex-end",
+      }}
+      behavior="padding"
+      enabled
+    >
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          justifyContent: "flex-end",
+        }}
+      >
         <View
           style={{
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: "white",
-            borderTopStartRadius: 75,
-            marginHorizontal: 10,
+            ...StyleSheet.absoluteFill,
+            // transform: [{ translateY: bgY }],
           }}
-        ></View>
+        >
+          <Svg height={height + 50} width={width}>
+            {/* <ClipPath id="clip">
+              <Circle r={height + 50} cx={width / 2}></Circle>
+            </ClipPath> */}
+            <Image
+              href={require("../../../../assets/patterns/background.jpg")}
+              height={height + 50}
+              width={width}
+              preserveAspectRatio="xMidYMid slice"
+              clipPath="url(#clip)"
+            />
+          </Svg>
+        </View>
+        {/* <View style={styles.cover}></View> */}
+        <View style={styles.footer}>
+          <View
+            style={{
+              // flex: 1,
+              ...StyleSheet.absoluteFillObject,
+              // height: height * 0.4,
+              alignSelf: "flex-end",
+              backgroundColor: "white",
+              borderTopRightRadius: 25,
+              borderTopLeftRadius: 25,
+              marginHorizontal: 10,
+              justifyContent: "flex-start",
+              // alignItems: "center",
+              paddingHorizontal: 5,
+              paddingVertical: 5,
+            }}
+          >
+            <TouchableOpacity>
+              <Ionicons
+                style={{
+                  alignSelf: "flex-start",
+                  marginHorizontal: 20,
+                  marginTop: 10,
+                }}
+                name="ios-arrow-back"
+                size={24}
+                color="#000"
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 32,
+                fontWeight: "700",
+                textAlign: "center",
+                // marginBottom: 10,
+              }}
+            >
+              Sign Up
+            </Text>
+            {/* </View> */}
+            <TextInput
+              placeholder="NAME"
+              style={styles.textInput}
+              keyboardType="email-address"
+              value={name}
+              placeholderTextColor="black"
+              onChangeText={(text) => setName(text)}
+            />
+            <TextInput
+              placeholder="EMAIL"
+              style={styles.textInput}
+              keyboardType="email-address"
+              value={email}
+              placeholderTextColor="black"
+              onChangeText={(text) => setEmail(text)}
+            />
+            <TextInput
+              placeholder="PASSWORD"
+              value={password}
+              secureTextEntry={true}
+              style={styles.textInput}
+              onChangeText={(text) => setPassword(text)}
+              placeholderTextColor="black"
+            />
+            <TextInput
+              placeholder="CONFIRM PASSWORD"
+              value={confirmPassword}
+              secureTextEntry={true}
+              style={styles.textInput}
+              onChangeText={(text) => setConfirmPassword(text)}
+              placeholderTextColor="black"
+            />
+            <TouchableOpacity
+            //  onPress={SignIn}
+            >
+              <View style={styles.innerButton}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "#0099ff",
+                  }}
+                >
+                  SIGN UP
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -106,10 +218,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cover: {
-    height: 0.4 * height,
+    height: 0.3 * height,
+    justifyContent: "center",
+    alignItems: "center",
     // backgroundColor: "#6441a5",
     // borderBottomRightRadius: 75,
   },
-  footer: { flex: 1 },
+  footer: { height: height * 0.7 },
+  textInput: {
+    height: 40,
+    borderRadius: 25,
+    borderWidth: 0.5,
+    marginHorizontal: 20,
+    paddingLeft: 10,
+    marginVertical: 5,
+    borderColor: "rgba(0,0,0,0.2)",
+  },
+  innerButton: {
+    backgroundColor: "white",
+    height: 50,
+    borderColor: "#0099ff",
+    borderWidth: 1,
+    marginHorizontal: 40,
+    borderRadius: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+  },
 });
 export default RegisterScreen;

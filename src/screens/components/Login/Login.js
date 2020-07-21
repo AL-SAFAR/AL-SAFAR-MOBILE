@@ -314,21 +314,6 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
                 </Text>
               </Animated.View>
             </TouchableOpacity>
-            {/* <TouchableOpacity>
-              <Animated.View
-                style={{
-                  alignItems: "center",
-                  opacity: buttonOpacity,
-                  transform: [{ translateY: buttonY }],
-                }}
-              >
-                <Text
-                  style={{ fontSize: 15, fontWeight: "bold", color: "white" }}
-                >
-                  Join As a <Text style={{ color: "#0099ff" }}>Partner</Text>
-                </Text>
-              </Animated.View>
-            </TouchableOpacity> */}
 
             <Animated.View
               style={{

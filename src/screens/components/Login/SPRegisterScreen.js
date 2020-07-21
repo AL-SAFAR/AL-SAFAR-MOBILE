@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
@@ -13,14 +14,12 @@ import {
 import { globalStyles } from "../../../../styles/global";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-import {
-  Ionicons as Icons,
-  FontAwesome as FIcons,
-  Feather as FeatherIcon,
-} from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
+// import { Madoka } from "react-native-textinput-effects";
 
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
+import { ScrollView } from "react-native-gesture-handler";
 function cacheImages(images) {
   return images.map((image) => {
     if (typeof image === "string") {
@@ -43,7 +42,8 @@ const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [mobile, setMobile] = useState("");
   const [isReady, setisReady] = useState("");
   SignUp = () => {
     if (email === "") {
@@ -72,131 +72,80 @@ const RegisterScreen = ({ navigation }) => {
     );
   }
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        justifyContent: "flex-end",
-      }}
-      behavior="padding"
-      enabled
-    >
-      <View style={styles.container}>
-        <View style={{ ...StyleSheet.absoluteFill }}>
-          <Image
-            source={require("../../../../assets/patterns/background.jpg")}
-            style={{ flex: 1, height: null, width: null }}
-          ></Image>
+    //   <KeyboardAvoidingView
+    //   style={{
+    //     flex: 1,
+    //     backgroundColor: "white",
+    //     justifyContent: "flex-end",
+    //   }}
+    //   behavior="padding"
+    //   enabled
+    // >
+    <View style={styles.container}>
+      <ImageBackground
+        source={require("../../../../assets/patterns/background.jpg")}
+        // style={styles.cover}
+        style={{ width: "100%", height: "100%", resizeMode: "contain" }}
+      >
+        <View style={styles.cover}>
+          <Text
+            style={{ color: "white", fontSize: 40, fontFamily: "sans-serif" }}
+          >
+            AL SAFAR
+          </Text>
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            alignSelf: "flex-start",
-            // borderRadius: 30,
-            backgroundColor: "white",
-            width: 50,
-            marginTop: 50,
-          }}
-        >
+        {/* < behavior="padding" enabled> */}
+        <View style={styles.footer}>
+          {/* <ScrollView showsVerticalScrollIndicator={false}> */}
           <View
             style={{
-              alignSelf: "center",
-              justifyContent: "center",
+              // flex: 1,
+              ...StyleSheet.absoluteFillObject,
+              // height: height * 0.4,
+
+              backgroundColor: "white",
+              borderTopRightRadius: 25,
+              borderTopLeftRadius: 25,
+              marginHorizontal: 10,
+              justifyContent: "flex-start",
+              // alignItems: "center",
+              paddingHorizontal: 5,
+              paddingVertical: 5,
             }}
           >
-            <Icons name="ios-arrow-back" size={30} style={{ color: "black" }} />
+            <ScrollView showsVerticalScrollIndicator={false}></ScrollView>
           </View>
-        </TouchableOpacity>
-
-        <View
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: 15,
-            borderTopLeftRadius: 75,
-            flex: 12,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TextInput
-            placeholder="FULL NAME"
-            style={styles.textInput}
-            value={name}
-            placeholderTextColor="black"
-            onChangeText={(text) => setName(text)}
-          />
-          <TextInput
-            placeholder="EMAIL"
-            style={styles.textInput}
-            value={email}
-            placeholderTextColor="black"
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            placeholder="PASSWORD"
-            style={styles.textInput}
-            secureTextEntry={true}
-            value={password}
-            placeholderTextColor="black"
-            onChangeText={(text) => setPassword(text)}
-          />
-
-          <TextInput
-            placeholder="MOBILE NUMBER"
-            style={styles.textInput}
-            keyboardType="phone-pad"
-            value={mobile}
-            placeholderTextColor="black"
-            onChangeText={(text) => setMobile(text)}
-          />
-          <TouchableOpacity onPress={this.SignUp}>
-            <View style={{ ...styles.innerButton, marginTop: 10 }}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  color: "#0099ff",
-                }}
-              >
-                SIGN IN
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {/* </ScrollView> */}
         </View>
-      </View>
-    </KeyboardAvoidingView>
+        {/* </> */}
+      </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    // backgroundColor: "#fff",
-    // borderTopLeftRadius: 30,
-    // borderTopRightRadius: 30,
-    // height: height / 3,
-    // ...StyleSheet.absoluteFill,
-    // top: null
   },
-  button: {
-    backgroundColor: "white",
-    height: 50,
-    marginHorizontal: 40,
-    borderRadius: 35,
-    alignItems: "center",
+  cover: {
+    height: 0.3 * height,
     justifyContent: "center",
-    marginVertical: 10,
-    shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.2,
+    alignItems: "center",
+    // backgroundColor: "#6441a5",
+    // borderBottomRightRadius: 75,
+  },
+  footer: { flex: 1 },
+  textInput: {
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 0.5,
+    marginHorizontal: 20,
+    paddingLeft: 10,
+    marginVertical: 5,
+    borderColor: "rgba(0,0,0,0.2)",
   },
   innerButton: {
     backgroundColor: "white",
-    width: width / 2,
     height: 50,
     borderColor: "#0099ff",
     borderWidth: 1,
@@ -208,31 +157,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 0.2,
-  },
-  // closeButton: {
-  //   height: 40,
-  //   width: 40,
-  //   backgroundColor: "white",
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   position: "absolute",
-  //   top: -20,
-  //   left: width / 2 - 20,
-  //   shadowOffset: { width: 2, height: 2 },
-  //   shadowColor: "black",
-  //   shadowOpacity: 0.2
-  // },
-  textInput: {
-    height: 50,
-    width: width - 30,
-    backgroundColor: "white",
-    borderRadius: 25,
-    borderWidth: 0.5,
-    marginHorizontal: 20,
-    paddingLeft: 10,
-    marginVertical: 5,
-    borderColor: "rgba(0,0,0,0.2)",
   },
 });
 export default RegisterScreen;
