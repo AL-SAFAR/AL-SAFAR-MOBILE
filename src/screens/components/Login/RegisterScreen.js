@@ -136,28 +136,33 @@ const RegisterScreen = ({ navigation }) => {
               paddingVertical: 5,
             }}
           >
-            <TouchableOpacity>
-              <Ionicons
-                style={{
-                  alignSelf: "flex-start",
-                  marginHorizontal: 20,
-                  marginTop: 10,
-                }}
-                name="ios-arrow-back"
-                size={24}
-                color="#000"
-              />
-            </TouchableOpacity>
-            <Text
+            <View
               style={{
-                fontSize: 32,
-                fontWeight: "700",
-                textAlign: "center",
-                // marginBottom: 10,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              Sign Up
-            </Text>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-start",
+                }}
+              >
+                <Ionicons name="ios-arrow-back" size={24} color="#000" />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 28,
+                  fontWeight: "700",
+                  textAlign: "center",
+
+                  // justifyContent: "center",
+                  // marginBottom: 10,
+                }}
+              >
+                Sign Up
+              </Text>
+            </View>
             {/* </View> */}
             <TextInput
               placeholder="NAME"
@@ -224,9 +229,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "#6441a5",
     // borderBottomRightRadius: 75,
   },
-  footer: { height: height * 0.7 },
+  footer: { height: height * 0.6 },
   textInput: {
-    height: 40,
+    height: 45,
     borderRadius: 25,
     borderWidth: 0.5,
     marginHorizontal: 20,

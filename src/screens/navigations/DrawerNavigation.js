@@ -30,6 +30,7 @@ const onlogout = async (navigation) => {
 };
 const CustomDrawerComponent = (props) => {
   const { navigation } = props;
+  const user = AsyncStorage.getItem("user");
   return (
     <SafeAreaView
       style={{ flex: 1 }}
@@ -41,12 +42,13 @@ const CustomDrawerComponent = (props) => {
       >
         <Image
           source={{
-            uri:
-              "https://images.unsplash.com/photo-1591238856576-44bf9f35c141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+            uri: user.Image
+              ? user.Image
+              : "https://i.stack.imgur.com/l60Hf.png",
           }}
           style={styles.profile}
         />
-        <Text style={styles.name}>Sophie Stewart</Text>
+        <Text style={styles.name}>{user.name}</Text>
       </ImageBackground>
 
       <ScrollView style={{ flex: 1 }}>
