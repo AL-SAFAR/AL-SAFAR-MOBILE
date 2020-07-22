@@ -212,7 +212,14 @@ const Explore = () => {
                 Let Us Help You Out!
               </Text>
               {expanded ? (
-                <Text>Click Here</Text>
+                <AntDesign
+                  style={{
+                    paddingHorizontal: 20,
+                  }}
+                  name="caretdown"
+                  size={24}
+                  color="#000"
+                />
               ) : (
                 <AntDesign
                   style={{
@@ -382,97 +389,98 @@ const Explore = () => {
                     Get My Package
                   </AwesomeButton>
                 </View>
-              </View>
-            )}
-            {showRecom && (
-              <View style={{ flexDirection: "column" }}>
-                {data.map((item, key) => {
-                  key = key + 1;
-                  return (
-                    <View
-                      style={{
-                        borderWidth: 2,
-                        borderRadius: 10,
-                        marginVertical: 20,
-                        borderColor: "rgba(0, 153, 255,0.3)",
-                        marginHorizontal: 20,
-                        padding: 10,
-                      }}
-                      key={key}
-                    >
-                      <Text
-                        style={{
-                          marginTop: 10,
-                          textAlign: "center",
-                          fontSize: 24,
-                          fontWeight: "500",
-                        }}
-                      >
-                        Package {key}
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-evenly",
-                          marginTop: 10,
-                        }}
-                      >
-                        <TouchableOpacity style={styles.recomCard}>
-                          <Image
-                            source={{
-                              uri: item.hotel.hotelImage,
-                            }}
-                            resizeMode="contain"
+                {showRecom && (
+                  <View style={{ flexDirection: "column" }}>
+                    {data.map((item, key) => {
+                      key = key + 1;
+                      return (
+                        <View
+                          style={{
+                            borderWidth: 2,
+                            borderRadius: 10,
+                            marginVertical: 20,
+                            borderColor: "rgba(0, 153, 255,0.3)",
+                            marginHorizontal: 10,
+                            padding: 10,
+                          }}
+                          key={key}
+                        >
+                          <Text
                             style={{
-                              width: width / 2 - 70,
-                              height: 100,
-                              borderRadius: 10,
+                              marginTop: 10,
+                              textAlign: "center",
+                              fontSize: 24,
+                              fontWeight: "500",
                             }}
-                          />
-                          <Text style={{ fontSize: 18, fontWeight: "500" }}>
-                            {item.hotel.hotelName}
+                          >
+                            Package {key}
                           </Text>
-                          <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                            {item.hotel.location}
-                          </Text>
-                          <StarRating
-                            style={{ marginTop: 10 }}
-                            disable
-                            maxStars={5}
-                            rating={item.hotel.starRating}
-                            starSize={15}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.recomCard}>
-                          <Image
-                            source={{
-                              uri: item.guide.guideImage,
-                            }}
-                            resizeMode="contain"
+                          <View
                             style={{
-                              width: width / 2 - 70,
-                              height: 100,
-                              borderRadius: 10,
+                              flexDirection: "row",
+                              justifyContent: "space-evenly",
+                              // alignContent: "space-between",
+                              marginTop: 10,
                             }}
-                          />
-                          <Text style={{ fontSize: 18, fontWeight: "500" }}>
-                            {item.guide.guideName}
-                          </Text>
-                          <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                            {item.guide.location}
-                          </Text>
-                          <StarRating
-                            style={{ marginTop: 10 }}
-                            disable
-                            maxStars={5}
-                            rating={item.guide.starRating}
-                            starSize={15}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  );
-                })}
+                          >
+                            <TouchableOpacity style={styles.recomCard}>
+                              <Image
+                                source={{
+                                  uri: item.hotel.hotelImage,
+                                }}
+                                resizeMode="contain"
+                                style={{
+                                  width: width / 2 - 70,
+                                  height: 100,
+                                  borderRadius: 10,
+                                }}
+                              />
+                              <Text style={{ fontSize: 18, fontWeight: "500" }}>
+                                {item.hotel.hotelName}
+                              </Text>
+                              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                                {item.hotel.location}
+                              </Text>
+                              <StarRating
+                                style={{ marginTop: 10 }}
+                                disable
+                                maxStars={5}
+                                rating={item.hotel.starRating}
+                                starSize={15}
+                              />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.recomCard}>
+                              <Image
+                                source={{
+                                  uri: item.guide.guideImage,
+                                }}
+                                resizeMode="contain"
+                                style={{
+                                  width: width / 2 - 70,
+                                  height: 100,
+                                  borderRadius: 10,
+                                }}
+                              />
+                              <Text style={{ fontSize: 18, fontWeight: "500" }}>
+                                {item.guide.guideName}
+                              </Text>
+                              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                                {item.guide.location}
+                              </Text>
+                              <StarRating
+                                style={{ marginTop: 10 }}
+                                disable
+                                maxStars={5}
+                                rating={item.guide.starRating}
+                                starSize={15}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
               </View>
             )}
           </View>
@@ -529,7 +537,7 @@ var styles = StyleSheet.create({
   },
   recomCard: {
     flex: 1,
-    marginHorizontal: 20,
+    marginHorizontal: 5,
     marginVertical: 10,
     paddingVertical: 15,
     height: 200,

@@ -40,6 +40,7 @@ app.use("/api/driver", require("./routes/driver"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/supportAssistant", require("./routes/supportAssistant"));
 app.use("/api/payment", require("./routes/payment"));
+app.use("/api/recom", require("./routes/recom"));
 
 //Serve static assets in production
 // if (process.env.NODE_ENV === "production") {

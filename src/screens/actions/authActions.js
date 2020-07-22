@@ -56,35 +56,33 @@ export const loadUser = () => async (dispatch) => {
 };
 // Register User
 
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
+  console.log("register");
 
-  const body = JSON.stringify({ name, email, password });
+  const body = { name, email, password };
 
-  try {
-    const res = await axios.post("/users", body, config);
+  let response = await axios
+    .post(`${BASE_URL}/users/`, body, config)
+    .then((res) => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data,
+      });
+      // console.log(res.data);
+      dispatch(loadUser());
+      return true;
+    })
+    .catch((err) => {
+      console.log(err.response.data.msg);
 
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
+      return false;
     });
-    console.log(res.data);
-    dispatch(loadUser());
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    // if (errors) {
-    //   errors.forEach((error) => dispatch(setAlert(error.msg, setAler"danger")));
-    // }
-
-    dispatch({
-      type: REGISTER_FAIL,
-    });
-  }
+  return response;
 };
 
 export const test = () => {
@@ -134,6 +132,44 @@ export const loginuser = (email, password) => async (dispatch) => {
   //     type: LOGIN_FAIL,
   //   });
   // }
+};
+//EditProfile
+export const editProfile = (formbody) => async (dispatch) => {
+  let token = await AsyncStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": token,
+    },
+  };
+  let { name, email, cnic, mobile, Image } = formbody;
+  const CustomerFields = {};
+
+  if (name) CustomerFields.name = name;
+  if (email) CustomerFields.email = email;
+  if (cnic) CustomerFields.cnic = cnic;
+  if (mobile) CustomerFields.mobile = mobile;
+  if (Image) CustomerFields.Image = Image;
+
+  // try {
+  // console.log("hello");
+  let response = await axios
+    .post(`${BASE_URL}/users/updateProfile`, CustomerFields, config)
+    .then((res) => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      // console.log(res.data);
+      dispatch(loadUser());
+      return true;
+    })
+    .catch((err) => {
+      console.log(err.response.data.msg);
+
+      return false;
+    });
+  return response;
 };
 
 // Logout / Clear Profile

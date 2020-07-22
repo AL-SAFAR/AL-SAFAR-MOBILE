@@ -221,6 +221,7 @@ const Login = ({ navigation, auth: { user }, loginuser }) => {
   clearFields = () => {
     setemail("");
     setpassword("");
+    Keyboard.dismiss();
   };
 
   if (!isReady) {

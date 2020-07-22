@@ -11,6 +11,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
 import { globalStyles } from "../../../../styles/global";
 
 import { Container, Header, Content } from "native-base";
@@ -20,20 +23,29 @@ import { Container, Header, Content } from "native-base";
 // } from "react-native-credit-card-input";
 // <LiteCreditCardInput onChange={_onChange} />
 import { Madoka } from "react-native-textinput-effects";
-const EditProfile = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const SubmitForm = () => {
+import { editProfile, test } from "../../actions/authActions";
+
+const EditProfile = ({ navigation, auth: { user }, editProfile }) => {
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [mobile, setMobile] = useState(user.mobile ? user.mobile : "");
+  const SubmitForm = async () => {
+    const formbody = {
+      name,
+      email,
+      mobile,
+    };
+    editProfile(formbody);
     console.log(name, email, mobile);
   };
   return (
     <SafeAreaView style={globalStyles.container}>
-      <ScrollView>
-        {/* <ImageBackground
+      {/* <ImageBackground
           source={require("../../../../assets/patterns/editbg.jpg")}
           style={{ width: undefined, justifyContent: "center" }}
         > */}
+      {/* <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={100}> */}
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={10}>
         <View
           style={[
             globalStyles.titleBar,
@@ -70,7 +82,6 @@ const EditProfile = ({ navigation }) => {
           </Text>
         </View>
         {/* </ImageBackground> */}
-
         <View style={globalStyles.formContainer}>
           <Madoka
             label={"Name"}
@@ -103,9 +114,18 @@ const EditProfile = ({ navigation }) => {
             borderColor={"#0099ff"}
             inputPadding={16}
             labelHeight={24}
+            maxLength={11}
             value={mobile}
             keyboardType="phone-pad"
-            onChangeText={(text) => setMobile(text)}
+            onChangeText={(text) => {
+              // if (text.length > 11) {
+              // setMobile(text.substring(0, 11));
+              // console.log(mobile);
+              // } else {
+              setMobile(text);
+              // }
+              // setMobile(text);
+            }}
             labelStyle={{ color: "#0099ff" }}
             inputStyle={{ color: "#0099ff" }}
           />
@@ -115,11 +135,21 @@ const EditProfile = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
+    // </KeyboardAvoidingView>
   );
 };
 const styles = {
   label: { color: "#0099ff" },
 };
-export default EditProfile;
+EditProfile.propTypes = {
+  auth: PropTypes.object.isRequired,
+  editProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { editProfile })(EditProfile);

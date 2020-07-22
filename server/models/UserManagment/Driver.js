@@ -40,6 +40,10 @@ const DriverSchema = mongoose.Schema({
       // required: true,
       unique: true,
     },
+    blacklisted: {
+      type: Boolean,
+      default: false,
+    },
     licenseNumber: {
       type: String,
       // required: true,

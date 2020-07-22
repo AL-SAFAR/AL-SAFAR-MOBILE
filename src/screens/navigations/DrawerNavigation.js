@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   Image,
@@ -30,7 +30,12 @@ const onlogout = async (navigation) => {
 };
 const CustomDrawerComponent = (props) => {
   const { navigation } = props;
-  const user = AsyncStorage.getItem("user");
+  const [user, setuser] = useState({});
+  useEffect(() => {
+    AsyncStorage.getItem("user").then((data) => {
+      setuser(JSON.parse(data));
+    });
+  }, []);
   return (
     <SafeAreaView
       style={{ flex: 1 }}

@@ -59,6 +59,7 @@ export const globalStyles = StyleSheet.create({
   },
   buttonText: { color: "#0099ff", fontSize: 24 },
   formContainer: {
+    // height: height * .,
     borderWidth: 1,
     borderColor: "#0099ff",
     borderRadius: 10,

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   SafeAreaView,
+  AsyncStorage,
   ScrollView,
   StyleSheet,
   Image,
@@ -16,10 +17,16 @@ import * as Permissions from "expo-permissions";
 import axios from "axios";
 import { ListItem, Button, Icon, Left, Body, Right, Switch } from "native-base";
 import { Madoka } from "react-native-textinput-effects";
+import { DEFAULT_IMAGE } from "../../key.json";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Root, Popup } from "popup-ui"; // import { reduxForm } from "redux-form";
+import { editProfile, test } from "./actions/authActions";
 
-const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = ({ navigation, auth: { user }, editProfile }) => {
+  // console.log(user);
   const [ProfileImage, setProfileImage] = useState(
-    "https://images.unsplash.com/photo-1591238856576-44bf9f35c141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+    user.Image ? user.Image : DEFAULT_IMAGE
   );
   const pickImage = async () => {
     if (Constants.platform.ios || Constants.platform.android) {
@@ -39,22 +46,43 @@ const SettingsScreen = ({ navigation }) => {
       let base64Img = `data:image/jpg;base64,${result.base64}`;
 
       //Add your cloud name
-      let apiUrl = "https://api.cloudinary.com/v1_1/al-safar/image/upload";
+      let apiUrl = "https://api.cloudinary.com/v1_1/al-safar435/image/upload";
 
       let data = {
         file: base64Img,
-        upload_preset: "al-safar-upload",
+        upload_preset: "CustomerImages",
       };
       axios
         .post(apiUrl, data, {
           "content-type": "application/json",
           timeout: 1000,
         })
-        .then((r) => {
-          let data = r.json();
-          console.log(data);
+        .then(async (r) => {
+          let result = r.data;
+          // console.log(result);
           // this.setState({ image: result.uri })
-          setProfileImage(result.uri);
+          AsyncStorage.getItem("user")
+            .then((data) => {
+              // the string value read from AsyncStorage has been assigned to data
+              console.log(data);
+
+              // transform it back to an object
+              data = JSON.parse(data);
+              console.log(data);
+
+              // Decrement
+              data.Image = result.secure_url;
+              console.log(data);
+              setProfileImage(result.secure_url);
+
+              //save the value to AsyncStorage again
+              AsyncStorage.setItem("user", JSON.stringify(data));
+            })
+            .done();
+          const formbody = {
+            Image: result.secure_url,
+          };
+          editProfile(formbody);
           // return data.secure_url
         })
         .catch((err) => console.log(err));
@@ -110,7 +138,7 @@ const SettingsScreen = ({ navigation }) => {
         </View>
         <View style={styles.infoContainer}>
           <Text style={[styles.text, { fontWeight: "200", fontSize: 24 }]}>
-            Sophie Turner
+            {user.name}
           </Text>
         </View>
         <View style={{ marginTop: 10 }}>
@@ -209,5 +237,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+SettingsScreen.propTypes = {
+  auth: PropTypes.object.isRequired,
+  editProfile: PropTypes.func.isRequired,
+};
 
-export default SettingsScreen;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { editProfile })(SettingsScreen);
