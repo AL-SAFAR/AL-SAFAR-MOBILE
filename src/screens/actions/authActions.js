@@ -5,6 +5,7 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  SET_RECOM,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -179,3 +180,53 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
   return true;
 };
+
+///recommendation
+export const getRecommendation = (formbody) => async (dispatch) => {
+  let token = await AsyncStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      // "x-auth-token": token,
+    },
+  };
+
+  // try {
+  // console.log("hello");
+  let response = await axios
+    .post(`${BASE_URL}/recom/`, formbody, config)
+    .then((res) => {
+      // console.log(res.data);
+      let recomHotel, recomGuide;
+      let recom = {};
+      if (res.data.hotels) {
+        recomHotel = getScore(res.data.hotels.length);
+        recom.hotel = res.data.hotels[recomHotel];
+      }
+      // console.log(recomHotel);
+      if (res.data.guides) {
+        recomGuide = getScore(res.data.guides.length);
+        recom.guide = res.data.guides[recomGuide];
+      }
+      // console.log(recomGuide);
+      // console.log(recom);
+      dispatch({
+        type: SET_RECOM,
+        payload: recom,
+      });
+      // console.log(res.data);
+      // dispatch(loadUser());
+      // return true;
+    })
+    .catch((err) => {
+      console.log(err);
+
+      // return false;
+    });
+  // return response;
+};
+function getScore(max) {
+  min = Math.ceil(0);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}

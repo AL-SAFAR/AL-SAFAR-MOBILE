@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  SET_RECOM,
   CLEAR_PROFILE,
 } from "../actions/types";
 
@@ -17,6 +18,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  recommendations: null,
 };
 
 export default function (state = initialState, action) {
@@ -53,6 +55,11 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
+      };
+    case SET_RECOM:
+      return {
+        ...state,
+        recommendations: payload,
       };
     default:
       return state;

@@ -38,5 +38,6 @@ export const CLEAR_STATE = "CLEAR_STATE";
 export const GOT_MESSAGES = "GOT_MESSAGES";
 export const GOT_NEW_MESSAGE = "GOT_NEW_MESSAGE";
 export const CLEAR_CHAT = "CLEAR_CHAT";
+export const SET_RECOM = "SET_RECOM";
 
 export const TRANSPORT_ERROR = "TRANSPORT_ERROR";

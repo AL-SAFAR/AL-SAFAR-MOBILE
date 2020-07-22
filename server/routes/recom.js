@@ -16,7 +16,7 @@ const Chat = require("./chat");
 const GuideBooking = require("../models/Booking/GuideBooking");
 const { response } = require("express");
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   // const res
   try {
     let { budget, days, needHotel, needGuide, city } = req.body;

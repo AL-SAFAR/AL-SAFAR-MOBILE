@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
+import { Madoka } from "react-native-textinput-effects";
 import StarRating from "react-native-star-rating";
 import Slider from "react-native-slider";
 import { Accordion } from "native-base";
@@ -24,6 +25,10 @@ import { Platform } from "@unimodules/core";
 // import Agent from "./components/Travel/Agent";
 const { height, width } = Dimensions.get("window");
 import AwesomeButton from "react-native-really-awesome-button";
+import Loader from "./components/layout/Loader";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getRecommendation, test } from "./actions/authActions";
 
 const data = [
   {
@@ -60,14 +65,16 @@ const data = [
   },
 ];
 
-const Explore = () => {
+const Explore = ({ getRecommendation, auth: { recommendations } }) => {
   const [budget, setBudget] = useState(1000);
   const [totalDays, setTotalDays] = useState(1);
-  const [hotelStatus, sethotelStatus] = useState(false);
+  const [needHotel, setneedHotel] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [showRecom, setshowRecom] = useState(false);
-  const [guideStatus, setguideStatus] = useState(false);
+  const [needGuide, setneedGuide] = useState(false);
+  const [city, setCity] = useState("");
   const [scrollY, setscrollY] = useState(new Animated.Value(0));
+  const [loading, setLoading] = useState(false);
 
   const changeAccordian = () => {
     if (expanded === true) {
@@ -104,6 +111,30 @@ const Explore = () => {
     });
   }, []);
 
+  const submitRecom = async () => {
+    let formbody = {
+      budget,
+      days: totalDays,
+      city,
+      needHotel,
+      needGuide,
+    };
+    if (
+      formbody.city === "" ||
+      (formbody.needHotel === false && formbody.needGuide === false)
+    ) {
+      console.log("false");
+    } else {
+      setLoading(true);
+
+      getRecommendation(formbody).then(() => {
+        setLoading(false);
+      });
+    }
+  };
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <View style={globalStyles.container}>
       <ScrollView
@@ -119,7 +150,7 @@ const Explore = () => {
               Introducing Al-Safar
             </Text>
             <Text style={{ fontWeight: "100", marginTop: 10 }}>
-              A new selection of homes verified for quality & comfort
+              A new way to plan your Trips
             </Text>
             <View style={{ width: width - 40, height: 200, marginTop: 20 }}>
               <Image
@@ -240,6 +271,25 @@ const Explore = () => {
                     alignContent: "center",
                   }}
                 >
+                  <Madoka
+                    label={"City"}
+                    // this is used as active and passive border color
+                    borderColor={"#000"}
+                    inputPadding={16}
+                    labelHeight={24}
+                    value={city}
+                    onChangeText={(text) => setCity(text)}
+                    labelStyle={{ color: "#000" }}
+                    inputStyle={{ color: "#0099ff" }}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: 20,
+                    marginHorizontal: 20,
+                    alignContent: "center",
+                  }}
+                >
                   <Text style={{ fontSize: 18, fontWeight: "500" }}>
                     Share your Budget with us.
                   </Text>
@@ -324,37 +374,33 @@ const Explore = () => {
                     }}
                   >
                     <TouchableOpacity
-                      style={hotelStatus ? styles.buttonPress : styles.button}
+                      style={needHotel ? styles.buttonPress : styles.button}
                       onPress={() => {
-                        if (hotelStatus === false) {
-                          sethotelStatus(true);
+                        if (needHotel === false) {
+                          setneedHotel(true);
                         } else {
-                          sethotelStatus(false);
+                          setneedHotel(false);
                         }
                       }}
                     >
                       <Text
-                        style={
-                          hotelStatus ? styles.welcomePress : styles.welcome
-                        }
+                        style={needHotel ? styles.welcomePress : styles.welcome}
                       >
                         Hotel
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={guideStatus ? styles.buttonPress : styles.button}
+                      style={needGuide ? styles.buttonPress : styles.button}
                       onPress={() => {
-                        if (guideStatus === false) {
-                          setguideStatus(true);
+                        if (needGuide === false) {
+                          setneedGuide(true);
                         } else {
-                          setguideStatus(false);
+                          setneedGuide(false);
                         }
                       }}
                     >
                       <Text
-                        style={
-                          guideStatus ? styles.welcomePress : styles.welcome
-                        }
+                        style={needGuide ? styles.welcomePress : styles.welcome}
                       >
                         Guide
                       </Text>
@@ -381,7 +427,7 @@ const Explore = () => {
                     textSize={24}
                     onPress={(next) => {
                       // setModalOpen(true);
-                      setshowRecom(true);
+                      submitRecom(true);
                       /** Do Something **/
                       next();
                     }}
@@ -389,98 +435,117 @@ const Explore = () => {
                     Get My Package
                   </AwesomeButton>
                 </View>
-                {showRecom && (
-                  <View style={{ flexDirection: "column" }}>
-                    {data.map((item, key) => {
-                      key = key + 1;
-                      return (
+                {recommendations &&
+                  (recommendations.hotel || recommendations.guide) && (
+                    <View style={{ flexDirection: "column" }}>
+                      <View
+                        style={{
+                          borderWidth: 2,
+                          borderRadius: 10,
+                          marginVertical: 20,
+                          borderColor: "rgba(0, 153, 255,0.3)",
+                          marginHorizontal: 10,
+                          padding: 10,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginTop: 10,
+                            textAlign: "center",
+                            fontSize: 24,
+                            fontWeight: "500",
+                          }}
+                        >
+                          Package
+                        </Text>
                         <View
                           style={{
-                            borderWidth: 2,
-                            borderRadius: 10,
-                            marginVertical: 20,
-                            borderColor: "rgba(0, 153, 255,0.3)",
-                            marginHorizontal: 10,
-                            padding: 10,
+                            flexDirection: "row",
+                            justifyContent: "space-evenly",
+                            // alignContent: "space-between",
+                            marginTop: 10,
                           }}
-                          key={key}
                         >
-                          <Text
-                            style={{
-                              marginTop: 10,
-                              textAlign: "center",
-                              fontSize: 24,
-                              fontWeight: "500",
-                            }}
-                          >
-                            Package {key}
-                          </Text>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              justifyContent: "space-evenly",
-                              // alignContent: "space-between",
-                              marginTop: 10,
-                            }}
-                          >
+                          {needHotel && recommendations.hotel && (
                             <TouchableOpacity style={styles.recomCard}>
                               <Image
                                 source={{
-                                  uri: item.hotel.hotelImage,
+                                  uri: recommendations.hotel.hotelImages[0],
                                 }}
                                 resizeMode="contain"
                                 style={{
-                                  width: width / 2 - 70,
+                                  width: width / 2 - 50,
                                   height: 100,
                                   borderRadius: 10,
                                 }}
                               />
                               <Text style={{ fontSize: 18, fontWeight: "500" }}>
-                                {item.hotel.hotelName}
+                                {recommendations.hotel.hotelName}
                               </Text>
                               <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                                {item.hotel.location}
+                                {recommendations.hotel.city}
                               </Text>
-                              <StarRating
-                                style={{ marginTop: 10 }}
-                                disable
-                                maxStars={5}
-                                rating={item.hotel.starRating}
-                                starSize={15}
-                              />
+                              {recommendations.hotel.starRating > 0 ? (
+                                <StarRating
+                                  style={{ marginTop: 10 }}
+                                  disable
+                                  maxStars={5}
+                                  rating={recommendations.hotel.starRating}
+                                  starSize={15}
+                                />
+                              ) : (
+                                <StarRating
+                                  style={{ marginTop: 10 }}
+                                  disable
+                                  maxStars={5}
+                                  rating={3}
+                                  starSize={15}
+                                />
+                              )}
                             </TouchableOpacity>
+                          )}
+                          {needGuide && recommendations.guide && (
                             <TouchableOpacity style={styles.recomCard}>
                               <Image
                                 source={{
-                                  uri: item.guide.guideImage,
+                                  uri: recommendations.guide.Image,
                                 }}
                                 resizeMode="contain"
                                 style={{
-                                  width: width / 2 - 70,
+                                  width: width / 2 - 50,
                                   height: 100,
                                   borderRadius: 10,
                                 }}
                               />
                               <Text style={{ fontSize: 18, fontWeight: "500" }}>
-                                {item.guide.guideName}
+                                {recommendations.guide.name}
                               </Text>
                               <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                                {item.guide.location}
+                                {recommendations.guide.UserProfile[0].city}
                               </Text>
-                              <StarRating
-                                style={{ marginTop: 10 }}
-                                disable
-                                maxStars={5}
-                                rating={item.guide.starRating}
-                                starSize={15}
-                              />
+                              {recommendations.guide.starRating > 0 ? (
+                                <StarRating
+                                  style={{ marginTop: 10 }}
+                                  disable
+                                  maxStars={5}
+                                  rating={recommendations.guide.starRating}
+                                  starSize={15}
+                                />
+                              ) : (
+                                <StarRating
+                                  style={{ marginTop: 10 }}
+                                  disable
+                                  maxStars={5}
+                                  rating={3}
+                                  starSize={15}
+                                />
+                              )}
                             </TouchableOpacity>
-                          </View>
+                          )}
                         </View>
-                      );
-                    })}
-                  </View>
-                )}
+                      </View>
+                    </View>
+                  )}
               </View>
             )}
           </View>
@@ -536,13 +601,13 @@ var styles = StyleSheet.create({
     borderRadius: 10,
   },
   recomCard: {
-    flex: 1,
+    // flex: 1,
     marginHorizontal: 5,
     marginVertical: 10,
     paddingVertical: 15,
     height: 200,
     backgroundColor: "#f5f5f5",
-    width: width / 2 - 20,
+    width: width / 2 - 30,
     borderRadius: 25,
     borderWidth: null,
     // justifyContent: "center",
@@ -558,4 +623,15 @@ var styles = StyleSheet.create({
     elevation: 6,
   },
 });
-export default Explore;
+Explore.propTypes = {
+  auth: PropTypes.object.isRequired,
+  getRecommendation: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { getRecommendation })(Explore);
+
+// export default Explore;
