@@ -6,10 +6,16 @@ import TravelGuide from "./components/Guide/TravelGuide";
 import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../styles/global";
 import PropTypes from "prop-types";
-import { getGuides } from "./actions/guideActions";
+import { getGuides, filterGuides } from "./actions/guideActions";
 import Loader from "./components/layout/Loader";
+import SearchBar from "./components/layout/SearchBar";
 
-const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
+const Guide = ({
+  navigation,
+  guide: { guides, loading, filtered },
+  getGuides,
+  filterGuides,
+}) => {
   useEffect(() => {
     getGuides();
     //eslint-disable-next-line
@@ -29,12 +35,18 @@ const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
   return (
     <View style={globalStyles.container}>
       <ScrollView vertical showsVerticalScrollIndicator={false}>
+        <SearchBar search={filterGuides} />
         <Text
-          style={{ paddingHorizontal: 20, fontSize: 24, fontWeight: "700" }}
+          style={{
+            paddingHorizontal: 20,
+            fontSize: 24,
+            fontWeight: "700",
+            marginTop: 10,
+          }}
         >
           Meet our Guides!
         </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {guides.length === 0 ? (
             <Text style={{ color: "red", justifyContent: "center" }}>
               No Guides To Show
@@ -49,23 +61,29 @@ const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
               />
             );
           })}
-        </ScrollView>
+        </ScrollView> */}
 
         <View style={{ marginTop: 20 }}>
-          <Text
-            style={{ paddingHorizontal: 20, fontSize: 22, fontWeight: "700" }}
-          >
-            Top Guides
-          </Text>
-          {filterByCity.map((guide) => {
-            return (
-              <TravelGuide
-                key={guide._id}
-                navigation={navigation}
-                guide={guide}
-              />
-            );
-          })}
+          {filtered !== null
+            ? filtered.map((guide) => {
+                return (
+                  <TravelGuide
+                    key={guide._id}
+                    navigation={navigation}
+                    guide={guide}
+                  />
+                );
+              })
+            : guides.map((guide) => {
+                return (
+                  <TravelGuide
+                    key={guide._id}
+                    navigation={navigation}
+                    guide={guide}
+                  />
+                );
+              })}
+
           {/* <TravelGuide
             placeUri={{
               uri:
@@ -94,11 +112,11 @@ const Guide = ({ navigation, guide: { guides, loading }, getGuides }) => {
 Guide.propTypes = {
   guide: PropTypes.object.isRequired,
   getGuides: PropTypes.func.isRequired,
-  // searchHotels: PropTypes.func.isRequired
+  filterGuides: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   guide: state.guide,
 });
 
-export default connect(mapStateToProps, { getGuides })(Guide);
+export default connect(mapStateToProps, { getGuides, filterGuides })(Guide);

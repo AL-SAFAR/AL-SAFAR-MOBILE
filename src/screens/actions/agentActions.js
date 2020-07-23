@@ -2,6 +2,8 @@ import {
   GET_AGENTS,
   SET_LOADING,
   GET_AGENT_BOOOKINGS,
+  FILTER_AGENTS,
+  CLEAR_FILTER,
   AGENT_ERROR,
 } from "./types";
 import { BASE_URL, APP_COMMISSION } from "../../../key.json";
@@ -192,4 +194,15 @@ export const setLoading = () => {
   return {
     type: SET_LOADING,
   };
+};
+
+//FILTER HOTELS
+export const filterAgents = (text) => async (dispatch) => {
+  dispatch({ type: FILTER_AGENTS, payload: text });
+};
+
+//Clear Filter
+
+export const clearFilter = () => async (dispatch) => {
+  dispatch({ type: CLEAR_FILTER });
 };

@@ -47,7 +47,7 @@ const TravelGuide = ({ guide, navigation }) => {
         >
           <View style={{ paddingTop: 10, paddingLeft: 5 }}>
             <Text style={{ color: "#fff", fontSize: 27 }}>
-              <Text style={{ color: "#fff", fontSize: 15 }}>$</Text>
+              <Text style={{ color: "#fff", fontSize: 15 }}>Rs.</Text>
               {serviceCharges}
               <Text
                 style={{

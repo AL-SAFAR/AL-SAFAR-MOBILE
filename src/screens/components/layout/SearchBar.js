@@ -33,7 +33,7 @@ const SearchBar = ({ search }) => {
       />
       <TextInput
         underlineColorAndroid="transparent"
-        placeholder="Try Islamabad"
+        placeholder="Try City or Name"
         ref={text}
         value={value}
         onChange={(t) => {

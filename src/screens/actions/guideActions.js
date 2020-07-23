@@ -3,6 +3,8 @@ import {
   SET_LOADING,
   GET_GUIDE_BOOKINGS,
   GUIDES_ERROR,
+  FILTER_GUIDES,
+  CLEAR_FILTER,
 } from "./types";
 import { BASE_URL, APP_COMMISSION } from "../../../key.json";
 import { AsyncStorage } from "react-native";
@@ -191,4 +193,15 @@ export const setLoading = () => {
   return {
     type: SET_LOADING,
   };
+};
+
+//FILTER HOTELS
+export const filterGuides = (text) => async (dispatch) => {
+  dispatch({ type: FILTER_GUIDES, payload: text });
+};
+
+//Clear Filter
+
+export const clearFilter = () => async (dispatch) => {
+  dispatch({ type: CLEAR_FILTER });
 };

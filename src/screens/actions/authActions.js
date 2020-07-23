@@ -183,17 +183,17 @@ export const logout = () => async (dispatch) => {
 
 ///recommendation
 export const getRecommendation = (formbody) => async (dispatch) => {
-  let token = await AsyncStorage.getItem("token");
+  // let token = await AsyncStorage.getItem("token");
   const config = {
     headers: {
       "Content-Type": "application/json",
       // "x-auth-token": token,
     },
   };
-
+  let response;
   // try {
   // console.log("hello");
-  let response = await axios
+  return (response = await axios
     .post(`${BASE_URL}/recom/`, formbody, config)
     .then((res) => {
       // console.log(res.data);
@@ -208,12 +208,21 @@ export const getRecommendation = (formbody) => async (dispatch) => {
         recomGuide = getScore(res.data.guides.length);
         recom.guide = res.data.guides[recomGuide];
       }
+      console.log(recom.guide);
+      console.log("________________");
+      console.log(recom.hotel);
+      if (recom.guide === undefined && recom.hotel === undefined) {
+        return false;
+      } else {
+        dispatch({
+          type: SET_RECOM,
+          payload: recom,
+        });
+        return true;
+      }
       // console.log(recomGuide);
       // console.log(recom);
-      dispatch({
-        type: SET_RECOM,
-        payload: recom,
-      });
+
       // console.log(res.data);
       // dispatch(loadUser());
       // return true;
@@ -222,7 +231,7 @@ export const getRecommendation = (formbody) => async (dispatch) => {
       console.log(err);
 
       // return false;
-    });
+    }));
   // return response;
 };
 function getScore(max) {
