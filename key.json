@@ -1,10 +1,1 @@
-{
-  "API_KEY": "AIzaSyAkQaUZXVpa7nwKcpdrH42VWifnZaC9wcs",
-  "DISTANCE_DIRECTION_KEY": "AIzaSyAkQaUZXVpa7nwKcpdrH42VWifnZaC9wcs",
-  "Stripe": "a#127gh_6p",
-  "DEFAULT_IMAGE": "https://res.cloudinary.com/al-safar435/image/upload/v1592057839/TravelGuideImages/avatar_qjolgq.jpg",
-  "APP_COMMISSION": 5,
-  "BASE_URL": "https://b50c4ea1ea76.ngrok.io/api",
-  // "BASE_URL": "https://fefc64e5d622.ngrok.io",
-  "HOME_BASE_URL": "https://b50c4ea1ea76.ngrok.io"
-}
+{}

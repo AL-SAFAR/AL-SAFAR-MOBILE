@@ -113,7 +113,7 @@ export default (state = initialState, action) => {
       };
 
     case GET_CAR_BOOKINGS:
-      // console.log(action.payload);
+      console.log(action.payload);
       return {
         ...state,
         carBookings: action.payload,

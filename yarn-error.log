@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native-community/slider
+  C:\Program Files\nodejs\node.exe C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-chatbot-expo
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Haier\bin;C:\Python38\Scripts;C:\Python38;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\Tools\Binn;C:\Program Files\Microsoft SQL Server\150\DTS\Binn;C:\Users\Haier\AppData\Local\Microsoft\WindowsApps;C:\Users\Haier\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Haier\AppData\Roaming\npm
@@ -14,8 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: connect ETIMEDOUT 104.16.17.35:443
-      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1056:14)
+  Error: https://registry.yarnpkg.com/react-native-chatbot-expo: Not found
+      at Request.params.callback [as _callback] (C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66987:18)
+      at Request.self.callback (C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:209:13)
+      at Request.<anonymous> (C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:209:13)
+      at IncomingMessage.<anonymous> (C:\Users\Haier\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:297:20)
+      at IncomingMessage.emit (events.js:214:15)
+      at endReadableNT (_stream_readable.js:1178:12)
+      at processTicksAndRejections (internal/process/task_queues.js:77:11)
 
 npm manifest: 
   {
@@ -30,7 +39,9 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@expo-google-fonts/inter": "^0.1.0",
       "@react-native-community/datetimepicker": "^2.2.2",
+      "@react-native-community/slider": "^3.0.2",
       "axios": "^0.19.2",
       "expo": "^35.0.0",
       "expo-asset": "~7.0.0",
@@ -52,6 +63,7 @@ npm manifest:
       "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
       "react-native-animatable": "^1.3.3",
       "react-native-animated-spinkit": "^1.4.1",
+      "react-native-collapsible": "^1.5.2",
       "react-native-credit-card-input": "^0.4.1",
       "react-native-elements": "^1.2.7",
       "react-native-gesture-handler": "~1.3.0",
@@ -70,6 +82,7 @@ npm manifest:
       "react-native-really-awesome-button": "^1.6.0",
       "react-native-reanimated": "~1.2.0",
       "react-native-screens": "~1.0.0-alpha.23",
+      "react-native-slider": "^0.11.0",
       "react-native-star-rating": "^1.1.0",
       "react-native-svg": "9.9.5",
       "react-native-tab-view": "^2.13.0",
@@ -1124,6 +1137,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
     integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
   
+  "@expo-google-fonts/inter@^0.1.0":
+    version "0.1.0"
+    resolved "https://registry.yarnpkg.com/@expo-google-fonts/inter/-/inter-0.1.0.tgz#399f068437824fcbf6aa3da5fcf490dba2af85a3"
+    integrity sha512-Y6GCqsUX6JwexQ2wmBkMiJBY6M2GpNQRTczzIGbBGhXWQxqGmP5awRcf0ZJV+OlLeJcKAzas/TW45ZLdpG3yzA==
+  
   "@expo/babel-preset-cli@0.2.16":
     version "0.2.16"
     resolved "https://registry.yarnpkg.com/@expo/babel-preset-cli/-/babel-preset-cli-0.2.16.tgz#64102032ae9b6cb931c80d8b6371dd08f2f5e748"
@@ -2131,6 +2149,11 @@ Lockfile:
     integrity sha512-ZXPwNAQt4T66PTL20l2nSEbtsn6vtsvFqdYWBfx8aaNKBoCPDygR6SsYzWcIoexKH5wmX0zctSzIsryl+Gtngg==
     dependencies:
       invariant "^2.2.4"
+  
+  "@react-native-community/slider@^3.0.2":
+    version "3.0.2"
+    resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-3.0.2.tgz#a57e0f62a3fe8cb318137b486d3a6e2ce12d49d2"
+    integrity sha512-f6faupEfvL0wYkUvoDknBZpt7gwKrzcIfRlvPK9xaHcBmvKDSvjcAX3BkhTvhVB3kC5y1UBFSWZbAtD16qAnQw==
   
   "@react-navigation/core@^3.7.6":
     version "3.7.6"
@@ -11379,7 +11402,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.4"
   
-  prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11730,6 +11753,13 @@ Lockfile:
     dependencies:
       prop-types "^15.5.10"
   
+  react-native-collapsible@^1.5.2:
+    version "1.5.2"
+    resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.5.2.tgz#544616dc04a71870508dc707049544a805402993"
+    integrity sha512-pmETueIStEhKY93yO/nh+G9jyMZaZta9xyUO51KP+p/tefXDtDG8Ok9QELld0Fk/kiDOldvG5Tjy+JcdS8Sdxw==
+    dependencies:
+      prop-types "^15.6.2"
+  
   react-native-communications@^2.2.1:
     version "2.2.1"
     resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
@@ -11942,6 +11972,13 @@ Lockfile:
     integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
     dependencies:
       debounce "^1.2.0"
+  
+  react-native-slider@^0.11.0:
+    version "0.11.0"
+    resolved "https://registry.yarnpkg.com/react-native-slider/-/react-native-slider-0.11.0.tgz#b68a0bc43c8422b24cd57947cc5ac2bcdb58fadc"
+    integrity sha512-jV9K87eu9uWr0uJIyrSpBLnCKvVlOySC2wynq9TFCdV9oGgjt7Niq8Q1A8R8v+5GHsuBw/s8vEj1AAkkUi+u+w==
+    dependencies:
+      prop-types "^15.5.6"
   
   react-native-snap-carousel@*:
     version "3.9.1"

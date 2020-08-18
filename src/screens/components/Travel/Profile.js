@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
   View,
+  AsyncStorage,
   Modal,
   TouchableOpacity,
   Image,
@@ -29,7 +30,15 @@ const Profile = ({ navigation }) => {
   const agent = navigation.getParam("agent");
   const chargeCustomer = navigation.getParam("chargeCustomer");
   //   const { places, name, description, city, profileImage } = agent;
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    AsyncStorage.getItem("user").then((res) => {
+      let tempuser = JSON.parse(res);
+      // console.log(tempuser);
+      setUser({ _id: tempuser._id, name: tempuser.name, avatar: "" });
+    });
+  }, []);
   const { AgencyLogo, AgencyLocation, AgencyName, AgencyDescription } = agent;
   // const guide = {
   //   profileImage: { uri: "https://uinames.com/api/photos/female/7.jpg" }
@@ -196,13 +205,18 @@ const Profile = ({ navigation }) => {
               resizeMode="cover"
             ></Image>
           </View>
-          <View style={styles.dm}>
+          <TouchableOpacity
+            style={styles.dm}
+            onPress={() => {
+              navigation.navigate("Chat", { receivingUser: agent._id, user });
+            }}
+          >
             <MaterialIcons
               name="chat"
               size={18}
               color="#DFD8C8"
             ></MaterialIcons>
-          </View>
+          </TouchableOpacity>
 
           {/* <TouchableOpacity style={styles.add} onPress={pickImage}>
             <View>

@@ -32,8 +32,42 @@ const AgentCard = ({ agentBooking }) => {
   // let { Hotel, fromDate, toDate, payment, id } = hotel;
   // let { amount } = payment;
   // let { city, hotelName, rent, hotel, starRating, hotelImages } = Hotel;
+  const {
+    AgentBooking,
+    AgentProfile,
+    Hotel,
+    Room,
+    Guide,
+    GuideProfile,
+  } = agentBooking;
+
+  const { AgencyName } = AgentProfile;
+  const { HotelBooking, GuideBooking } = AgentBooking;
+  let { reserveFromDate, reserveToDate } = HotelBooking;
+  let { startDate, endDate } = GuideBooking;
   const updateRating = (rating) => {
     setstars(rating);
+  };
+  const calculateTotal = () => {
+    let tstartDate = moment(startDate, "DD-MM-YYYY");
+    let tendDate = moment(endDate, "DD-MM-YYYY");
+    let treserveFromDate = moment(reserveFromDate, "DD-MM-YYYY");
+    let treserveToDate = moment(reserveToDate, "DD-MM-YYYY");
+    console.log(treserveFromDate, treserveToDate, tendDate, tstartDate);
+    // let hoteldateDiff = reserveToDate.diff(reserveFromDate, "days");
+    // console.log(hoteldateDiff);
+    // let hotelCharges = Room[0].rent * hoteldateDiff;
+    // console.log(hotelCharges);
+
+    // let guidedateDiff = endDate.diff(startDate, "days");
+    // console.log(guidedateDiff);
+
+    // let guideCharges = GuideProfile[0].serviceCharges * guidedateDiff;
+    // console.log(guideCharges);
+
+    // let totalCharges = hotelCharges + guideCharges;
+    return 10;
+    // fromDate = moment(fromDate).subtract(1, "days").format("DD MMM YYYY");
   };
   // fromDate = moment(fromDate).subtract(1, "days").format("DD MMM YYYY");
   // fromDate = fromDate.subtract(1, "days");
@@ -126,7 +160,7 @@ const AgentCard = ({ agentBooking }) => {
           marginTop: 10,
         }}
       >
-        <Text style={{ fontWeight: "600" }}>Booking Made by Zendi Travels</Text>
+        <Text style={{ fontWeight: "600" }}>Booking Made by {AgencyName}</Text>
       </View>
 
       <View style={{ flexGrow: 4 }}>
@@ -167,8 +201,7 @@ const AgentCard = ({ agentBooking }) => {
                 resizeMode: "cover",
               }}
               source={{
-                uri:
-                  "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                uri: Hotel[0].hotelImages[0],
                 // hotelImages[0]
               }}
             />
@@ -187,19 +220,24 @@ const AgentCard = ({ agentBooking }) => {
             >
               <Text style={{ fontSize: 10, color: "#b63838" }}>
                 {/* {city} */}
-                Islamabad
+                {Hotel[0].city}
               </Text>
               <Text style={{ fontSize: 12, fontWeight: "bold" }}>
                 {/* {hotelName} */}
-                Nack
+                {Hotel[0].hotelName}
               </Text>
               <Text style={{ fontSize: 10 }}>
                 Rs.
                 {/* {rent} */}
-                1000
+                {Room[0].rent}
               </Text>
-              {stars > 0 ? (
-                <StarRating disable maxStars={5} rating={stars} starSize={10} />
+              {Hotel[0].StarRating > 0 ? (
+                <StarRating
+                  disable
+                  maxStars={5}
+                  rating={Hotel[0].StarRating}
+                  starSize={10}
+                />
               ) : (
                 <StarRating disable maxStars={5} rating={3} starSize={10} />
               )}
@@ -226,8 +264,7 @@ const AgentCard = ({ agentBooking }) => {
                   resizeMode: "cover",
                 }}
                 source={{
-                  uri:
-                    "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  uri: Guide[0].Image,
                   // hotelImages[0]
                 }}
               />
@@ -246,7 +283,7 @@ const AgentCard = ({ agentBooking }) => {
             >
               <Text style={{ fontSize: 10, color: "#b63838" }}>
                 {/* {city} */}
-                Islamabad
+                {GuideProfile[0].city}
               </Text>
               <Text style={{ fontSize: 12, fontWeight: "bold" }}>
                 {/* {hotelName} */}
@@ -254,10 +291,15 @@ const AgentCard = ({ agentBooking }) => {
               <Text style={{ fontSize: 10 }}>
                 Rs.
                 {/* {rent} */}
-                1000
+                {GuideProfile[0].serviceCharges}
               </Text>
-              {stars > 0 ? (
-                <StarRating disable maxStars={5} rating={stars} starSize={10} />
+              {GuideProfile[0].StarRating > 0 ? (
+                <StarRating
+                  disable
+                  maxStars={5}
+                  rating={GuideProfile[0].StarRating}
+                  starSize={10}
+                />
               ) : (
                 <StarRating disable maxStars={5} rating={3} starSize={10} />
               )}
@@ -276,20 +318,20 @@ const AgentCard = ({ agentBooking }) => {
             // marginBottom: 10,
           }}
         >
-          <View style={{ marginLeft: 20 }}>
+          {/* <View style={{ marginLeft: 20 }}>
             <Text style={{ color: "#0099ff", fontWeight: "bold" }}>
               Total Charges
             </Text>
-            <Text>Rs. 10000</Text>
-            {/* <Text style={{ color: "#fff" }}>Service Charges</Text> */}
-          </View>
+            <Text>Rs. {calculateTotal()}</Text>
+            <Text style={{ color: "#fff" }}>Service Charges</Text>
+          </View> */}
           {/* <Button title="confirm" /> */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[styles.button, { backgroundColor: "#0099ff" }]}
             onPress={() => setModalOpenPayment(true)}
           >
             <Text style={{ color: "#fff" }}>Confirm</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <Button title="confirm" /> */}
           {/* <Button title="confirm" /> */}
           {/* <Button>dsa</Button> */}

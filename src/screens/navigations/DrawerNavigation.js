@@ -23,6 +23,7 @@ import BookingHistory from "../BookingHistory";
 import HomeNavigation from "../navigations/HomeNavigation";
 import { logout } from "../actions/authActions";
 import { Ionicons as Icons } from "@expo/vector-icons";
+import { DEFAULT_IMAGE } from "../../../key.json";
 const { width, height } = Dimensions.get("window");
 const onlogout = async (navigation) => {
   await AsyncStorage.clear();
@@ -34,6 +35,7 @@ const CustomDrawerComponent = (props) => {
   useEffect(() => {
     AsyncStorage.getItem("user").then((data) => {
       setuser(JSON.parse(data));
+      console.log(JSON.parse(data));
     });
   }, []);
   return (
@@ -47,9 +49,7 @@ const CustomDrawerComponent = (props) => {
       >
         <Image
           source={{
-            uri: user.Image
-              ? user.Image
-              : "https://i.stack.imgur.com/l60Hf.png",
+            uri: (user.Image && user.Image) || DEFAULT_IMAGE,
           }}
           style={styles.profile}
         />

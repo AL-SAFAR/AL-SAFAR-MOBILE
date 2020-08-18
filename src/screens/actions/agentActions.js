@@ -180,7 +180,7 @@ export const getAgentBookings = () => async (dispatch) => {
     },
   };
 
-  axios.get(`${BASE_URL}/users/guidebookings`, config).then((payload) => {
+  axios.get(`${BASE_URL}/users/agentBookings`, config).then((payload) => {
     dispatch({
       type: GET_AGENT_BOOOKINGS,
       payload: payload.data,

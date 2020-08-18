@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { getGuideBookings } from "../../actions/guideActions";
 import { getCarBookings } from "../../actions/transportActions";
 import { getHotelBookings } from "../../actions/hotelActions";
+import { getAgentBookings } from "../../actions/agentActions";
 // import { openChat, sendMessage, clearChat } from "../../actions/hotelActions";
 import { connect } from "react-redux";
 
@@ -51,29 +52,98 @@ const HistoryScreen = ({
   getGuideBookings,
   getCarBookings,
   getHotelBookings,
+  getAgentBookings,
   guide: { guideBookings, loading },
   transport: { carBookings },
   hotel: { hotelBookings },
-  // agent: { agentBookings },
+  agent: { agentBookings },
 }) => {
   const type = navigation.getParam("type");
   const renderCards = (type) => {
     if (type === "car") {
-      return carBookings.map((book) => {
-        return <CarCard navigation={navigation} key={book._id} book={book} />;
-      });
+      if (carBookings.length < 1) {
+        return (
+          <Text
+            style={{
+              // justifyContent: "center",
+              // alignItems: "center",
+              color: "red",
+              fontSize: 24,
+              fontWeight: "700",
+            }}
+          >
+            No Bookings to Show
+          </Text>
+        );
+      } else {
+        return carBookings.map((book) => {
+          return <CarCard navigation={navigation} key={book._id} book={book} />;
+        });
+      }
     } else if (type === "hotel") {
-      return hotelBookings.map((hotel) => {
-        return <HotelCard key={hotel._id} hotel={hotel} />;
-      });
+      if (hotelBookings.length < 1) {
+        return (
+          <Text
+            style={{
+              // justifyContent: "center",
+              // alignItems: "center",
+              color: "red",
+              fontSize: 24,
+              fontWeight: "700",
+            }}
+          >
+            No Bookings to Show
+          </Text>
+        );
+      } else {
+        return hotelBookings.map((hotel) => {
+          return <HotelCard key={hotel._id} hotel={hotel} />;
+        });
+      }
     } else if (type === "guide") {
-      return guideBookings.map((guideBooking) => {
-        return <GuideCard guideBooking={guideBooking} key={guideBooking._id} />;
-      });
+      if (hotelBookings.length < 1) {
+        return (
+          <Text
+            style={{
+              // justifyContent: "center",
+              // alignItems: "center",
+              color: "red",
+              fontSize: 24,
+              fontWeight: "700",
+            }}
+          >
+            No Bookings to Show
+          </Text>
+        );
+      } else {
+        return guideBookings.map((guideBooking) => {
+          return (
+            <GuideCard guideBooking={guideBooking} key={guideBooking._id} />
+          );
+        });
+      }
     } else if (type === "agent") {
-      return agentBookings.map((agentBooking) => {
-        return <AgentCard agentBooking={agentBooking} key={agentBooking.id} />;
-      });
+      if (agentBookings.length < 1) {
+        return (
+          <Text
+            style={{
+              // justifyContent: "center",
+              // alignItems: "center",
+              color: "red",
+              fontSize: 24,
+              fontWeight: "700",
+            }}
+          >
+            No Bookings to Show
+          </Text>
+        );
+      } else {
+        return agentBookings.map((agentBooking) => {
+          return (
+            <AgentCard agentBooking={agentBooking} key={agentBooking._id} />
+          );
+        });
+      }
     }
   };
   useEffect(() => {
@@ -84,7 +154,7 @@ const HistoryScreen = ({
     } else if (type === "hotel") {
       getHotelBookings();
     } else if (type === "agent") {
-      // getHotelBookings();
+      getAgentBookings();
     }
   }, []);
   if (loading || (guideBookings === null && type === "guide")) {
@@ -139,6 +209,7 @@ HistoryScreen.propTypes = {
   guide: PropTypes.object.isRequired,
   transport: PropTypes.object.isRequired,
   hotel: PropTypes.object.isRequired,
+  agent: PropTypes.object.isRequired,
   getGuideBookings: PropTypes.func.isRequired,
   getCarBookings: PropTypes.func.isRequired,
   getHotelBookings: PropTypes.func.isRequired,
@@ -148,7 +219,7 @@ const mapStateToProps = (state) => ({
   guide: state.guide,
   transport: state.transport,
   hotel: state.hotel,
-  // agent: state.agent,
+  agent: state.agent,
   //   receiver: navigation.getParam("receivingUser"),
 });
 
@@ -157,4 +228,5 @@ export default connect(mapStateToProps, {
   getGuideBookings,
   getHotelBookings,
   getCarBookings,
+  getAgentBookings,
 })(HistoryScreen);

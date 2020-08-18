@@ -11451,6 +11451,11 @@ raf@^3.1.0:
   dependencies:
     performance-now "^2.1.0"
 
+random-id@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/random-id/-/random-id-1.0.3.tgz#e9d7183caa1759a68582f3da4230454aded0eea3"
+  integrity sha512-PbWMyIFUTeGWkqHTovth3Ww2i1zg54BubSwSTw4VVptfC2TlhMKo1CzfRUosz7ltJmfgJ/wrLEt/nyDf5Glx/Q==
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
@@ -11631,6 +11636,15 @@ react-native-button@^2.3.0:
   integrity sha512-4siaJlpOLeL9fAhX8VU3cnUfcGLe3E2zABDWSKxkF+NiYOd+AnKeYY29WXlV8hXhCFo+Ry7E+alrJ6zjZLTSfg==
   dependencies:
     prop-types "^15.5.10"
+
+"react-native-chatbot-expo@https://github.com/jzarca01/react-native-chatbot-expo":
+  version "0.0.1-alpha.12"
+  resolved "https://github.com/jzarca01/react-native-chatbot-expo#cc463b3fe9c5ca53e79c6d2d7f0dfe08d2357c34"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+    random-id "1.0.3"
+    react-native-three-dots-loader "^1.0.1"
 
 react-native-collapsible@^1.5.2:
   version "1.5.2"
@@ -11898,6 +11912,11 @@ react-native-textinput-effects@^0.6.1:
   integrity sha512-L4VCspAvxr6ug1OperVFnairQmSKes4dzRiHRzIOIJ7sJPDEpV3uSuvE5RiuNad6/SaPTLgfsjZSw4t7FWltRg==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.5"
+
+react-native-three-dots-loader@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-three-dots-loader/-/react-native-three-dots-loader-1.0.1.tgz#31ec821865eea6615ce5a1c509d0a8ae78e374b6"
+  integrity sha512-5K/n89+UUm2QNeVum34pycelBhTsOTCtSk3e8Hn6BSXZWfhtJDma+RfdJYGw/uzO/YZH+mPteyS4lhMH/kbVyw==
 
 react-native-typing-animation@^0.1.7:
   version "0.1.7"
